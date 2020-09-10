@@ -1,0 +1,8 @@
+<h1>Listas</h1>
+<hr>
+
+<div class="card-columns">
+    <!-- *ngFor="let heroe of heroes; let i = index" -->
+    <app-list-card (selectedList)="showList($event)" [list]="list" [index]="i" *ngFor="let list of lists; let i = index"></app-list-card>
+
+</div>
