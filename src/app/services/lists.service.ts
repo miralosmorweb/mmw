@@ -15,7 +15,7 @@ export class ListsService {
     private list: ListModel;
 
     getLists() {
-      return this.http.get('http://miralosmorserver.pythonanywhere.com/api/movielists')
+      return this.http.get('https://miralosmorserver.pythonanywhere.com/api/movielists')
         .pipe(
           map( this.createArray )
         );
@@ -35,7 +35,7 @@ export class ListsService {
     getList(listName: string){
       listName = listName.replace(' ', '_');
       // Recupero la Lista clickeada por nombre
-      return this.http.get(`http://miralosmorserver.pythonanywhere.com/api/movielists/${listName}`)
+      return this.http.get(`https://miralosmorserver.pythonanywhere.com/api/movielists/${listName}`)
     }
 
      searchList( word: string){
