@@ -15,7 +15,7 @@ export class ListsService {
     private list: ListModel;
 
     getLists() {
-      return this.http.get('https://miralosmorserver.pythonanywhere.com/api/movielists')
+      return this.http.get('https://miralosmorserver.pythonanywhere.com/api/movielists-morvip')
         .pipe(
           map( this.createArray )
         );
