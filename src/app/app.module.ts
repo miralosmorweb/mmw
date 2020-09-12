@@ -17,7 +17,6 @@ import { ListsComponent } from './components/lists/lists.component';
 import { ListComponent } from './components/list/list.component';
 import { SearchComponent } from './components/search/search.component';
 import { ListCardComponent } from './components/list-card/list-card.component';
-import { HashLocationStrategy } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -36,8 +35,7 @@ import { HashLocationStrategy } from '@angular/common';
     APP_ROUTING
   ],
   providers: [
-    HttpClientModule,
-    HashLocationStrategy
+    HttpClientModule
   ],
   bootstrap: [AppComponent]
 })
