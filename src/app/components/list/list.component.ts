@@ -20,11 +20,9 @@ export class ListComponent implements OnInit{
 
    ngOnInit(){
      const listName = this.activatedRoute.snapshot.paramMap.get('listName');
-
      this._listsService.getList(listName).subscribe((resp: ListModel) =>{
        this.list = resp;
        this.listName = listName;
-       console.log(this.list);
      });
     // this.activatedRoute.params.subscribe( params => {
     //   this.list = this._listsService.getList(params['listName']);

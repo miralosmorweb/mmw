@@ -1,32 +1,54 @@
-<h1>Buscando: <small>{{ word }}</small></h1>
+<h1><small>Buscando: {{ word }}</small></h1>
 <hr>
 
-<div class="row" *ngIf="lists.length == 0">
-    <div class="col-md-12">
-        <div class="alert alert-info" role="alert">
-            No existen resultados con el término: {{word}}
-        </div>
+<div *ngIf="isLoading">
+    <img src="./assets/img/popcorn.gif" alt="michael">
+    <!-- <button class="btn btn-primary animated fadeIn faster" type="button" disabled>
+      <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+      Loading...
+    </button> -->
+</div>
+<div *ngIf="!isLoading && searchedLists.length > 0">
+    <div class="card-columns animated fadeIn faster">
+
+        <app-list-card [list]="list" [index]="i" *ngFor="let list of searchedLists; let i = index"></app-list-card>
 
     </div>
 </div>
 
-<div class="card-columns">
 
-    <app-list-card [list]="list" [index]="i" *ngFor="let list of lists; let i = index"></app-list-card>
-
-    <!-- <div class="card animated fadeIn fast" *ngFor="let heroe of heroes; let i = index">
-        <img [src]="heroe.img" class="card-img-top" [alt]=" heroe.nombre ">
-        <div class="card-body">
-            <h5 class="card-title">{{ heroe.nombre }}</h5>
-            <p class="card-text">{{ heroe.bio }}</p>
-            <p class="card-text"><small class="text-muted">{{ heroe.aparicion }}</small></p>
-            <button (click)="verHeroe(i)" type="button" class="btn btn-outline-primary btn-block">
-                Ver más...
-            </button>
-            < <a [routerLink]="['/heroe',i]" class="btn btn-outline-primary">
-                Ver más link...
-            </a> 
-        </div>
-    </div> -->
-
+<div class="alert alert-warning text-center mt-3 animated fadeIn faster" *ngIf="!isLoading && searchedLists.length === 0">
+    <h4 class="alert-heading">No existen resultados con el término: {{word}}</h4>
+    <p>
+        <i class="fa fa-exclamation fa-2x"></i>
+    </p>
 </div>
+
+<!-- <div *ngIf="searchedLists && searchedLists.length >0">
+    <div class="card-columns">
+
+        <app-list-card [list]="list" [index]="i" *ngFor="let list of searchedLists; let i = index"></app-list-card>
+
+    </div>
+</div>
+
+<div *ngIf="searchedLists == undefined || searchedLists.length == 0">
+    <div class="col-md-12">
+        <div class="alert alert-info" role="alert">
+            No existen resultados con el término: {{word}}
+        </div>
+    </div>
+</div> -->
+
+<!-- <div *ngIf="!checkArray(searchedLists)">
+    <div class="col-md-12">
+        <div class="alert alert-info" role="alert">
+            No existen resultados con el término: {{word}}
+        </div>
+    </div>
+</div>
+<div *ngIf="checkArray(searchedLists)">
+    <div class="card-columns">
+        <app-list-card [list]="list" [index]="i" *ngFor="let list of searchedLists; let i = index"></app-list-card>
+    </div>
+</div> -->
