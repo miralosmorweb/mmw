@@ -14,14 +14,6 @@ export class SearchComponent implements OnInit {
   word: string;
   isLoading = false;
 
-  // checkArray(searchedLists: ListModel[]): boolean{
-  //   if (searchedLists.length > 0){
-  //     console.log(searchedLists.length);
-  //     return true;
-  //   }
-  //   else { return false; }
-  // }
-
   constructor( private activatedRoute: ActivatedRoute,
                private _listsService: ListsService) { }
 
