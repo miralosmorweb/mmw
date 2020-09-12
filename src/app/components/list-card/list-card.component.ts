@@ -2,8 +2,6 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 import { ListModel } from '../../services/lists.service';
 
-
-
 @Component({
   selector: 'app-list-card',
   templateUrl: './list-card.component.html'
@@ -24,7 +22,7 @@ export class ListCardComponent implements OnInit {
 
   showList(listName: string){
     this.router.navigate(['/list', listName]);
-    //this.selectedList.emit(this.index);
+    // this.selectedList.emit(this.index);
   }
 
 }
