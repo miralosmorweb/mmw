@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ListsService, ListModel } from '../../services/lists.service';
+import { DOCUMENT } from '@angular/common';
+
+import { ListsService, ListModel, Movies } from '../../services/lists.service';
 
 @Component({
   selector: 'app-list',
@@ -18,6 +20,7 @@ export class ListComponent implements OnInit{
     // });
    }
 
+  
    ngOnInit(){
      const listName = this.activatedRoute.snapshot.paramMap.get('listName');
      this._listsService.getList(listName).subscribe((resp: ListModel) =>{
@@ -28,6 +31,12 @@ export class ListComponent implements OnInit{
     //   this.list = this._listsService.getList(params['listName']);
     // });
    }
+
+   randomFilm(movies: Movies[]){
+    const randomElement = movies[Math.floor(Math.random() * movies.length)];
+    window.location.href = randomElement.link;
+   }
+
 
 
 }
