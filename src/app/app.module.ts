@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 
 //Rutas
-import { APP_ROUTING } from './app.routes';
+import { APP_ROUTING, FeatureRoutingModule } from './app.routes';
 
 //Servicios
 import { ListsService } from './services/lists.service';
@@ -32,6 +32,7 @@ import { ListCardComponent } from './components/list-card/list-card.component';
   imports: [
     BrowserModule,
     HttpClientModule,
+    FeatureRoutingModule,
     APP_ROUTING
   ],
   providers: [
