@@ -20,7 +20,6 @@ export class ListComponent implements OnInit{
     // });
    }
 
-  
    ngOnInit(){
      const listName = this.activatedRoute.snapshot.paramMap.get('listName');
      this._listsService.getList(listName).subscribe((resp: ListModel) =>{

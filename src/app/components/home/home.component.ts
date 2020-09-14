@@ -5,13 +5,29 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './home.component.html'
 })
 export class HomeComponent {
-  // private audioDK = document.getElementById('audio_play');
 
+  private audioDK = new Audio();
+  private isPlaying = false;
+
+  playAudio(){
+    if (!this.isPlaying) {
+      this.audioDK.play();
+      this.isPlaying = true;
+    }
+    else {
+      this.audioDK.pause();
+      this.audioDK.currentTime = 0;
+      this.isPlaying = false;
+    }
+  }
   // playAudio(isPaused: boolean){
   //   if (this.audioDK.onpause) {
-  //     this.audioDK.pla; 
+  //     this.audioDK.pla;
   //   }
   // }
 
-  constructor() { }
+  constructor() {
+    this.audioDK.src = './assets/audio/dk.mp3';
+  }
 }
+
