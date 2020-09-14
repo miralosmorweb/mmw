@@ -1,6 +1,14 @@
 <h1><small>Buscando: {{ word }}</small></h1>
 <hr>
 
+<div *ngIf="!isLoading && unaccepted">
+    <div class="img-container mt-3 text-center">
+        <video width="854 " height="480 " autoplay>
+            <source src="./assets/video/homealone.mp4 " type="video/mp4 ">
+        </video>
+    </div>
+</div>
+
 <div *ngIf="isLoading">
     <img src="./assets/img/popcorn.gif" alt="popcorn.gif">
 </div>
@@ -11,7 +19,7 @@
 
     </div>
 </div>
-<div class="alert alert-warning text-center mt-3 animated fadeIn faster" *ngIf="!isLoading && searchedLists.length === 0">
+<div class="alert alert-warning text-center mt-3 animated fadeIn faster" *ngIf="!isLoading && searchedLists.length === 0 && !unaccepted">
     <h4 class="alert-heading">No existen resultados con el término: {{word}}</h4>
     <p>
         <i class="fa fa-exclamation fa-2x"></i>

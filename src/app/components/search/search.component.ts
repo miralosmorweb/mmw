@@ -13,6 +13,9 @@ export class SearchComponent implements OnInit {
   searchedLists: ListModel[] = [];
   word: string;
   isLoading = false;
+  unacceptedWords = ['marvel', 'capitan america', 'ironman', 'spiderman', 'superman', 'dc', 'green lantern', 'thanos', 'hulk',
+                      'superheroe'];
+  unaccepted = false;
 
   constructor( private activatedRoute: ActivatedRoute,
                private _listsService: ListsService) { }
@@ -27,7 +30,12 @@ export class SearchComponent implements OnInit {
       this.searchedLists = resp;
       this.word = word;
     });
-
+    console.log(word);
+    this.unacceptedWords.forEach(unacceptedWord => {
+      if (unacceptedWord === word.toLowerCase()) {
+        this.unaccepted = true;
+      }
+    });
   }
 
 }
