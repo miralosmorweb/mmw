@@ -17,10 +17,10 @@ const ROUTES: Routes = [
     // { path: '**', component: PageNotFoundComponent, redirectTo: 'home' },
 ];
 
-export const APP_ROUTING = RouterModule.forRoot(ROUTES);
+export const APP_ROUTING = RouterModule.forRoot(ROUTES, { useHash: true });
 
 @NgModule({
-    imports: [RouterModule.forRoot(ROUTES, { useHash: true })],
+    imports: [RouterModule.forRoot(ROUTES)],
     exports: [RouterModule]
 })
 

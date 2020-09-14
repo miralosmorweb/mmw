@@ -32,7 +32,6 @@ import { ListCardComponent } from './components/list-card/list-card.component';
   imports: [
     BrowserModule,
     HttpClientModule,
-    FeatureRoutingModule,
     APP_ROUTING
   ],
   providers: [
