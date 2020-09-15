@@ -14,7 +14,7 @@ export class SearchComponent implements OnInit {
   word: string;
   isLoading = false;
   unacceptedWords = ['marvel', 'capitan america', 'ironman', 'spiderman', 'superman', 'dc', 'green lantern', 'thanos', 'hulk',
-                      'superheroe'];
+                      'superheroe', 'suar', 'carnevale'];
   unaccepted = false;
 
   constructor( private activatedRoute: ActivatedRoute,
