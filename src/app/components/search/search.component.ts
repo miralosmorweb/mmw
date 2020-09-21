@@ -15,6 +15,8 @@ export class SearchComponent implements OnInit {
   isLoading = false;
   unacceptedWords = ['marvel', 'capitan america', 'ironman', 'spiderman', 'superman', 'dc', 'green lantern', 'thanos', 'hulk',
                       'superheroe', 'suar', 'carnevale'];
+  faretta = 'faretta';
+  isFaretta = false;
   unaccepted = false;
 
   constructor( private activatedRoute: ActivatedRoute,
@@ -30,7 +32,9 @@ export class SearchComponent implements OnInit {
       this.searchedLists = resp;
       this.word = word;
     });
-    console.log(word);
+    if (this.faretta === word.toLowerCase()){
+      this.isFaretta = true;
+    }
     this.unacceptedWords.forEach(unacceptedWord => {
       if (unacceptedWord === word.toLowerCase()) {
         this.unaccepted = true;

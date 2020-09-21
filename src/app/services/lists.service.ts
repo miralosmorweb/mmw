@@ -10,12 +10,11 @@ import { map, delay } from 'rxjs/operators';
 export class ListsService {
 
     constructor(private http: HttpClient){}
-    private lists: ListModel[] = [];
-    private list: ListModel;
+    private url = 'https://miralosmorserver.pythonanywhere.com/api/';
 
     // Recupero las listas solo de telegram
     getLists() {
-      return this.http.get('https://miralosmorserver.pythonanywhere.com/api/movielists-morvip')
+      return this.http.get(`${ this.url }movielists-morvip`)
         .pipe(
           map( this.createArray )
         );
@@ -37,7 +36,7 @@ export class ListsService {
     getList(listName: string){
       listName = listName.replace(' ', '_');
       // Recupero la Lista clickeada por nombre
-      return this.http.get(`https://miralosmorserver.pythonanywhere.com/api/movielists/${listName}`);
+      return this.http.get(`${ this.url }movielists/${listName}`);
     }
 
 
@@ -45,19 +44,9 @@ export class ListsService {
 
     // Busqueda de lista con una palabra incluida en los tags de la misma
      searchList(word: string){
-      return this.http.get(`https://miralosmorserver.pythonanywhere.com/api/movieliststag/${word}`).pipe(delay(1500));
+      return this.http.get(`${ this.url }movieliststag/${word}`).pipe(delay(1500));
      }
-    // searchList( word: string){
-    //    let listsArray:ListModel[]=[];
-    //    word = word.toLowerCase();
-    //    for (let list of this.lists){
-    //      let name = list.words.toLowerCase();
-    //      if (name.indexOf(word) >= 0) {
-    //        listsArray.push(list);
-    //      }
-    //    }
-    //    return listsArray;
-    //  }
+
 }
 
 export class ListModel {

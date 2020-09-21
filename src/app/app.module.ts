@@ -1,12 +1,22 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FlatpickrModule } from 'angularx-flatpickr';
+
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 //Rutas
 import { APP_ROUTING, FeatureRoutingModule } from './app.routes';
 
 //Servicios
 import { ListsService } from './services/lists.service';
+import { EventsService } from './services/events.service';
+
 
 //Componentes
 import { AppComponent } from './app.component';
@@ -17,6 +27,8 @@ import { ListsComponent } from './components/lists/lists.component';
 import { ListComponent } from './components/list/list.component';
 import { SearchComponent } from './components/search/search.component';
 import { ListCardComponent } from './components/list-card/list-card.component';
+import { CalendarComponent } from './components/calendar/calendar.component';
+import { EventFormComponent } from './components/calendar/event-form/event-form.component';
 
 @NgModule({
   declarations: [
@@ -27,16 +39,32 @@ import { ListCardComponent } from './components/list-card/list-card.component';
     ListsComponent,
     ListComponent,
     SearchComponent,
-    ListCardComponent
+    ListCardComponent,
+    CalendarComponent,
+    EventFormComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
-    APP_ROUTING
+    APP_ROUTING,
+    CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory }),
+    NgbModule,
+    CommonModule,
+    FormsModule,
+    FlatpickrModule.forRoot(),
+    BrowserAnimationsModule,
+    NgbModule,
+    ReactiveFormsModule
+  ],
+  exports: [
+    CalendarComponent
   ],
   providers: [
     HttpClientModule
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [
+    EventFormComponent
+  ]
 })
 export class AppModule { }

@@ -1,0 +1,160 @@
+<div class="row text-center mt-5">
+    <div class="col-md-4">
+        <div class="btn-group">
+            <div class="btn btn-primary" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate" (viewDateChange)="closeOpenMonthViewDay()">
+                Anterior
+            </div>
+            <div class="btn btn-outline-secondary" mwlCalendarToday [(viewDate)]="viewDate">
+                Hoy
+            </div>
+            <div class="btn btn-primary" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate" (viewDateChange)="closeOpenMonthViewDay()">
+                Siguiente
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <h3>{{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</h3>
+    </div>
+    <div class="col-md-4">
+        <button class="btn btn-primary float-right" (click)="addEvent()">
+            Agregar Nuevo
+        </button>
+    </div>
+
+</div>
+
+<br />
+
+<div class="animated fadeIn">
+    <mwl-calendar-month-view [viewDate]="viewDate" [events]="events" [refresh]="refresh" [activeDayIsOpen]="activeDayIsOpen" (dayClicked)="dayClicked($event.day)" (eventClicked)="handleEvent('Clicked', $event.event)">
+    </mwl-calendar-month-view>
+</div>
+
+<br /><br /><br />
+
+<ng-template #modalContentAdd let-close="close" class="animated fadeIn">
+    <div class="modal-header">
+        <h5 class="modal-title">Agregar Evento</h5>
+        <button type="button" class="close" (click)="close()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <form (ngSubmit)="saveNewEvent(addForm)" [formGroup]="addForm">
+        <div class="modal-body">
+            <div class="container">
+                <div class="form-group">
+                    <label>Nombre del Evento:</label>
+                    <input type="text" name="title" class="form-control" formControlName="title" required>
+                </div>
+                <div class="form-group">
+                    <label>Inicio del Evento:</label>
+                    <input type="text" name="start" mwlFlatpickr class="form-control" [altInput]="true" [convertModelValue]="true" [enableTime]="true" dateFormat="Y-m-dTH:i" time24hs="true" altFormat="F j, Y H:i" formControlName="start" required>
+                </div>
+                <div class="form-group">
+                    <label>Fin del Evento:</label>
+                    <input type="text" name="end" mwlFlatpickr class="form-control" [altInput]="true" [convertModelValue]="true" [enableTime]="true" dateFormat="Y-m-dTH:i" time24hs="true" altFormat="F j, Y H:i" formControlName="end" required>
+                </div>
+                <div class="form-group">
+                    <br>
+                    <button *ngIf="discordFlag" (click)="discordFlag = false" formControlName="discord" class="btn btn-outline-primary w-50" type="button" ngDefaultControl>Discord
+                        <i class="fab fa-discord"></i>
+                    </button>
+
+                    <button *ngIf="!discordFlag" (click)="discordFlag = true" formControlName="discord" class="btn btn-outline-secondary w-50" type="button" ngDefaultControl>Otros
+                        <i class="fas fa-calendar-alt"></i>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+        <div class="modal-footer">
+            <div class="form-group">
+                <button type="submit" class="btn btn-success" (ngModelChange)="refresh.next()">
+                    Guardar
+                </button>
+            </div>
+        </div>
+    </form>
+</ng-template>
+
+
+<ng-template #modalContentEdit let-close="close">
+    <div class="modal-header">
+        <h5 class="modal-title">Editar Evento</h5>
+        <button type="button" class="close" (click)="close()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <form (ngSubmit)="submitEdit(editForm)" #editForm>
+        <div class="modal-body">
+            <div class="container">
+                <div class="form-group">
+                    <label for="title">Nombre del Evento:</label>
+                    <input type="text" name="newTitle" class="form-control" [ngModelOptions]="{ standalone: true }" [(ngModel)]="modalData.title" required>
+                </div>
+                <div class="form-group">
+                    <label for="date">Fecha y Hora del Evento:</label>
+                    <input type="text" name="newDate" class="form-control" mwlFlatpickr [ngModelOptions]="{ standalone: true }" [(ngModel)]="modalData.start" required>
+                </div>
+                <div class="form-group">
+                    <label for="date">Fecha y Hora del Evento:</label>
+                    <input type="text" name="newDateEnd" class="form-control" mwlFlatpickr [ngModelOptions]="{ standalone: true }" [(ngModel)]="modalData.end" required>
+                </div>
+            </div>
+
+        </div>
+        <div class="modal-footer">
+            <div class="form-group">
+                <button type="submit" class="btn btn-success" [disabled]="!editForm.valid">
+                    Submit Form
+                </button>
+            </div>
+        </div>
+    </form>
+</ng-template>
+
+
+<!-- <h3>
+    Editar eventos
+    <button class="btn btn-primary float-right" (click)="addEvent()">
+      Agregar Nuevo
+    </button>
+    <div class="clearfix"></div>
+</h3>
+
+<div class="table-responsive">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Título</th>
+                <th>Color</th>
+                <th>Empieza</th>
+                <th>Termina</th>
+                <th>Eliminar</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr *ngFor="let event of events">
+                <td>
+                    <input type="text" class="form-control" [(ngModel)]="event.title" (keyup)="refresh.next()" />
+                </td>
+                <td>
+                    <input type="color" [(ngModel)]="event.color.primary" (change)="refresh.next()" />
+                    <input type="color" [(ngModel)]="event.color.primary" (change)="refresh.next()" />
+                </td>
+                <td>
+                    <input class="form-control" type="text" mwlFlatpickr [(ngModel)]="event.start" (ngModelChange)="refresh.next()" [altInput]="true" [convertModelValue]="true" [enableTime]="true" dateFormat="Y-m-dTH:i" altFormat="F j, Y H:i" placeholder="Not set" />
+                </td>
+                <td>
+                    <input class="form-control" type="text" mwlFlatpickr [(ngModel)]="event.end" (ngModelChange)="refresh.next()" [altInput]="true" [convertModelValue]="true" [enableTime]="true" dateFormat="Y-m-dTH:i" altFormat="F j, Y H:i" placeholder="Not set" />
+                </td>
+                <td>
+                    <button class="btn btn-danger" (click)="deleteEvent(event)">
+              Delete
+            </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div> -->

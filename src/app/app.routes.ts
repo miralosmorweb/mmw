@@ -6,6 +6,8 @@ import { AboutComponent } from './components/about/about.component';
 import { ListsComponent } from './components/lists/lists.component';
 import { ListComponent } from './components/list/list.component';
 import { SearchComponent } from './components/search/search.component';
+import { CalendarComponent } from './components/calendar/calendar.component';
+
 
 const ROUTES: Routes = [
     { path: 'home', component: HomeComponent },
@@ -13,6 +15,7 @@ const ROUTES: Routes = [
     { path: 'lists', component: ListsComponent },
     { path: 'list/:listName', component: ListComponent },
     { path: 'search/:word', component: SearchComponent },
+    { path: 'calendar', component: CalendarComponent },
     { path: '**', pathMatch: 'full', redirectTo: 'home' }
     // { path: '**', component: PageNotFoundComponent, redirectTo: 'home' },
 ];

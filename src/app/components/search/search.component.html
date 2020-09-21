@@ -1,6 +1,14 @@
 <h1><small>Buscando: {{ word }}</small></h1>
 <hr>
 
+<div *ngIf="isFaretta && !isLoading && searchedLists.length === 0 && !unaccepted">
+    <div class="img-container mt-3 text-center">
+        <img src="./assets/img/escalera.gif" alt="popcorn.gif">
+        <br>
+        <img src="./assets/img/black.png" alt="black.png">
+    </div>
+</div>
+
 <div *ngIf="!isLoading && unaccepted">
     <div class="img-container mt-3 text-center">
         <video width="854 " height="480 " autoplay>
@@ -12,6 +20,7 @@
 <div *ngIf="isLoading">
     <img src="./assets/img/popcorn.gif" alt="popcorn.gif">
 </div>
+
 <div *ngIf="!isLoading && searchedLists.length > 0">
     <div class="card-columns animated fadeIn faster">
 
@@ -19,7 +28,7 @@
 
     </div>
 </div>
-<div class="alert alert-warning text-center mt-3 animated fadeIn faster" *ngIf="!isLoading && searchedLists.length === 0 && !unaccepted">
+<div class="alert alert-warning text-center mt-3 animated fadeIn faster" *ngIf="!isFaretta && !isLoading && searchedLists.length === 0 && !unaccepted">
     <h4 class="alert-heading">No existen resultados con el término: {{word}}</h4>
     <p>
         <i class="fa fa-exclamation fa-2x"></i>
