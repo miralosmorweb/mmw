@@ -57,4 +57,9 @@ export class EventsService {
    deleteEvent(id: number){
        return this.http.delete( `${ this.url }calendar/delcite/${id}`);
    }
+
+   editEvent(id: number, event: CalendarEvent){
+    return this.http.put( `${ this.url }calendar/delcite/${id}`, event);
+}
+
 }

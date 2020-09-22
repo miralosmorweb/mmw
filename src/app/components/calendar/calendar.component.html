@@ -64,15 +64,15 @@
             <div class="container">
                 <div class="form-group">
                     <label>Nombre del Evento:</label>
-                    <input type="text" name="title" class="form-control" formControlName="title" [class.is-invalid]="titleNotValid">
-                    <small *ngIf="titleNotValid" class="text-danger">
+                    <input type="text" name="title" class="form-control" formControlName="title" [class.is-invalid]="titleNotValidAddForm">
+                    <small *ngIf="titleNotValidAddForm" class="text-danger">
                         Ingrese al menos 5 caracteres
                     </small>
                 </div>
                 <div class="form-group">
                     <label>Inicio del Evento:</label>
-                    <input type="text" name="start" mwlFlatpickr class="form-control" [altInput]="true" [convertModelValue]="true" [enableTime]="true" dateFormat="Y-m-dTH:i" time24hs="true" altFormat="F j, Y H:i" formControlName="start" [class.is-invalid]="dateNotValid">
-                    <small *ngIf="dateNotValid" class="text-danger">
+                    <input type="text" name="start" mwlFlatpickr class="form-control" [altInput]="true" [convertModelValue]="true" [enableTime]="true" dateFormat="Y-m-dTH:i" time24hs="true" altFormat="F j, Y H:i" formControlName="start" [class.is-invalid]="dateNotValidAddForm">
+                    <small *ngIf="dateNotValidAddForm" class="text-danger">
                         Ingrese fecha y hora del evento 
                     </small>
                 </div>
@@ -104,37 +104,56 @@
 </ng-template>
 
 
-<ng-template #modalContentEdit let-close="close">
+<ng-template #modalContentEdit let-close="close" class="animated fadeIn">
     <div class="modal-header">
         <h5 class="modal-title">Editar Evento</h5>
         <button type="button" class="close" (click)="close()">
         <span aria-hidden="true">&times;</span>
-      </button>
+        </button>
     </div>
-    <form (ngSubmit)="submitEdit(editForm)" #editForm>
+    <form (ngSubmit)="saveEditedEvent(editForm)" [formGroup]="editForm">
         <div class="modal-body">
             <div class="container">
                 <div class="form-group">
-                    <label for="title">Nombre del Evento:</label>
-                    <input type="text" name="newTitle" class="form-control" [ngModelOptions]="{ standalone: true }" [(ngModel)]="modalData.title" required>
+                    <label>Nombre del Evento:</label>
+                    <input type="text" name="title" class="form-control" formControlName="title" [class.is-invalid]="titleNotValidEditForm">
+                    <small *ngIf="titleNotValidEditForm" class="text-danger">
+                        Ingrese al menos 5 caracteres
+                    </small>
                 </div>
                 <div class="form-group">
-                    <label for="date">Fecha y Hora:</label>
-                    <input type="text" name="newDate" class="form-control" mwlFlatpickr [ngModelOptions]="{ standalone: true }" [(ngModel)]="modalData.start" required>
+                    <label>Inicio del Evento:</label>
+                    <input type="text" name="start" mwlFlatpickr class="form-control" [altInput]="true" [convertModelValue]="true" [enableTime]="true" dateFormat="Y-m-dTH:i" time24hs="true" altFormat="F j, Y H:i" formControlName="start" [class.is-invalid]="dateNotValidEditForm">
+                    <small *ngIf="dateNotValidEditForm" class="text-danger">
+                        Ingrese fecha y hora del evento 
+                    </small>
+                </div>
+                <div class="form-group">
+                    <label>Descripción:</label>
+                    <input type="text" name="description" class="form-control" formControlName="description">
+                </div>
+                <div class="form-group">
+                    <br>
+                    <button *ngIf="discordFlag" (click)="discordFlag = false" formControlName="discord" class="btn btn-outline-primary w-50" type="button" ngDefaultControl>Discord
+                        <i class="fab fa-discord"></i>
+                    </button>
+
+                    <button *ngIf="!discordFlag" (click)="discordFlag = true" formControlName="discord" class="btn btn-outline-secondary w-50" type="button" ngDefaultControl>Otros
+                        <i class="fas fa-calendar-alt"></i>
+                    </button>
                 </div>
             </div>
 
         </div>
         <div class="modal-footer">
             <div class="form-group">
-                <button type="submit" class="btn btn-success" [disabled]="!editForm.valid">
-                    Submit Form
+                <button type="submit" class="btn btn-success" [disabled]="!editForm.valid" (ngModelChange)="refresh.next()">
+                    Guardar
                 </button>
             </div>
         </div>
     </form>
 </ng-template>
-
 
 <!-- <h3>
     Editar eventos

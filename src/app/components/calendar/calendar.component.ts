@@ -90,11 +90,18 @@ export class CalendarComponent implements OnInit {
    this.getEvents();
     }
 
-  get titleNotValid() {
+  get titleNotValidAddForm() {
     return this.addForm.get('title').invalid && this.addForm.get('title').touched;
   }
-  get dateNotValid() {
+  get dateNotValidAddForm() {
     return this.addForm.get('start').invalid && this.addForm.get('start').touched;
+  }
+
+  get titleNotValidEditForm() {
+    return this.editForm.get('title').invalid && this.editForm.get('title').touched;
+  }
+  get dateNotValidEditForm() {
+    return this.editForm.get('start').invalid && this.editForm.get('start').touched;
   }
 
   getEvents(){
@@ -126,15 +133,8 @@ export class CalendarComponent implements OnInit {
     this.modalData = event;
     switch (action) {
       case 'Edited':
-        Swal.fire({
-          title: 'Mildis!',
-          text: 'Esta función aún no está disponible...',
-          imageUrl: './assets/img/titanic.png',
-          imageWidth: 200,
-          imageHeight: 200,
-          imageAlt: 'esperando',
-        });
-        //this.modal.open(this.modalContentEdit, { size: 'lg' });
+        this.createEditForm(this.modalData)
+        this.modal.open(this.modalContentEdit, { size: 'lg' });
         break;
       case 'Deleted':
         Swal.fire({
@@ -158,13 +158,54 @@ export class CalendarComponent implements OnInit {
     }
   }
 
-    // this.openFormModal();
-    // this.modalData = { event, action };
-    // this.modal.open(this.modalContent, { size: 'lg' });
+  createEditForm(modalData: CalendarEvent){
+    this.editForm = this.formBuilder.group({
+      title: [modalData.title, [ Validators.required, Validators.minLength(5) ] ],
+      start: [ modalData.start, Validators.required],
+      description: [modalData.description],
+      discord: [modalData.discord],
+      id: [modalData.id]
+    });
+    this.discordFlag = modalData.discord;
+  }
 
-
-  public submitEdit(editFormData: Form, event) {
-    console.log(editFormData);
+  public saveEditedEvent() {
+    const eventIndex = this.events.findIndex((obj => obj.id === this.editForm.value.id));
+    if (this.events[eventIndex].start !== this.editForm.value.start ||
+        this.events[eventIndex].title !== this.editForm.value.title ||
+        this.events[eventIndex].description !== this.editForm.value.description ||
+        this.events[eventIndex].discord !== this.discordFlag) {
+          this.editForm.value.discord = this.discordFlag;
+          this.editForm.value.end = this.editForm.value.start;
+          const eventForEdit: CalendarEvent = this.editForm.value;
+          this._eventsService.editEvent(this.editForm.value.id, this.editForm.value)
+            .subscribe();
+          this.modal.dismissAll();
+          eventForEdit.actions = this.actions;
+          if (eventForEdit.discord) {
+            eventForEdit.color = colors.blue;
+          } else {
+            eventForEdit.color = colors.red;
+          }
+          this.events[eventIndex] = eventForEdit;
+          this.refresh.next();
+    } else {
+      this.modal.dismissAll();
+    }
+    this.editForm.value.discord = this.discordFlag;
+    this.editForm.value.end = this.editForm.value.start;
+    const eventForEdit: CalendarEvent = this.editForm.value;
+    this._eventsService.editEvent(this.editForm.value.id, this.editForm.value)
+      .subscribe();
+    this.modal.dismissAll();
+    eventForEdit.actions = this.actions;
+    if (eventForEdit.discord) {
+      eventForEdit.color = colors.blue;
+    } else {
+      eventForEdit.color = colors.red;
+    }
+    this.events[eventIndex] = eventForEdit;
+    this.refresh.next();
   }
 
   addEvent( ): void {
