@@ -6,12 +6,22 @@ import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent, CalendarView, CalendarEventTitleFormatter} from 'angular-calendar';
 import { CustomEventTitleFormatter } from './custom-event-title-formatter.provider';
 import { DOCUMENT } from '@angular/common';
-import { FormGroup, FormBuilder, Form, NgForm } from '@angular/forms';
+import { FormGroup, FormBuilder, Form, NgForm, Validators } from '@angular/forms';
 import { EventsService } from '../../services/events.service';
 import Swal from 'sweetalert2';
 import { stringify } from '@angular/compiler/src/util';
 import { id } from 'date-fns/locale';
 
+const colors: any = {
+  red: {
+    primary: '#dc143c',
+    secondary: '#FAE3E3',
+  },
+  blue: {
+    primary: '#0000ff',
+    secondary: '#D1E8FF',
+  },
+};
 
 @Component({
   selector: 'app-calendar',
@@ -79,6 +89,13 @@ export class CalendarComponent implements OnInit {
   ngOnInit(): void {
    this.getEvents();
     }
+
+  get titleNotValid() {
+    return this.addForm.get('title').invalid && this.addForm.get('title').touched;
+  }
+  get dateNotValid() {
+    return this.addForm.get('start').invalid && this.addForm.get('start').touched;
+  }
 
   getEvents(){
     this._eventsService.getEvents()
@@ -157,9 +174,9 @@ export class CalendarComponent implements OnInit {
 
   createAddForm(){
     this.addForm = this.formBuilder.group({
-      title: [''],
-      start: [this.currentDay],
-      end: [this.currentDay],
+      title: ['', [ Validators.required, Validators.minLength(5) ] ],
+      start: [ this.currentDay, Validators.required],
+      description: [''],
       discord: [true]
     });
     this.discordFlag = this.addForm.value.discord;
@@ -167,6 +184,7 @@ export class CalendarComponent implements OnInit {
 
   saveNewEvent() {
     this.addForm.value.discord = this.discordFlag;
+    this.addForm.value.end = this.addForm.value.start;
     const eventForAdd: CalendarEvent = this.addForm.value;
     this._eventsService.postEvent( this.addForm.value )
       .subscribe( resp => {
@@ -174,6 +192,11 @@ export class CalendarComponent implements OnInit {
       }) ;
     this.modal.dismissAll();
     eventForAdd.actions = this.actions;
+    if (eventForAdd.discord) {
+      eventForAdd.color = colors.blue;
+    } else {
+      eventForAdd.color = colors.red;
+    }
     this.events.push(eventForAdd);
     this.refresh.next();
   }

@@ -26,9 +26,29 @@
 <br />
 
 <div class="animated fadeIn">
-    <mwl-calendar-month-view [viewDate]="viewDate" [events]="events" [refresh]="refresh" [activeDayIsOpen]="activeDayIsOpen" (dayClicked)="dayClicked($event.day)" (eventClicked)="handleEvent('Clicked', $event.event)">
+    <mwl-calendar-month-view [viewDate]="viewDate" [events]="events" [refresh]="refresh" [cellTemplate]="customCellTemplate" [activeDayIsOpen]="activeDayIsOpen" (dayClicked)="dayClicked($event.day)" (eventClicked)="handleEvent('Clicked', $event.event)">
     </mwl-calendar-month-view>
 </div>
+
+
+<ng-template #customCellTemplate let-day="day" let-locale="locale">
+    <div class="cal-cell-top">
+        <span class="cal-day-badge" *ngIf="day.badgeTotal > 0">{{ day.badgeTotal }}</span>
+        <span class="cal-day-number">{{ day.date | calendarDate:'monthViewDayNumber':locale }}</span>
+    </div>
+    <div class="cal-cell-row">
+        <div *ngFor="let event of day.events">
+            <i *ngIf="event.discord" class="fab fa-discord ml-2" style="color: blue;"></i>
+            <i *ngIf="!event.discord" class="fas fa-calendar ml-2" style="color: crimson;"></i>
+            <!-- <div *ngIf="event.discord">
+                <i class="fab fa-discord ml-2" style="color: blue"></i>
+            </div>
+            <div *ngIf="!event.discord">
+                <i class="fas fa-calendar ml-2" style="color: crimson;"></i>
+            </div> -->
+        </div>
+    </div>
+</ng-template>
 
 <br /><br /><br />
 
@@ -37,22 +57,28 @@
         <h5 class="modal-title">Agregar Evento</h5>
         <button type="button" class="close" (click)="close()">
         <span aria-hidden="true">&times;</span>
-      </button>
+        </button>
     </div>
     <form (ngSubmit)="saveNewEvent(addForm)" [formGroup]="addForm">
         <div class="modal-body">
             <div class="container">
                 <div class="form-group">
                     <label>Nombre del Evento:</label>
-                    <input type="text" name="title" class="form-control" formControlName="title" required>
+                    <input type="text" name="title" class="form-control" formControlName="title" [class.is-invalid]="titleNotValid">
+                    <small *ngIf="titleNotValid" class="text-danger">
+                        Ingrese al menos 5 caracteres
+                    </small>
                 </div>
                 <div class="form-group">
                     <label>Inicio del Evento:</label>
-                    <input type="text" name="start" mwlFlatpickr class="form-control" [altInput]="true" [convertModelValue]="true" [enableTime]="true" dateFormat="Y-m-dTH:i" time24hs="true" altFormat="F j, Y H:i" formControlName="start" required>
+                    <input type="text" name="start" mwlFlatpickr class="form-control" [altInput]="true" [convertModelValue]="true" [enableTime]="true" dateFormat="Y-m-dTH:i" time24hs="true" altFormat="F j, Y H:i" formControlName="start" [class.is-invalid]="dateNotValid">
+                    <small *ngIf="dateNotValid" class="text-danger">
+                        Ingrese fecha y hora del evento 
+                    </small>
                 </div>
                 <div class="form-group">
-                    <label>Fin del Evento:</label>
-                    <input type="text" name="end" mwlFlatpickr class="form-control" [altInput]="true" [convertModelValue]="true" [enableTime]="true" dateFormat="Y-m-dTH:i" time24hs="true" altFormat="F j, Y H:i" formControlName="end" required>
+                    <label>Descripción:</label>
+                    <input type="text" name="description" class="form-control" formControlName="description">
                 </div>
                 <div class="form-group">
                     <br>
@@ -69,7 +95,7 @@
         </div>
         <div class="modal-footer">
             <div class="form-group">
-                <button type="submit" class="btn btn-success" (ngModelChange)="refresh.next()">
+                <button type="submit" class="btn btn-success" [disabled]="!addForm.valid" (ngModelChange)="refresh.next()">
                     Guardar
                 </button>
             </div>
@@ -93,12 +119,8 @@
                     <input type="text" name="newTitle" class="form-control" [ngModelOptions]="{ standalone: true }" [(ngModel)]="modalData.title" required>
                 </div>
                 <div class="form-group">
-                    <label for="date">Fecha y Hora del Evento:</label>
+                    <label for="date">Fecha y Hora:</label>
                     <input type="text" name="newDate" class="form-control" mwlFlatpickr [ngModelOptions]="{ standalone: true }" [(ngModel)]="modalData.start" required>
-                </div>
-                <div class="form-group">
-                    <label for="date">Fecha y Hora del Evento:</label>
-                    <input type="text" name="newDateEnd" class="form-control" mwlFlatpickr [ngModelOptions]="{ standalone: true }" [(ngModel)]="modalData.end" required>
                 </div>
             </div>
 

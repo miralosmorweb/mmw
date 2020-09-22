@@ -4,12 +4,23 @@ import { map, delay } from 'rxjs/operators';
 import { CalendarEvent } from 'angular-calendar';
 import { toDate, parseISO, isToday, startOfDay } from 'date-fns';
 
+const colors: any = {
+    red: {
+      primary: '#dc143c',
+      secondary: '#FAE3E3',
+    },
+    blue: {
+      primary: '#0000ff',
+      secondary: '#D1E8FF',
+    },
+  };
 
 @Injectable({
     providedIn: 'root'
 })
 
 export class EventsService {
+
     constructor(private http: HttpClient){}
 
     private url = 'https://miralosmorserver.pythonanywhere.com/api/calendar/';
@@ -32,6 +43,11 @@ export class EventsService {
       const event: CalendarEvent = eventsObj[key];
       event.start = new Date(event.start);
       event.end = new Date(event.end);
+      if (event.discord) {
+          event.color = colors.blue;
+      } else {
+          event.color = colors.red;
+      }
       event.actions = [];
       events.push( event );
     });
