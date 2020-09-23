@@ -1,16 +1,16 @@
-import { Component, ChangeDetectionStrategy, ViewChild, TemplateRef, Inject, OnInit, OnDestroy } from '@angular/core';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { startOfDay, endOfDay, subDays, addDays, endOfMonth, isSameDay, isSameMonth, addHours } from 'date-fns';
+import { Component, ChangeDetectionStrategy, ViewChild, TemplateRef, Inject, OnInit, LOCALE_ID } from '@angular/core';
+import { isSameDay, isSameMonth } from 'date-fns';
 import { Subject } from 'rxjs';
-import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent, CalendarView, CalendarEventTitleFormatter} from 'angular-calendar';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { CalendarEvent, CalendarEventAction, CalendarView, CalendarEventTitleFormatter} from 'angular-calendar';
 import { CustomEventTitleFormatter } from './custom-event-title-formatter.provider';
-import { DOCUMENT } from '@angular/common';
-import { FormGroup, FormBuilder, Form, NgForm, Validators } from '@angular/forms';
+import { DatePipe, DOCUMENT, registerLocaleData } from '@angular/common';
+import localeEsAr from '@angular/common/locales/es-AR';
+import { FormGroup, FormBuilder, NgForm, Validators } from '@angular/forms';
 import { EventsService } from '../../services/events.service';
 import Swal from 'sweetalert2';
-import { stringify } from '@angular/compiler/src/util';
-import { id } from 'date-fns/locale';
+
+registerLocaleData(localeEsAr, 'es-Ar');
 
 const colors: any = {
   red: {
@@ -58,6 +58,8 @@ export class CalendarComponent implements OnInit {
   currentDay: Date;
 
   discordFlag: boolean;
+
+  pipe = new DatePipe('es-Ar');
 
   actions: CalendarEventAction[] = [
     {
@@ -132,14 +134,39 @@ export class CalendarComponent implements OnInit {
   handleEvent(action: string, event: CalendarEvent): void {
     this.modalData = event;
     switch (action) {
+      case 'Clicked':
+        const date = this.pipe.transform(event.start, 'short');
+        Swal.fire({
+          title: event.title,
+          html: date + '<br><br>' + event.description,
+          backdrop: `
+            rgba(0,0,123,0.4)
+            url("./assets/img/wengweng.gif")
+            right top
+            no-repeat
+          `,
+          showDenyButton: true,
+          showCancelButton: true,
+          confirmButtonText: `Editar`,
+          denyButtonText: `Borrar`,
+          cancelButtonText: `Cancelar`
+        }).then((result) => {
+          /* Read more about isConfirmed, isDenied below */
+          if (result.isConfirmed) {
+            this.handleEvent('Edited', event);
+          } else if (result.isDenied) {
+            this.handleEvent('Deleted', event);
+          }
+        });
+        break;
       case 'Edited':
         this.createEditForm(this.modalData)
-        this.modal.open(this.modalContentEdit, { size: 'lg' });
+        this.modal.open(this.modalContentEdit, { size: 'lg', windowClass: 'dark-modal', centered: true  });
         break;
       case 'Deleted':
         Swal.fire({
-          title: 'Está seguro?',
-          text: `Estás seguro que querés borrar el evento ${ event.title }`,
+          icon: 'warning',
+          text: `Estás seguro que querés borrar el evento ${ event.title }?`,
           showConfirmButton: true,
           showCancelButton: true
         }).then( resp => {
@@ -171,6 +198,8 @@ export class CalendarComponent implements OnInit {
 
   public saveEditedEvent() {
     const eventIndex = this.events.findIndex((obj => obj.id === this.editForm.value.id));
+    // Probar pristine (el formulario no se tocó)
+    // if (this.editForm.pristine)
     if (this.events[eventIndex].start !== this.editForm.value.start ||
         this.events[eventIndex].title !== this.editForm.value.title ||
         this.events[eventIndex].description !== this.editForm.value.description ||
@@ -210,7 +239,7 @@ export class CalendarComponent implements OnInit {
 
   addEvent( ): void {
     this.createAddForm();
-    this.modal.open(this.modalContentAdd, { size: 'lg' });
+    this.modal.open(this.modalContentAdd, { size: 'lg', windowClass: 'dark-modal', centered: true });
   }
 
   createAddForm(){

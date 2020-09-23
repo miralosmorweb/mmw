@@ -40,17 +40,12 @@
         <div *ngFor="let event of day.events">
             <i *ngIf="event.discord" class="fab fa-discord ml-2" style="color: blue;"></i>
             <i *ngIf="!event.discord" class="fas fa-calendar ml-2" style="color: crimson;"></i>
-            <!-- <div *ngIf="event.discord">
-                <i class="fab fa-discord ml-2" style="color: blue"></i>
-            </div>
-            <div *ngIf="!event.discord">
-                <i class="fas fa-calendar ml-2" style="color: crimson;"></i>
-            </div> -->
         </div>
     </div>
 </ng-template>
 
 <br /><br /><br />
+
 
 <ng-template #modalContentAdd let-close="close" class="animated fadeIn">
     <div class="modal-header">
