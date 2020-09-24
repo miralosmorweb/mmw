@@ -265,7 +265,7 @@ export class CalendarComponent implements OnInit {
   }
   saveNewEvent() {
     if (this.addForm.value.citeClass === 'Lo Cumpleañito') {
-      const yearForCompare = new Date('2050');
+      const yearForCompare = new Date('2025');
       for (let startDate = this.addForm.value.start; startDate < yearForCompare ; startDate = addYears(startDate, 1) ) {
         this.addForm.value.start = startDate;
         this.addForm.value.end = startDate;
