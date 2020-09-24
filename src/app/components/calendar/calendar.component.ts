@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, ViewChild, TemplateRef, Inject, OnInit, LOCALE_ID } from '@angular/core';
-import { isSameDay, isSameMonth } from 'date-fns';
+import { add, addYears, isSameDay, isSameMonth } from 'date-fns';
 import { Subject } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CalendarEvent, CalendarEventAction, CalendarView, CalendarEventTitleFormatter} from 'angular-calendar';
@@ -20,6 +20,10 @@ const colors: any = {
   blue: {
     primary: '#0000ff',
     secondary: '#D1E8FF',
+  },
+  yellow: {
+    primary: '#ffff00',
+    secondary: '#FDF1BA',
   },
 };
 
@@ -57,7 +61,9 @@ export class CalendarComponent implements OnInit {
 
   currentDay: Date;
 
-  discordFlag: boolean;
+  classFlag: string;
+
+  classes = ['Discord', 'Otros', 'Lo Cumpleañito'];
 
   pipe = new DatePipe('es-Ar');
 
@@ -106,6 +112,14 @@ export class CalendarComponent implements OnInit {
     return this.editForm.get('start').invalid && this.editForm.get('start').touched;
   }
 
+  get citeClassAddForm() {
+    return this.addForm.get('citeClass').invalid && this.addForm.get('citeClass').touched;
+  }
+
+  get citeClassEditForm() {
+    return this.editForm.get('citeClass').invalid && this.editForm.get('citeClass').touched;
+  }
+
   getEvents(){
     this._eventsService.getEvents()
       .subscribe( resp => {
@@ -138,7 +152,7 @@ export class CalendarComponent implements OnInit {
         const date = this.pipe.transform(event.start, 'short');
         Swal.fire({
           title: event.title,
-          html: date + '<br><br>' + event.description,
+          html: '<b>' + event.citeClass + '</b>' + '<br>' + date + '<br><br>' + event.description,
           backdrop: `
             rgba(0,0,123,0.4)
             url("./assets/img/wengweng.gif")
@@ -151,7 +165,6 @@ export class CalendarComponent implements OnInit {
           denyButtonText: `Borrar`,
           cancelButtonText: `Cancelar`
         }).then((result) => {
-          /* Read more about isConfirmed, isDenied below */
           if (result.isConfirmed) {
             this.handleEvent('Edited', event);
           } else if (result.isDenied) {
@@ -190,51 +203,40 @@ export class CalendarComponent implements OnInit {
       title: [modalData.title, [ Validators.required, Validators.minLength(5) ] ],
       start: [ modalData.start, Validators.required],
       description: [modalData.description],
-      discord: [modalData.discord],
+      citeClass: [ modalData.citeClass, Validators.required ],
       id: [modalData.id]
     });
-    this.discordFlag = modalData.discord;
   }
 
   public saveEditedEvent() {
     const eventIndex = this.events.findIndex((obj => obj.id === this.editForm.value.id));
-    // Probar pristine (el formulario no se tocó)
-    // if (this.editForm.pristine)
     if (this.events[eventIndex].start !== this.editForm.value.start ||
         this.events[eventIndex].title !== this.editForm.value.title ||
         this.events[eventIndex].description !== this.editForm.value.description ||
-        this.events[eventIndex].discord !== this.discordFlag) {
-          this.editForm.value.discord = this.discordFlag;
+        this.events[eventIndex].citeClass !== this.editForm.value.citeClass
+        ) {
           this.editForm.value.end = this.editForm.value.start;
           const eventForEdit: CalendarEvent = this.editForm.value;
           this._eventsService.editEvent(this.editForm.value.id, this.editForm.value)
             .subscribe();
           this.modal.dismissAll();
           eventForEdit.actions = this.actions;
-          if (eventForEdit.discord) {
-            eventForEdit.color = colors.blue;
-          } else {
-            eventForEdit.color = colors.red;
-          }
+          switch (eventForEdit.citeClass){
+            case 'Discord':
+                eventForEdit.color = colors.blue;
+                break;
+            case 'Otros':
+                eventForEdit.color = colors.red;
+                break;
+            case 'Lo Cumpleañito':
+                eventForEdit.color = colors.yellow;
+                break;
+        }
           this.events[eventIndex] = eventForEdit;
           this.refresh.next();
     } else {
       this.modal.dismissAll();
     }
-    this.editForm.value.discord = this.discordFlag;
-    this.editForm.value.end = this.editForm.value.start;
-    const eventForEdit: CalendarEvent = this.editForm.value;
-    this._eventsService.editEvent(this.editForm.value.id, this.editForm.value)
-      .subscribe();
-    this.modal.dismissAll();
-    eventForEdit.actions = this.actions;
-    if (eventForEdit.discord) {
-      eventForEdit.color = colors.blue;
-    } else {
-      eventForEdit.color = colors.red;
-    }
-    this.events[eventIndex] = eventForEdit;
-    this.refresh.next();
   }
 
   addEvent( ): void {
@@ -245,29 +247,70 @@ export class CalendarComponent implements OnInit {
   createAddForm(){
     this.addForm = this.formBuilder.group({
       title: ['', [ Validators.required, Validators.minLength(5) ] ],
-      start: [ this.currentDay, Validators.required],
+      start: [ this.currentDay, Validators.required ],
       description: [''],
-      discord: [true]
+      citeClass: ['', Validators.required ]
     });
-    this.discordFlag = this.addForm.value.discord;
   }
 
+  changeClassAdd(c){
+    this.addForm.setValue(c.target.value, {
+      onlySelf: true
+    });
+  }
+  changeClassEdit(c){
+    this.editForm.setValue(c.target.value, {
+      onlySelf: true
+    });
+  }
   saveNewEvent() {
-    this.addForm.value.discord = this.discordFlag;
-    this.addForm.value.end = this.addForm.value.start;
-    const eventForAdd: CalendarEvent = this.addForm.value;
-    this._eventsService.postEvent( this.addForm.value )
-      .subscribe( resp => {
-        eventForAdd.id = resp.id;
-      }) ;
-    this.modal.dismissAll();
-    eventForAdd.actions = this.actions;
-    if (eventForAdd.discord) {
-      eventForAdd.color = colors.blue;
+    if (this.addForm.value.citeClass === 'Lo Cumpleañito') {
+      const yearForCompare = new Date('2050');
+      for (let startDate = this.addForm.value.start; startDate < yearForCompare ; startDate = addYears(startDate, 1) ) {
+        this.addForm.value.start = startDate;
+        this.addForm.value.end = startDate;
+        const eventForAdd: CalendarEvent = this.addForm.value;
+        this._eventsService.postEvent( this.addForm.value )
+          .subscribe( resp => {
+            eventForAdd.id = resp.id;
+          }) ;
+        this.modal.dismissAll();
+        eventForAdd.actions = this.actions;
+        switch (eventForAdd.citeClass){
+          case 'Discord':
+              eventForAdd.color = colors.blue;
+              break;
+          case 'Otros':
+              eventForAdd.color = colors.red;
+              break;
+          case 'Lo Cumpleañito':
+              eventForAdd.color = colors.yellow;
+              break;
+        }
+        this.events.push(eventForAdd);
+      }
     } else {
-      eventForAdd.color = colors.red;
+      this.addForm.value.end = this.addForm.value.start;
+      const eventForAdd: CalendarEvent = this.addForm.value;
+      this._eventsService.postEvent( this.addForm.value )
+        .subscribe( resp => {
+          eventForAdd.id = resp.id;
+        }) ;
+      this.modal.dismissAll();
+      eventForAdd.actions = this.actions;
+      switch (eventForAdd.citeClass){
+        case 'Discord':
+            eventForAdd.color = colors.blue;
+            break;
+        case 'Otros':
+            eventForAdd.color = colors.red;
+            break;
+        case 'Lo Cumpleañito':
+            eventForAdd.color = colors.yellow;
+            break;
+      }
+      this.events.push(eventForAdd);
     }
-    this.events.push(eventForAdd);
     this.refresh.next();
   }
 

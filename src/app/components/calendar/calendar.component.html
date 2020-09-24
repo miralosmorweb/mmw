@@ -38,8 +38,9 @@
     </div>
     <div class="cal-cell-row">
         <div *ngFor="let event of day.events">
-            <i *ngIf="event.discord" class="fab fa-discord ml-2" style="color: blue;"></i>
-            <i *ngIf="!event.discord" class="fas fa-calendar ml-2" style="color: crimson;"></i>
+            <i *ngIf="event.citeClass === 'Discord' " class="fab fa-discord ml-2" style="color: blue;"></i>
+            <i *ngIf="event.citeClass === 'Otros' " class="fas fa-calendar ml-2" style="color: crimson;"></i>
+            <i *ngIf="event.citeClass === 'Lo Cumpleañito' " class="fas fa-birthday-cake ml-2" style="color: yellow;"></i>
         </div>
     </div>
 </ng-template>
@@ -64,27 +65,31 @@
                         Ingrese al menos 5 caracteres
                     </small>
                 </div>
-                <div class="form-group">
-                    <label>Inicio del Evento:</label>
-                    <input type="text" name="start" mwlFlatpickr class="form-control" [altInput]="true" [convertModelValue]="true" [enableTime]="true" dateFormat="Y-m-dTH:i" time24hs="true" altFormat="F j, Y H:i" formControlName="start" [class.is-invalid]="dateNotValidAddForm">
-                    <small *ngIf="dateNotValidAddForm" class="text-danger">
+                <div class="row">
+                    <div class="form-group col">
+                        <label>Inicio del Evento:</label>
+                        <input type="text" name="start" mwlFlatpickr class="form-control" [altInput]="true" [convertModelValue]="true" [enableTime]="true" dateFormat="Y-m-dTH:i" time24hs="true" altFormat="F j, Y H:i" formControlName="start" [class.is-invalid]="dateNotValidAddForm">
+                        <small *ngIf="dateNotValidAddForm" class="text-danger">
                         Ingrese fecha y hora del evento 
                     </small>
+                    </div>
+                    <div class="form-group col">
+                        <label>Tipo de Evento:</label>
+
+                        <select class="custom-select" (change)="changeClassAdd($event)" formControlName="citeClass" [class.is-invalid]="citeClassAddForm">
+                                <option *ngFor="let citeClass of classes" [ngValue]="citeClass">{{ citeClass }}</option>
+                             </select>
+
+                    </div>
+
                 </div>
+
+
                 <div class="form-group">
                     <label>Descripción:</label>
                     <input type="text" name="description" class="form-control" formControlName="description">
                 </div>
-                <div class="form-group">
-                    <br>
-                    <button *ngIf="discordFlag" (click)="discordFlag = false" formControlName="discord" class="btn btn-outline-primary w-50" type="button" ngDefaultControl>Discord
-                        <i class="fab fa-discord"></i>
-                    </button>
 
-                    <button *ngIf="!discordFlag" (click)="discordFlag = true" formControlName="discord" class="btn btn-outline-secondary w-50" type="button" ngDefaultControl>Otros
-                        <i class="fas fa-calendar-alt"></i>
-                    </button>
-                </div>
             </div>
 
         </div>
@@ -116,18 +121,29 @@
                         Ingrese al menos 5 caracteres
                     </small>
                 </div>
-                <div class="form-group">
-                    <label>Inicio del Evento:</label>
-                    <input type="text" name="start" mwlFlatpickr class="form-control" [altInput]="true" [convertModelValue]="true" [enableTime]="true" dateFormat="Y-m-dTH:i" time24hs="true" altFormat="F j, Y H:i" formControlName="start" [class.is-invalid]="dateNotValidEditForm">
-                    <small *ngIf="dateNotValidEditForm" class="text-danger">
+                <div class="row">
+                    <div class="form-group col">
+                        <label>Inicio del Evento:</label>
+                        <input type="text" name="start" mwlFlatpickr class="form-control" [altInput]="true" [convertModelValue]="true" [enableTime]="true" dateFormat="Y-m-dTH:i" time24hs="true" altFormat="F j, Y H:i" formControlName="start" [class.is-invalid]="dateNotValidEditForm">
+                        <small *ngIf="dateNotValidEditForm" class="text-danger">
                         Ingrese fecha y hora del evento 
                     </small>
+                    </div>
+                    <div class="form-group col">
+                        <label>Tipo de Evento:</label>
+
+                        <select class="custom-select" (change)="changeClassEdit($event)" formControlName="citeClass" [class.is-invalid]="citeClassEditForm">
+                                <option *ngFor="let citeClass of classes" [ngValue]="citeClass">{{ citeClass }}</option>
+                             </select>
+
+                    </div>
                 </div>
                 <div class="form-group">
                     <label>Descripción:</label>
                     <input type="text" name="description" class="form-control" formControlName="description">
                 </div>
-                <div class="form-group">
+
+                <!-- <div class="form-group">
                     <br>
                     <button *ngIf="discordFlag" (click)="discordFlag = false" formControlName="discord" class="btn btn-outline-primary w-50" type="button" ngDefaultControl>Discord
                         <i class="fab fa-discord"></i>
@@ -136,7 +152,7 @@
                     <button *ngIf="!discordFlag" (click)="discordFlag = true" formControlName="discord" class="btn btn-outline-secondary w-50" type="button" ngDefaultControl>Otros
                         <i class="fas fa-calendar-alt"></i>
                     </button>
-                </div>
+                </div> -->
             </div>
 
         </div>
@@ -149,48 +165,3 @@
         </div>
     </form>
 </ng-template>
-
-<!-- <h3>
-    Editar eventos
-    <button class="btn btn-primary float-right" (click)="addEvent()">
-      Agregar Nuevo
-    </button>
-    <div class="clearfix"></div>
-</h3>
-
-<div class="table-responsive">
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>Título</th>
-                <th>Color</th>
-                <th>Empieza</th>
-                <th>Termina</th>
-                <th>Eliminar</th>
-            </tr>
-        </thead>
-
-        <tbody>
-            <tr *ngFor="let event of events">
-                <td>
-                    <input type="text" class="form-control" [(ngModel)]="event.title" (keyup)="refresh.next()" />
-                </td>
-                <td>
-                    <input type="color" [(ngModel)]="event.color.primary" (change)="refresh.next()" />
-                    <input type="color" [(ngModel)]="event.color.primary" (change)="refresh.next()" />
-                </td>
-                <td>
-                    <input class="form-control" type="text" mwlFlatpickr [(ngModel)]="event.start" (ngModelChange)="refresh.next()" [altInput]="true" [convertModelValue]="true" [enableTime]="true" dateFormat="Y-m-dTH:i" altFormat="F j, Y H:i" placeholder="Not set" />
-                </td>
-                <td>
-                    <input class="form-control" type="text" mwlFlatpickr [(ngModel)]="event.end" (ngModelChange)="refresh.next()" [altInput]="true" [convertModelValue]="true" [enableTime]="true" dateFormat="Y-m-dTH:i" altFormat="F j, Y H:i" placeholder="Not set" />
-                </td>
-                <td>
-                    <button class="btn btn-danger" (click)="deleteEvent(event)">
-              Delete
-            </button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</div> -->

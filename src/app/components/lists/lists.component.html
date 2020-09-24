@@ -1,8 +1,69 @@
 <h1 class="mt-3">Listas</h1>
 <hr>
 
+<div class="row">
+    <div class="col text-right">
+        <button class="btn btn-primary float-right" (click)="newList()">
+        Agregar Nueva Lista
+    </button>
+    </div>
+</div>
+
+<br>
+
 <div class="card-columns">
-    <!-- *ngFor="let heroe of heroes; let i = index" -->
+
     <app-list-card (selectedList)="showList($event)" [list]="list" [index]="i" *ngFor="let list of lists; let i = index"></app-list-card>
 
 </div>
+
+<ng-template #modalAddList let-close="close" class="animated fadeIn">
+    <div class="modal-header">
+        <h5 class="modal-title">Agregar Lista</h5>
+        <button type="button" class="close" (click)="close()">
+        <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <form (ngSubmit)="saveNewList(newListForm)" [formGroup]="newListForm">
+        <div class="modal-body">
+            <div class="container">
+                <div class="form-group">
+                    <label>Nombre de la Lista:</label>
+                    <input type="text" name="name" class="form-control" formControlName="name" [class.is-invalid]="nameNotValidAddForm">
+                </div>
+                <div class="form-group">
+                    <label>Descripción:</label>
+                    <input type="text" name="description" class="form-control" formControlName="description" [class.is-invalid]="descriptionNotValidAddForm">
+                </div>
+                <div class="form-group">
+                    <label>Ingrese link de la lista en Letterboxd:</label>
+                    <input type="text" name="link" class="form-control" formControlName="link" [class.is-invalid]="linkNotValidAddForm">
+                </div>
+                <div class="form-group">
+                    <label>Ingrese url de una imagen relacionada:</label>
+                    <input type="text" name="img" class="form-control" formControlName="img" [class.is-invalid]="imgNotValidAddForm">
+                </div>
+                <div class="form-group">
+                    <label>Quién solicitó la lista?</label>
+                    <input type="text" name="by" class="form-control" formControlName="by" [class.is-invalid]="byNotValidAddForm">
+                </div>
+                <div class="form-group">
+                    <label>Ingrese palabras clave separadas con un espacio:</label>
+                    <input type="text" name="words" class="form-control" formControlName="words" [class.is-invalid]="wordsNotValidAddForm">
+                </div>
+            </div>
+
+            <small *ngIf="nameNotValidAddForm || descriptionNotValidAddForm || linkNotValidAddForm || imgNotValidAddForm || byNotValidAddForm || wordsNotValidAddForm" class="text-danger block">
+                Complete todos los campos
+            </small>
+
+        </div>
+        <div class="modal-footer">
+            <div class="form-group">
+                <button type="submit" class="btn btn-success" [disabled]="!newListForm.valid">
+                    Guardar
+                </button>
+            </div>
+        </div>
+    </form>
+</ng-template>

@@ -28,7 +28,6 @@ import { ListComponent } from './components/list/list.component';
 import { SearchComponent } from './components/search/search.component';
 import { ListCardComponent } from './components/list-card/list-card.component';
 import { CalendarComponent } from './components/calendar/calendar.component';
-import { EventFormComponent } from './components/calendar/event-form/event-form.component';
 
 @NgModule({
   declarations: [
@@ -40,8 +39,7 @@ import { EventFormComponent } from './components/calendar/event-form/event-form.
     ListComponent,
     SearchComponent,
     ListCardComponent,
-    CalendarComponent,
-    EventFormComponent
+    CalendarComponent
   ],
   imports: [
     BrowserModule,
@@ -62,9 +60,6 @@ import { EventFormComponent } from './components/calendar/event-form/event-form.
   providers: [
     HttpClientModule
   ],
-  bootstrap: [AppComponent],
-  entryComponents: [
-    EventFormComponent
-  ]
+  bootstrap: [AppComponent]
 })
 export class AppModule { }

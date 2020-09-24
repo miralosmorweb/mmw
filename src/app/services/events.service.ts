@@ -13,6 +13,10 @@ const colors: any = {
       primary: '#0000ff',
       secondary: '#D1E8FF',
     },
+    yellow: {
+        primary: '#ffff00',
+        secondary: '#FDF1BA',
+    },
   };
 
 @Injectable({
@@ -43,10 +47,16 @@ export class EventsService {
       const event: CalendarEvent = eventsObj[key];
       event.start = new Date(event.start);
       event.end = new Date(event.end);
-      if (event.discord) {
-          event.color = colors.blue;
-      } else {
-          event.color = colors.red;
+      switch (event.citeClass){
+          case 'Discord':
+              event.color = colors.blue;
+              break;
+          case 'Otros':
+              event.color = colors.red;
+              break;
+          case 'Lo Cumpleañito':
+              event.color = colors.yellow;
+              break;
       }
       event.actions = [];
       events.push( event );

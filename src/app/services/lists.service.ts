@@ -47,6 +47,10 @@ export class ListsService {
       return this.http.get(`${ this.url }movieliststag/${word}`).pipe(delay(1500));
      }
 
+     addList(list: ListModel){
+       return this.http.post(`${ this.url }movielists`, list);
+     }
+
 }
 
 export class ListModel {
