@@ -7,6 +7,7 @@ import { ListsComponent } from './components/lists/lists.component';
 import { ListComponent } from './components/list/list.component';
 import { SearchComponent } from './components/search/search.component';
 import { CalendarComponent } from './components/calendar/calendar.component';
+import { MovieComponent } from './components/movie/movie.component';
 
 
 const ROUTES: Routes = [
@@ -14,6 +15,7 @@ const ROUTES: Routes = [
     { path: 'about', component: AboutComponent },
     { path: 'lists', component: ListsComponent },
     { path: 'list/:listName', component: ListComponent },
+    { path: 'movie/:id', component: MovieComponent },
     { path: 'search/:word', component: SearchComponent },
     { path: 'calendar', component: CalendarComponent },
     { path: '**', pathMatch: 'full', redirectTo: 'home' }

@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, HostListener, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DOCUMENT } from '@angular/common';
 
-import { ListsService, ListModel, Movies } from '../../services/lists.service';
+import { ListsService, ListModel, Movies, MovieResult } from '../../services/lists.service';
+import { FormGroup, FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-list',
@@ -10,11 +11,19 @@ import { ListsService, ListModel, Movies } from '../../services/lists.service';
 })
 export class ListComponent implements OnInit{
 
-  list: ListModel = new ListModel();
+  public list: ListModel = new ListModel();
   listName: string;
+  movies: Movies[];
+  imdbID: number;
+  isLoading = true;
+
+  moviesForm: FormGroup;
 
   constructor(private activatedRoute: ActivatedRoute,
-              private _listsService: ListsService) {
+              private _listsService: ListsService,
+              private formBuilder: FormBuilder,
+              private router: Router
+              ) {
     // this.activatedRoute.params.subscribe( resp => {
     //   this.list = this._listsService.getList(resp['name']);
     // });
@@ -22,18 +31,28 @@ export class ListComponent implements OnInit{
 
    ngOnInit(){
      const listName = this.activatedRoute.snapshot.paramMap.get('listName');
-     this._listsService.getList(listName).subscribe((resp: ListModel) =>{
+     this._listsService.getList(listName).subscribe((resp) => {
        this.list = resp;
        this.listName = listName;
-     });
-    // this.activatedRoute.params.subscribe( params => {
-    //   this.list = this._listsService.getList(params['listName']);
-    // });
+       this.movies = resp.movies;
+       this.isLoading = false;
+
+      });
    }
 
-   randomFilm(movies: Movies[]){
-    const randomElement = movies[Math.floor(Math.random() * movies.length)];
-    window.location.href = randomElement.link;
+  createMoviesForm(){
+    this.moviesForm = this.formBuilder.group({
+      movies: this.formBuilder.group([])
+    });
+  }
+
+  randomFilm(movies: Movies[]){
+    const randomMovie = movies[Math.floor(Math.random() * movies.length)];
+    this._listsService.getMovie(randomMovie.imdb_id).subscribe( resp => {
+      this.imdbID = resp.movie_results[0].id;
+      this.router.navigate(['/movie', this.imdbID]);
+
+        });
    }
 
 

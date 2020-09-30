@@ -1,13 +1,15 @@
 import { Component, OnInit } from '@angular/core';
+import { ListsService, ListModel } from '../../services/lists.service';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html'
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
 
   private audioDK = new Audio();
   private isPlaying = false;
+  public lists: ListModel[] = [];
 
   playAudio(){
     if (!this.isPlaying) {
@@ -26,8 +28,13 @@ export class HomeComponent {
   //   }
   // }
 
-  constructor() {
+  constructor( private _listsService: ListsService ) {
     this.audioDK.src = './assets/audio/dk.mp3';
+  }
+
+  ngOnInit(){
+    this._listsService.getLists()
+      .subscribe( (resp) => this.lists = resp);
   }
 }
 

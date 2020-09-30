@@ -1,0 +1,26 @@
+<div class="swiper-container">
+    <!-- Additional required wrapper -->
+    <div class="swiper-wrapper">
+        <!-- Slides -->
+        <div class="swiper-slide" (click)="showList( list.name )" *ngFor="let list of lists" [ngStyle]="{
+                'background-size': 'cover',
+                'background-image': 'url('+list.img+')'}">
+
+            <div class="list-description">
+
+
+                <h3 (click)="showList(list.name)">{{ list.name }}</h3>
+                <p>{{ list.description }}</p>
+            </div>
+        </div>
+    </div>
+    <!-- If we need pagination -->
+    <div class="swiper-pagination"></div>
+
+    <!-- If we need navigation buttons -->
+    <div (click)="onSlidePrev()" class="swiper-button-prev"></div>
+    <div (click)="onSlideNext()" class="swiper-button-next"></div>
+
+    <!-- If we need scrollbar -->
+    <div class="swiper-scrollbar"></div>
+</div>

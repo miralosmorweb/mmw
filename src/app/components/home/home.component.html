@@ -8,23 +8,26 @@
             max-width: 100%;
             height: auto;
         }
+        
+        .jumbotron {
+            background-color: rgba(0, 0, 0, 0.2);
+        }
     </style>
 </head>
-
+<br>
 <div class="jumbotron jumbotron-fluid animated fadeIn fast">
     <div class="container">
-        <h1 class="display-4">Bienvenidos a Miralos MorWeb</h1>
-        <h2>Una página hecha con mucho amor y manija.</h2>
-        <div class="img-container mt-3">
-            <video width="854 " height="480 " controls>
-                <source src="./assets/video/intro.mp4 " type="video/mp4 ">
-            </video>
-        </div>
-    </div>
+        <h1 class="display-4 text-center">Bienvenidos a Miralos MorWeb</h1>
+        <h2 class=" text-center">Una página hecha con mucho amor y manija... Y listas...</h2>
 
+    </div>
+    <br><br>
+    <div *ngIf="lists.length > 0">
+        <app-slideshow [lists]="lists"></app-slideshow>
+    </div>
 </div>
 
-<footer class="footer bg-dark text-right">
+<footer class="page-footer text-right">
     <div class="container">
         <img width="50" height="50" src="./assets/img/tegobi.jpg" (click)="this.playAudio()" />
     </div>

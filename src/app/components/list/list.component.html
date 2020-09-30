@@ -6,43 +6,55 @@
     </style>
 </head>
 
-<div class="row">
-    <h1 class="col animated fadeIn mt-3"> {{ list.name}}</h1>
-    <div class="col text-right animated fadeIn mt-4">
-        <a href="{{ list.link }}">
-            <img alt="letterboxd.jpg" src="./assets/img/letterboxd.jpg" width="200" height=auto>
-        </a>
+<div class="text-center">
+
+    <div *ngIf="isLoading" class="spinner-border text-primary " role="status">
+        <span class="sr-only">Loading...</span>
     </div>
 </div>
-<small>Solicitada por: {{list.by}}</small>
 
-<hr>
-
-
-<div class="animated fadeIn fast">
-    <div class="img-container">
-        <img [src]="list.img" class="img-fluid center" [alt]=" list.name " width="400" height=auto>
-    </div>
-
-    <br><br>
-
-    <h3>
-        <i>
-            {{ list.description }}
-        </i>
-    </h3>
+<div *ngIf="!isLoading">
 
     <div class="row">
-        <div class="col text-left">
-            <button (click)="randomFilm(list.movies)" type="button" class="btn btn-outline-primary">Elegí por mi</button>
-        </div>
-
-        <div class="col text-right">
-            <a [routerLink]="['/lists']" href="lists" class="btn btn-outline-danger">Regresar</a>
+        <h1 class="col animated fadeIn mt-3"> {{ list.name }}</h1>
+        <div class="col text-right animated fadeIn mt-4">
+            <a href="{{ list.link }}">
+                <img alt="letterboxd.jpg" src="./assets/img/letterboxd.jpg" width="200" height=auto>
+            </a>
         </div>
     </div>
+    <small>Solicitada por: {{list.by}}</small>
 
-    <table class="table table-dark mt-2">
+    <hr>
+
+
+    <div class="animated fadeIn fast">
+        <div class="img-container">
+            <img [src]="list.img" class="img-fluid center rounded" [alt]=" list.name " width="1000" height=auto>
+        </div>
+
+        <br><br>
+
+        <h3>
+            <i>
+            {{ list.description }}
+        </i>
+        </h3>
+
+        <div class="row mt-3">
+            <div class="col text-left">
+                <button (click)="randomFilm(list.movies)" type="button" class="btn btn-outline-primary">Elegí por mi</button>
+            </div>
+            <div class="col text-right">
+                <a [routerLink]="['/lists']" href="lists" class="btn btn-outline-danger">Regresar</a>
+            </div>
+        </div>
+
+        <div class="mt-2" *ngIf="movies">
+            <app-movies-grid [movies]="movies"></app-movies-grid>
+        </div>
+
+        <!-- <table class="table table-dark mt-2">
         <thead>
             <tr>
                 <th scope="col">Película</th>
@@ -63,10 +75,8 @@
         </tbody>
 
 
-    </table>
-    <div class="row">
-        <div class="col text-right">
-            <a [routerLink]="['/lists']" href="lists" class="btn btn-outline-danger">Regresar</a>
-        </div>
+    </table> -->
+
     </div>
+
 </div>

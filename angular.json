@@ -24,13 +24,16 @@
                             "src/assets"
                         ],
                         "styles": [
-                            "node_modules/angular-calendar/css/angular-calendar.css",
-                            "src/styles.css",
-                            "node_modules/bootstrap/dist/css/bootstrap.min.css"
+                            "node_modules/bootstrap/dist/css/bootstrap.min.css",
+                            "node_modules/angular-calendar/scss/angular-calendar.scss",
+                            "node_modules/swiper/swiper-bundle.min.css",
+                            "src/assets/css/dark.css",
+                            "src/styles.css"
                         ],
                         "scripts": [
                             "node_modules/jquery/dist/jquery.slim.min.js",
                             "node_modules/popper.js/dist//umd/popper.min.js",
+                            "src/assets/js/sweetalert2.min.js",
                             "node_modules/bootstrap/dist/js/bootstrap.min.js"
                         ]
                     },

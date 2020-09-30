@@ -1,11 +1,11 @@
-<div class="card animated fadeIn fast">
+<div class="card animated fadeIn fast text-white bg-dark mb-3" style="max-width: 25rem;">
     <img [src]="list.img" class="card-img-top" [alt]=" list.name ">
     <div class="card-body">
         <h5 class="card-title">{{ list.name }}</h5>
         <p class="card-text">{{ list.description }}</p>
-        <p class="card-text"><small class="text-muted">Solicitada por: {{ list.by }}</small></p>
+        <p class="card-text"><small class="text-white-50 ">Solicitada por: {{ list.by }}</small></p>
         <button (click)="showList( list.name )" type="button" class="btn btn-outline-primary btn-block">
-            Ver más...
+            Ver lista
         </button>
         <!-- <a [routerLink]="['/list', index]" class="btn btn-outline-primary">
             Ver más...

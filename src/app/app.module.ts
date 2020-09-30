@@ -28,6 +28,11 @@ import { ListComponent } from './components/list/list.component';
 import { SearchComponent } from './components/search/search.component';
 import { ListCardComponent } from './components/list-card/list-card.component';
 import { CalendarComponent } from './components/calendar/calendar.component';
+import { SlideshowComponent } from './components/slideshow/slideshow.component';
+import { MoviesGridComponent } from './components/movies-grid/movies-grid.component';
+import { PosterPipe } from './pipes/poster.pipe';
+import { MovieComponent } from './components/movie/movie.component';
+import { CastSlideshowComponent } from './components/cast-slideshow/cast-slideshow.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +44,12 @@ import { CalendarComponent } from './components/calendar/calendar.component';
     ListComponent,
     SearchComponent,
     ListCardComponent,
-    CalendarComponent
+    CalendarComponent,
+    SlideshowComponent,
+    MoviesGridComponent,
+    PosterPipe,
+    MovieComponent,
+    CastSlideshowComponent
   ],
   imports: [
     BrowserModule,

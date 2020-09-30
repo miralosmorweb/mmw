@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, ViewChild, TemplateRef, Inject, OnInit, LOCALE_ID } from '@angular/core';
+import { Component, ChangeDetectionStrategy, ViewChild, TemplateRef, Inject, OnInit, LOCALE_ID, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { add, addYears, isSameDay, isSameMonth } from 'date-fns';
 import { Subject } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -31,15 +31,19 @@ const colors: any = {
   selector: 'app-calendar',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './calendar.component.html',
+  styleUrls: ['./calendar.component.scss'],
   providers: [
     {
       provide: CalendarEventTitleFormatter,
       useClass: CustomEventTitleFormatter,
     },
-  ]
+  ],
+  encapsulation: ViewEncapsulation.None,
 })
 
-export class CalendarComponent implements OnInit {
+export class CalendarComponent implements OnInit, OnDestroy {
+
+  private readonly darkThemeClass = 'dark-theme';
 
   @ViewChild('modalContentEdit', { static: true }) modalContentEdit: TemplateRef<any>;
   @ViewChild('modalContentAdd', { static: true }) modalContentAdd: TemplateRef<any>;
@@ -95,8 +99,13 @@ export class CalendarComponent implements OnInit {
                 }
 
   ngOnInit(): void {
-   this.getEvents();
+    this.document.body.classList.add(this.darkThemeClass);
+    this.getEvents();
     }
+
+  ngOnDestroy(): void {
+    this.document.body.classList.remove(this.darkThemeClass);
+  }
 
   get titleNotValidAddForm() {
     return this.addForm.get('title').invalid && this.addForm.get('title').touched;
