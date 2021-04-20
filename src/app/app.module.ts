@@ -33,6 +33,7 @@ import { MoviesGridComponent } from './components/movies-grid/movies-grid.compon
 import { PosterPipe } from './pipes/poster.pipe';
 import { MovieComponent } from './components/movie/movie.component';
 import { CastSlideshowComponent } from './components/cast-slideshow/cast-slideshow.component';
+import { OscaloComponent } from './components/oscalo/oscalo.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { CastSlideshowComponent } from './components/cast-slideshow/cast-slidesh
     ListsComponent,
     ListComponent,
     SearchComponent,
+    OscaloComponent,
     ListCardComponent,
     CalendarComponent,
     SlideshowComponent,

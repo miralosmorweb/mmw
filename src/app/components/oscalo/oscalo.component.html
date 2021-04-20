@@ -1,0 +1,53 @@
+<head>
+    <style>
+        .img-container {
+            text-align: center;
+        }        
+        .jumbotron {
+            background-color: rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<br>
+<div *ngIf="notClicked">
+    <div class="text-center">
+        <img src="./assets/img/oscalo.jpg" alt="oscalo" loading="lazy">
+    </div>
+    <br>
+    <div class="jumbotron jumbotron-fluid animated fadeIn fast">
+        <div class="container">
+            <h1 class="display-4 text-center">OSCALOS MÍRALOS MORIR 2021</h1>
+            <h2 class="text-center">BASES Y CONDICIONES</h2>
+            <p>Se vienen los Oscars y este antro del amor y la manija no va a dejar pasar de largo la oportunidad de hacer una timba con eso. 
+                No se hagan ilusiones: esto es por el honor (al menos por ahora). He aquí con ustedes la lista de Nominados a los premios este año 
+                y las condiciones para participar: 
+            </p>
+    
+            <ul>
+                <li>
+                    Ser miembre de este grupo MMVip.
+                </li>
+                <li>
+                    Identificarse en el formulario SOLO con el nombre de usuario utilizado en este grupo.
+                </li>
+                <li>
+                    Completar el formulario una única vez. En caso de encontrar dos formularios del mismo usuario, se considerará solo el primero ingresado.
+                </li>
+                <li>
+                    El formulario se cierra a las 18 hs del domingo 26/4, tenemos tiempo para meditar con la almohada o la botella hasta ese momento.
+                </li>
+                <li>
+                    <b>
+                        IMPORTANTE no compartir el formulario fuera de este espacio, registramos todas sus IPs y les rompemos todo!
+                    </b>
+                </li>
+            </ul>
+            <h3>Esperamos que disfruten de la carnicería...digo, de la competencia. <i>There will be blood.</i></h3>
+            <button (click)="clickedLink()" class="btn btn-primary float-right">QUIERO JUGAR!</button>
+        </div>
+    </div>
+</div>
+ 
+<div class="text-center" *ngIf="!notClicked">
+    <img src="./assets/img/gifDeAnton.gif" alt="gifDeAnton.gif">
+</div>
