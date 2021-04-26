@@ -11,13 +11,19 @@
 <br>
 <div *ngIf="notClicked">
     <div class="text-center">
-        <img src="./assets/img/oscalo.jpg" alt="oscalo" loading="lazy">
+        <img src="./assets/img/oscalo.jpg" style="width: 50%;" alt="oscalo" loading="lazy">
     </div>
     <br>
     <div class="jumbotron jumbotron-fluid animated fadeIn fast">
         <div class="container">
             <h1 class="display-4 text-center">OSCALOS MÍRALOS MORIR 2021</h1>
-            <h2 class="text-center">BASES Y CONDICIONES</h2>
+
+            <form class="form-inline my-2 my-lg-0 float-right">
+                <input class="form-control mr-sm-2" type="text" placeholder="Ingresa tu nombre" (keyup.enter)="searchName(searchText.value)" #searchText>
+                <button (click)="searchName(searchText.value)" class="btn btn-outline-primary my-2 my-sm-0" type="submit">Buscar</button>
+            </form>
+
+            <!-- <h2 class="text-center">BASES Y CONDICIONES</h2>
             <p>Se vienen los Oscars y este antro del amor y la manija no va a dejar pasar de largo la oportunidad de hacer una timba con eso. 
                 No se hagan ilusiones: esto es por el honor (al menos por ahora). He aquí con ustedes la lista de Nominados a los premios este año 
                 y las condiciones para participar: 
@@ -43,11 +49,39 @@
                 </li>
             </ul>
             <h3>Esperamos que disfruten de la carnicería...digo, de la competencia. <i>There will be blood.</i></h3>
-            <button (click)="clickedLink()" class="btn btn-primary float-right">QUIERO JUGAR!</button>
+            <button (click)="clickedLink()" class="btn btn-primary float-right">QUIERO JUGAR!</button> -->
         </div>
     </div>
 </div>
+
+<div class="text-center" *ngIf="!notClicked && loading">
+    <div class="spinner-border text-primary ">
+    </div>
+    <h3>Estamos procesando la información, aguarde un momento por favor.</h3>
+    <p class="text-right"><small style="color: lightgray;">Si, tenemos unos enanos con ábacos trabajando non-stop</small></p>
+</div>
  
-<div class="text-center" *ngIf="!notClicked">
+<div class="text-center" *ngIf="!notClicked && !loading && result === 'notFound'">
+    <h3>Sabés escribir? Así no se puede viejo...</h3> 
+    <h3>O no participaste o no pusiste tu nombre tal como en la planilla.</h3> 
+    <button (click)="refresh()" class="btn btn-primary float-right">REINTENTAR</button>
+</div>
+
+<div class="text-center" *ngIf="!notClicked && !loading && result === 'loser'">
+    <iframe src="https://giphy.com/embed/dkuZHIQsslFfy" width="480" height="384" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
+
+</div>
+
+<div class="text-center" *ngIf="!showGif && showMessageToGif"> 
+    <h3>Te pensaste que no lo iba a poner??</h3>
+</div>
+
+<div class="text-center" *ngIf="showGif && !showMessageToGif"> 
     <img src="./assets/img/gifDeAnton.gif" alt="gifDeAnton.gif">
+</div>
+
+<div class="text-center" *ngIf="!notClicked && !loading && result === 'winner'">
+    <img src="./assets/img/senorasBailando.gif" alt="senorasBailando.gif">
+    <h3>Felicitaciones Fran!!</h3>
+    <h3>Sale clande MM con picadita para degustar ese quesito...</h3>
 </div>

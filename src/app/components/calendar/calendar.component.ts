@@ -162,12 +162,6 @@ export class CalendarComponent implements OnInit, OnDestroy {
         Swal.fire({
           title: event.title,
           html: '<b>' + event.citeClass + '</b>' + '<br>' + date + '<br><br>' + event.description,
-          backdrop: `
-            rgba(0,0,123,0.4)
-            url("./assets/img/wengweng.gif")
-            right top
-            no-repeat
-          `,
           showDenyButton: true,
           showCancelButton: true,
           confirmButtonText: `Editar`,
