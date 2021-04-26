@@ -34,6 +34,7 @@ import { PosterPipe } from './pipes/poster.pipe';
 import { MovieComponent } from './components/movie/movie.component';
 import { CastSlideshowComponent } from './components/cast-slideshow/cast-slideshow.component';
 import { OscaloComponent } from './components/oscalo/oscalo.component';
+import { PadletComponent } from './components/padlet/padlet.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,8 @@ import { OscaloComponent } from './components/oscalo/oscalo.component';
     MoviesGridComponent,
     PosterPipe,
     MovieComponent,
-    CastSlideshowComponent
+    CastSlideshowComponent,
+    PadletComponent,
   ],
   imports: [
     BrowserModule,

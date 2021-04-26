@@ -9,6 +9,7 @@ import { OscaloComponent } from './components/oscalo/oscalo.component';
 import { SearchComponent } from './components/search/search.component';
 import { CalendarComponent } from './components/calendar/calendar.component';
 import { MovieComponent } from './components/movie/movie.component';
+import { PadletComponent } from './components/padlet/padlet.component';
 
 
 const ROUTES: Routes = [
@@ -20,6 +21,7 @@ const ROUTES: Routes = [
     { path: 'search/:word', component: SearchComponent },
     { path: 'calendar', component: CalendarComponent },
     { path: 'oscalo', component: OscaloComponent },
+    { path: 'padlet', component: PadletComponent },
     { path: '**', pathMatch: 'full', redirectTo: 'home' }
     // { path: '**', component: PageNotFoundComponent, redirectTo: 'home' },
 ];
