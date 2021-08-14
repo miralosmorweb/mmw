@@ -2,13 +2,14 @@ import { Component, ChangeDetectionStrategy, ViewChild, TemplateRef, Inject, OnI
 import { add, addYears, isSameDay, isSameMonth } from 'date-fns';
 import { Subject } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { CalendarEvent, CalendarEventAction, CalendarView, CalendarEventTitleFormatter} from 'angular-calendar';
+import { CalendarView, CalendarEventTitleFormatter} from 'angular-calendar';
 import { CustomEventTitleFormatter } from './custom-event-title-formatter.provider';
 import { DatePipe, DOCUMENT, registerLocaleData } from '@angular/common';
 import localeEsAr from '@angular/common/locales/es-AR';
 import { FormGroup, FormBuilder, NgForm, Validators } from '@angular/forms';
 import { EventsService } from '../../services/events.service';
 import Swal from 'sweetalert2';
+import { CalendarEvent, CalendarEventAction} from '../../shared/interfaces';
 
 registerLocaleData(localeEsAr, 'es-Ar');
 

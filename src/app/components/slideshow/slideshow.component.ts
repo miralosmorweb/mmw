@@ -1,12 +1,14 @@
 import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
-import Swiper from 'swiper';
+import SwiperCore, { EffectFade, Swiper } from 'swiper/core';
 import { ListModel } from '../../services/lists.service';
 import { Router } from '@angular/router';
+
+SwiperCore.use([EffectFade]);
 
 @Component({
   selector: 'app-slideshow',
   templateUrl: './slideshow.component.html',
-  styleUrls: ['./slideshow.component.css']
+  styleUrls: ['./slideshow.component.scss']
 })
 export class SlideshowComponent implements OnInit, AfterViewInit {
 
@@ -19,20 +21,20 @@ export class SlideshowComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     this.mySwiper = new Swiper('.swiper-container', {
     loop: true,
+    speed: 5000
     });
   }
 
-  onSlideNext(){
+  onSlideNext() {
     this.mySwiper.slideNext();
   }
 
-  onSlidePrev(){
+  onSlidePrev() {
     this.mySwiper.slidePrev();
   }
 
-  showList(listName: string){
+  showList(listName: string) {
     this.router.navigate(['/list', listName]);
-    // this.selectedList.emit(this.index);
   }
 
   ngOnInit(): void {

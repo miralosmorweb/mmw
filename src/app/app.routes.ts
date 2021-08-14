@@ -26,10 +26,10 @@ const ROUTES: Routes = [
     // { path: '**', component: PageNotFoundComponent, redirectTo: 'home' },
 ];
 
-export const APP_ROUTING = RouterModule.forRoot(ROUTES, { useHash: true });
+export const APP_ROUTING = RouterModule.forRoot(ROUTES, { useHash: true, relativeLinkResolution: 'legacy' });
 
 @NgModule({
-    imports: [RouterModule.forRoot(ROUTES)],
+    imports: [RouterModule.forRoot(ROUTES, { relativeLinkResolution: 'legacy' })],
     exports: [RouterModule]
 })
 

@@ -1,35 +1,29 @@
-<head>
-    <style>
-        .img-container {
-            text-align: center;
-        }
-        
-        video {
-            max-width: 100%;
-            height: auto;
-        }
-        
-        .jumbotron {
-            background-color: rgba(0, 0, 0, 0.2);
-        }
-    </style>
-</head>
-<br>
-<br>
-<div class="jumbotron jumbotron-fluid animated fadeIn fast">
-    <div class="container">
-        <h1 class="display-4 text-center">Bienvenidos a Miralos MorWeb</h1>
-        <h2 class=" text-center">Una página hecha con mucho amor y manija... Y listas...</h2>
-
-    </div>
-    <br><br>
-    <div *ngIf="lists.length > 0">
-        <app-slideshow [lists]="lists"></app-slideshow>
-    </div>
+<ngx-spinner
+  bdColor="rgba(78,78,80,0.8)"
+  size="large"
+  color="#C3073F"
+  type="ball-clip-rotate-pulse"
+>
+</ngx-spinner>
+<br><br>
+<div *ngIf="lists.length > 0">
+    <app-slideshow [lists]="lists"></app-slideshow>
 </div>
 
-<footer class="page-footer text-right">
-    <div class="container">
-        <img width="50" height="50" src="./assets/img/tegobi.jpg" (click)="this.playAudio()" />
+<br><br>
+
+<div class="container" style="background-color: rgba(78, 78, 80, 0.247);">
+    <div class="row">
+      <div class="col-2">
+        <i class="fa fa-calendar fa-5x" style="color: #6F2232; padding-left: 3rem; vertical-align: middle; padding-top: 2rem; padding-bottom: 2rem;" aria-hidden="true"></i>
     </div>
-</footer>
+      <div class="col-8">
+          <div class="row">
+            <h2>Próximos eventos</h2>
+          </div>
+          <div class="row" *ngFor="let event of events">
+            <p><i class="fa fa-circle fa-1x"></i>  {{ event.title }}</p>
+          </div>          
+      </div>
+    </div>
+</div>

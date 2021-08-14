@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map, delay } from 'rxjs/operators';
-import { CalendarEvent } from 'angular-calendar';
+import { CalendarEvent } from '../shared/interfaces';
 import { toDate, parseISO, isToday, startOfDay } from 'date-fns';
 
 const colors: any = {

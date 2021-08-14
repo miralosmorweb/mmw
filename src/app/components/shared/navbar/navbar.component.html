@@ -1,47 +1,40 @@
-<nav class="navbar navbar-expand-lg">
-    <!-- navbar-dark bg-dark -->
+<nav class="navbar navbar-expand-lg navbar-dark mmw_navbar bg-dark mmw-navbar-light" id="mmw-navbar">
+    <div class="container">
     <a class="navbar-brand" href="#">
-        <img src="./assets/img/logo-MM.png" width="150" height="50" alt="" loading="lazy">
-    </a> <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
+        <img class="brand-img" src="./assets/img/logo-MM.png" alt="" loading="lazy">
+    </a> 
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mmw-nav" aria-controls="mmw-nav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="fa fa-bars"></span> Menu
     </button>
-
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
+    <form class="searchform order-lg-last">
+        <div class="form-group d-flex">
+            <input class="form-control pl-3" placeholder="Buscar" type="text" placeholder="Buscar Lista" (keyup.enter)="searchList(searchText.value)" #searchText>
+            <button placeholder="" (click)="searchList(searchText.value)" class="form-control search" type="submit"><span class="fa fa-search"></span></button>
+        </div>
+    </form>
+    <div class="collapse navbar-collapse" id="mmw-nav">
+        <ul  class="navbar-nav mr-auto">
             <li class="nav-item" routerLinkActive="active">
-                <a class="nav-link" [routerLink]="['home']">Home</a>
+                <a class="nav-link active" [routerLink]="['home']">Home</a>
             </li>
             <li class="nav-item" routerLinkActive="active">
-                <a class=" nav-link " [routerLink]="['lists'] ">Listas</a>
+                <a class="nav-link" [routerLink]="['lists']">Listas</a>
             </li>
             <li class="nav-item" routerLinkActive="active">
-                <a class=" nav-link " [routerLink]="['calendar'] ">Calendario</a>
+                <a class="nav-link" [routerLink]="['calendar']">Calendario</a>
             </li>
             <!-- <li class="nav-item" routerLinkActive="active">
                 <a class=" nav-link " [routerLink]="['oscalo'] ">The Oscalos</a>
             </li> -->
             <li class="nav-item" routerLinkActive="active">
-                <a class=" nav-link " [routerLink]="['padlet'] ">Padlet</a>
+                <a class="nav-link" [routerLink]="['padlet']">Padlet</a>
             </li>
-            <li class="nav-item " routerLinkActive="active">
+            <li class="nav-item" routerLinkActive="active">
                 <a class="nav-link" [routerLink]="['about']">About</a>
             </li>
-            <!-- <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Dropdown
-          </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="#">Action</a>
-                    <a class="dropdown-item" href="#">Another action</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">Something else here</a>
-                </div>
-            </li> -->
 
         </ul>
-        <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="text" placeholder="Buscar Lista" (keyup.enter)="searchList(searchText.value)" #searchText>
-            <button (click)="searchList(searchText.value)" class="btn btn-outline-primary my-2 my-sm-0" type="submit">Buscar</button>
-        </form>
+    </div>
+    
     </div>
 </nav>

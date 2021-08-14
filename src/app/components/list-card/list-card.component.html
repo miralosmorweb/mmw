@@ -1,4 +1,4 @@
-<div class="card animated fadeIn fast text-white bg-dark mb-3" style="max-width: 25rem;">
+<div class="card animated fadeIn fast bg-dark mb-3" style="max-width: 25rem;">
     <img [src]="list.img" class="card-img-top" [alt]=" list.name ">
     <div class="card-body">
         <h5 class="card-title">{{ list.name }}</h5>
@@ -7,8 +7,5 @@
         <button (click)="showList( list.name )" type="button" class="btn btn-outline-primary btn-block">
             Ver lista
         </button>
-        <!-- <a [routerLink]="['/list', index]" class="btn btn-outline-primary">
-            Ver más...
-        </a> -->
     </div>
 </div>

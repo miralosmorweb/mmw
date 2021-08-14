@@ -1,0 +1,29 @@
+$font-primary: 'Poppins', Arial, sans-serif;
+
+.swiper-container {
+    height: 520px;
+    width: 100%;
+}
+
+.swiper-button-prev,
+.swiper-button-next {
+    color: white;
+}
+
+.list-description {
+    background-color: rgba(78, 78, 80, 0.8);
+    bottom: 0;
+    padding: 10px 30px;
+    position: absolute;
+    width: 100%;
+
+}
+
+h1, h2, h3, h4, h5,
+.h1, .h2, .h3, .h4, .h5, 
+.p {
+	line-height: 1.5;
+	font-weight: 700;
+	font-family: $font-primary;
+	color: white;
+}

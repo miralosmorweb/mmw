@@ -9,6 +9,8 @@ import { FlatpickrModule } from 'angularx-flatpickr';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { SwiperModule } from 'swiper/angular';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 //Rutas
 import { APP_ROUTING, FeatureRoutingModule } from './app.routes';
@@ -35,6 +37,7 @@ import { MovieComponent } from './components/movie/movie.component';
 import { CastSlideshowComponent } from './components/cast-slideshow/cast-slideshow.component';
 import { OscaloComponent } from './components/oscalo/oscalo.component';
 import { PadletComponent } from './components/padlet/padlet.component';
+import { FooterComponent } from './components/shared/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -54,6 +57,7 @@ import { PadletComponent } from './components/padlet/padlet.component';
     MovieComponent,
     CastSlideshowComponent,
     PadletComponent,
+    FooterComponent,
   ],
   imports: [
     BrowserModule,
@@ -66,7 +70,9 @@ import { PadletComponent } from './components/padlet/padlet.component';
     FlatpickrModule.forRoot(),
     BrowserAnimationsModule,
     NgbModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    SwiperModule,
+    NgxSpinnerModule
   ],
   exports: [
     CalendarComponent

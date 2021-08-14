@@ -3,10 +3,12 @@ import { ListsService, ListModel } from '../../services/lists.service';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-lists',
-  templateUrl: './lists.component.html'
+  templateUrl: './lists.component.html',
+  styleUrls: ['/lists.component.scss']
 })
 export class ListsComponent implements OnInit {
 
@@ -38,12 +40,17 @@ export class ListsComponent implements OnInit {
   constructor(private _listsService: ListsService,
               private router: Router,
               private modal: NgbModal,
-              private formBuilder: FormBuilder
+              private formBuilder: FormBuilder,
+              private spinner: NgxSpinnerService
               ) {}
 
   ngOnInit(): void {
+    this.spinner.show();
     this._listsService.getLists()
-      .subscribe( (resp) => this.lists = resp);
+      .subscribe( (resp) => {
+        this.lists = resp;
+        this.spinner.hide(); 
+      });
   }
 
   showList(idx:number){

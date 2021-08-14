@@ -6,12 +6,10 @@
     </style>
 </head>
 
-<div class="text-center">
-
-    <div *ngIf="isLoading" class="spinner-border text-primary " role="status">
-        <span class="sr-only">Loading...</span>
-    </div>
-</div>
+<ngx-spinner
+  bdColor="rgba(78,78,80,0.8)"
+    template="<img src='./assets/img/wengweng.gif' />">
+</ngx-spinner>
 
 <div *ngIf="!isLoading">
 
