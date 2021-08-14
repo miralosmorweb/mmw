@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
 import SwiperCore, { EffectFade, Swiper } from 'swiper/core';
-import { ListModel } from '../../services/lists.service';
 import { Router } from '@angular/router';
+import { ListModel } from 'src/app/shared/interfaces';
 
 SwiperCore.use([EffectFade]);
 

@@ -1,9 +1,10 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { ListsService, ListModel } from '../../services/lists.service';
+import { ListsService } from '../../services/lists.service';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { ListModel } from 'src/app/shared/interfaces';
 
 @Component({
   selector: 'app-lists',

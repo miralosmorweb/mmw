@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ListsService, ListModel } from '../../services/lists.service';
+import { ListModel } from 'src/app/shared/interfaces';
+import { ListsService } from '../../services/lists.service';
 
 
 @Component({

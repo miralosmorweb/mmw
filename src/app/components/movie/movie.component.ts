@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ListsService, MovieDetail, Cast } from '../../services/lists.service';
+import { ListsService } from '../../services/lists.service';
 import { Location } from '@angular/common' ;
+import { Cast, MovieDetail } from 'src/app/shared/interfaces';
 
 
 @Component({

@@ -1,11 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ListModel, Movies, ListsService, MovieResult } from '../../services/lists.service';
+import { ListsService } from '../../services/lists.service';
+import { ListModel, Movies, MovieResult} from '../../shared/interfaces';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-movies-grid',
   templateUrl: './movies-grid.component.html',
-  styleUrls: ['./movies-grid.component.css']
+  styleUrls: ['./movies-grid.component.scss']
 })
 export class MoviesGridComponent implements OnInit {
 

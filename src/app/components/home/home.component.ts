@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ListsService, ListModel } from '../../services/lists.service';
+import { ListsService } from '../../services/lists.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { ListModel } from 'src/app/shared/interfaces';
 
 @Component({
   selector: 'app-home',

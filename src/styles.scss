@@ -158,3 +158,58 @@ hr {
 .fa-imdb {
     color: rgb(255, 238, 0);
 }
+
+
+// picaro
+body {
+    background-color: #1d232a !important;
+}
+
+.navbar {
+    background: #14181c !important;
+}
+
+.card-columns .card {
+    border-radius: 10px;
+    border: 0px;
+	box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.75);
+}
+
+card-img-top {
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.btn-primary, .btn-outline-primary  {
+	background-color: #883140 !important;
+	border: 0px !important;
+}
+
+.btn-primary:hover, .btn-outline-primary:hover  {
+	background-color: #641f2e !important;
+}
+
+.btn-outline-primary {
+    color: #fff !important;
+    font-weight: bold !important;
+    text-transform: uppercase !important;
+    margin-top: 30px !important;
+}
+
+h1 {
+    text-transform: uppercase !important;
+    font-weight: 300 !important;
+    color: #b9c4ce !important;
+    padding-top: 20px !important;
+    font-size: 2rem !important;
+}
+
+.nav-item > a {
+    text-transform: uppercase !important;
+    font-weight: 500 !important;
+    padding: 0 30px !important;
+}
+
+.nav-link:hover, .nav-link:active {
+    color: #c75e70 !important;
+}

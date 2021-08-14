@@ -5,3 +5,4 @@ Pendientes:
     - Chequear idioma de títulos de películas
     - Chequear idioma del calendario
     - Cambiar spinner en todo el sitio a ngx-spinner
+    - Pasar Api Keys a archivo aparte

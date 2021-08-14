@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, AfterViewInit } from '@angular/core';
-import { Cast } from '../../services/lists.service';
+import { Cast } from 'src/app/shared/interfaces';
 import Swiper from 'swiper';
 
 @Component({

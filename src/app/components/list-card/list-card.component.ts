@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
-import { ListModel } from '../../services/lists.service';
+import { ListModel } from 'src/app/shared/interfaces';
 
 @Component({
   selector: 'app-list-card',

@@ -1,9 +1,10 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DOCUMENT } from '@angular/common';
-import { ListsService, ListModel, Movies, MovieResult } from '../../services/lists.service';
+import { ListsService } from '../../services/lists.service';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { ListModel, Movies } from 'src/app/shared/interfaces';
 
 @Component({
   selector: 'app-list',
