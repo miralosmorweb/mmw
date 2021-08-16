@@ -36,6 +36,7 @@
     "sweetalert2": "^10.3.2",
     "swiper": "^6.8.1",
     "tslib": "^2.0.0",
+    "webdriver-js-extender": "^2.2.0",
     "zone.js": "~0.11.4"
   },
   "devDependencies": {
@@ -45,7 +46,7 @@
     "@types/jasmine": "~3.5.0",
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "^12.11.1",
-    "angular-cli-ghpages": "^0.6.2",
+    "angular-cli-ghpages": "^1.0.0-rc.2",
     "codelyzer": "^6.0.0",
     "jasmine-core": "~3.5.0",
     "jasmine-spec-reporter": "~5.0.0",
