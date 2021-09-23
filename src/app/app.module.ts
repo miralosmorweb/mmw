@@ -5,6 +5,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FlatpickrModule } from 'angularx-flatpickr';
+import flatpickr from 'flatpickr';
+import { Spanish } from 'flatpickr/dist/l10n/es'
 
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
@@ -18,7 +20,7 @@ import { APP_ROUTING, FeatureRoutingModule } from './app.routes';
 //Servicios
 import { ListsService } from './services/lists.service';
 import { EventsService } from './services/events.service';
-
+import { SearchService } from './services/search.service';
 
 //Componentes
 import { AppComponent } from './app.component';
@@ -38,6 +40,7 @@ import { CastSlideshowComponent } from './components/cast-slideshow/cast-slidesh
 import { OscaloComponent } from './components/oscalo/oscalo.component';
 import { PadletComponent } from './components/padlet/padlet.component';
 import { FooterComponent } from './components/shared/footer/footer.component';
+import { ScrollTopComponent } from './components/shared/scroll-top/scroll-top.component';
 
 @NgModule({
   declarations: [
@@ -58,6 +61,7 @@ import { FooterComponent } from './components/shared/footer/footer.component';
     CastSlideshowComponent,
     PadletComponent,
     FooterComponent,
+    ScrollTopComponent,
   ],
   imports: [
     BrowserModule,
@@ -83,3 +87,9 @@ import { FooterComponent } from './components/shared/footer/footer.component';
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
+export function flatpickrFactory() {
+  flatpickr.localize(Spanish);
+  flatpickr.defaultConfig.time_24hr = true;
+  return flatpickr;
+}

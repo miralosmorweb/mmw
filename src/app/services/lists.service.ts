@@ -12,10 +12,18 @@ export class ListsService {
 
     constructor(private http: HttpClient){}
     private url = 'https://miralosmorserver.pythonanywhere.com/api/';
+    private apiKey = '19d19425f792c26307b9a39737f86892';
 
     // Recupero las listas solo de telegram
     getLists(): Observable<ListModel[]> {
       return this.http.get<ListModel[]>(`${ this.url }movielists-morvip`)
+        .pipe(
+          map( this.createArray )
+        );
+    }
+
+    getMMLists(): Observable<ListModel[]> {
+      return this.http.get<ListModel[]>(`${ this.url }movielists-mm`)
         .pipe(
           map( this.createArray )
         );
@@ -42,15 +50,15 @@ export class ListsService {
 
     // Get a tmdb para traer cada película por el id de imdb
     getMovie(imbdID: string): Observable<Movie> {
-      return this.http.get<Movie>(`https://api.themoviedb.org/3/find/${imbdID}?api_key=19d19425f792c26307b9a39737f86892&language=es-MX&external_source=imdb_id`);
+      return this.http.get<Movie>(`https://api.themoviedb.org/3/find/${imbdID}?api_key=${this.apiKey}&language=es-MX&external_source=imdb_id`);
     }
 
     getMovieDetail(id: string): Observable<MovieDetail>{
-      return this.http.get<MovieDetail>(`https://api.themoviedb.org/3/movie/${id}?api_key=19d19425f792c26307b9a39737f86892&language=es-MX&external_source=imdb_id`);
+      return this.http.get<MovieDetail>(`https://api.themoviedb.org/3/movie/${id}?api_key=${this.apiKey}&language=es-MX&external_source=imdb_id`);
     }
 
     getCast(id:string) {
-      return this.http.get<MovieCast>(`https://api.themoviedb.org/3/movie/${id}/credits?api_key=19d19425f792c26307b9a39737f86892&language=es-MX&external_source=imdb_id`)
+      return this.http.get<MovieCast>(`https://api.themoviedb.org/3/movie/${id}/credits?api_key=${this.apiKey}&language=es-MX&external_source=imdb_id`)
         .pipe( 
           map( resp => resp.cast ));
     }

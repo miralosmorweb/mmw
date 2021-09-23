@@ -16,6 +16,7 @@ export class ListsComponent implements OnInit {
   @ViewChild('modalAddList', { static: true }) modalContentAdd: TemplateRef<any>;
 
   newListForm: FormGroup;
+  mode: 'telegram' | 'mm' = 'telegram';
 
   lists: ListModel[] = [];
 
@@ -46,12 +47,25 @@ export class ListsComponent implements OnInit {
               ) {}
 
   ngOnInit(): void {
+    this.setMode(this.mode);
+  }
+
+  setMode(mode: 'telegram' | 'mm') {
     this.spinner.show();
-    this._listsService.getLists()
-      .subscribe( (resp) => {
-        this.lists = resp;
-        this.spinner.hide(); 
-      });
+    this.mode = mode;
+    if (mode === 'telegram') {
+      this._listsService.getLists()
+        .subscribe( (resp) => {
+          this.lists = resp;
+          this.spinner.hide(); 
+        });
+    } else if ('mm') {
+      this._listsService.getMMLists()
+        .subscribe( (resp) => {
+          this.lists = resp;
+          this.spinner.hide(); 
+        });
+      }
   }
 
   showList(idx:number){

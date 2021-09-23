@@ -21,7 +21,7 @@
             </a>
         </div>
     </div>
-    <small>Solicitada por: {{list.by}}</small>
+    <small style="color: #bd4c5f;">Solicitada por: {{list.by}}</small>
 
     <hr>
 
@@ -52,29 +52,8 @@
             <app-movies-grid [movies]="movies"></app-movies-grid>
         </div>
 
-        <!-- <table class="table table-dark mt-2">
-        <thead>
-            <tr>
-                <th scope="col">Película</th>
-                <th scope="col">Año</th>
-                <th scope="col">Link</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let m of list.movies">
-                <td> {{ m.name }} </td>
-                <td> {{ m.year }} </td>
-                <td>
-                    <a href="{{ m.link }}">
-                        <img alt="letterboxd.jpg" src="./assets/img/letterboxd.jpg" width="100" height="auto">
-                    </a>
-                </td>
-            </tr>
-        </tbody>
-
-
-    </table> -->
-
     </div>
 
 </div>
+
+<app-scroll-top></app-scroll-top>

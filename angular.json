@@ -26,7 +26,6 @@
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "node_modules/angular-calendar/scss/angular-calendar.scss",
               "node_modules/swiper/swiper-bundle.min.css",
-              "src/assets/css/dark.css",
               "src/styles.scss"
             ],
             "scripts": [
@@ -135,11 +134,7 @@
           }
         },
         "deploy": {
-          "builder": "angular-cli-ghpages:deploy",
-          "options": {
-            "baseHref": "https://miralosmorweb.github.io/mmw/",
-            "production": true
-          }
+          "builder": "angular-cli-ghpages:deploy"
         }
       }
     }

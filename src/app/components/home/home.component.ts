@@ -27,7 +27,7 @@ export class HomeComponent implements OnInit {
     this.spinner.show();
     this._listsService.getLists()
       .subscribe( (resp) => {
-        this.lists = resp;
+        this.lists = resp.sort(() => Math.random() - 0.5);
         this.spinner.hide();
       });
   }

@@ -5,7 +5,7 @@ import Swiper from 'swiper';
 @Component({
   selector: 'app-cast-slideshow',
   templateUrl: './cast-slideshow.component.html',
-  styleUrls: ['./cast-slideshow.component.css']
+  styleUrls: ['./cast-slideshow.component.scss']
 })
 export class CastSlideshowComponent implements OnInit, AfterViewInit {
 

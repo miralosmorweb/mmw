@@ -10,6 +10,8 @@ import { FormGroup, FormBuilder, NgForm, Validators } from '@angular/forms';
 import { EventsService } from '../../services/events.service';
 import Swal from 'sweetalert2';
 import { CalendarEvent, CalendarEventAction} from '../../shared/interfaces';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { flatpickrFactory } from 'src/app/app.module';
 
 registerLocaleData(localeEsAr, 'es-Ar');
 
@@ -68,6 +70,8 @@ export class CalendarComponent implements OnInit, OnDestroy {
 
   classFlag: string;
 
+  locale: string = 'es-Ar';
+
   classes = ['Discord', 'Otros', 'Lo Cumpleañito'];
 
   pipe = new DatePipe('es-Ar');
@@ -96,10 +100,13 @@ export class CalendarComponent implements OnInit, OnDestroy {
   constructor( private _eventsService: EventsService,
                private modal: NgbModal,
                @Inject(DOCUMENT) private document,
-               private formBuilder: FormBuilder ) {
+               private formBuilder: FormBuilder,
+               private spinner: NgxSpinnerService
+               ) {
                 }
 
   ngOnInit(): void {
+    flatpickrFactory();
     this.document.body.classList.add(this.darkThemeClass);
     this.getEvents();
     }
@@ -131,6 +138,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
   }
 
   getEvents(){
+    this.spinner.show();
     this._eventsService.getEvents()
       .subscribe( resp => {
         this.events = resp;
@@ -138,6 +146,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
           event.actions = this.actions;
         });
         this.refresh.next();
+        this.spinner.hide();
         });
   }
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
@@ -219,6 +228,9 @@ export class CalendarComponent implements OnInit, OnDestroy {
         this.events[eventIndex].description !== this.editForm.value.description ||
         this.events[eventIndex].citeClass !== this.editForm.value.citeClass
         ) {
+          const date: Date = new Date(this.editForm.value.start);
+          date.setMilliseconds(0);
+          this.editForm.value.start = date.toISOString();
           this.editForm.value.end = this.editForm.value.start;
           const eventForEdit: CalendarEvent = this.editForm.value;
           this._eventsService.editEvent(this.editForm.value.id, this.editForm.value)
@@ -251,7 +263,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
   createAddForm(){
     this.addForm = this.formBuilder.group({
       title: ['', [ Validators.required, Validators.minLength(5) ] ],
-      start: [ this.currentDay, Validators.required ],
+      start: [ new Date(), Validators.required ],
       description: [''],
       citeClass: ['', Validators.required ]
     });
@@ -271,8 +283,10 @@ export class CalendarComponent implements OnInit, OnDestroy {
     if (this.addForm.value.citeClass === 'Lo Cumpleañito') {
       const yearForCompare = new Date('2025');
       for (let startDate = this.addForm.value.start; startDate < yearForCompare ; startDate = addYears(startDate, 1) ) {
-        this.addForm.value.start = startDate;
-        this.addForm.value.end = startDate;
+        const date: Date = new Date(startDate);
+        date.setMilliseconds(0);
+        this.addForm.value.start = date.toISOString();
+        this.addForm.value.end = date.toISOString();
         const eventForAdd: CalendarEvent = this.addForm.value;
         this._eventsService.postEvent( this.addForm.value )
           .subscribe( resp => {
@@ -294,12 +308,15 @@ export class CalendarComponent implements OnInit, OnDestroy {
         this.events.push(eventForAdd);
       }
     } else {
+      const date: Date = new Date(this.addForm.value.start);
+      date.setMilliseconds(0);
+      this.addForm.value.start = date.toISOString();
       this.addForm.value.end = this.addForm.value.start;
       const eventForAdd: CalendarEvent = this.addForm.value;
       this._eventsService.postEvent( this.addForm.value )
         .subscribe( resp => {
           eventForAdd.id = resp.id;
-        }) ;
+        });
       this.modal.dismissAll();
       eventForAdd.actions = this.actions;
       switch (eventForAdd.citeClass){

@@ -17,6 +17,7 @@ export class ListComponent implements OnInit{
   movies: Movies[];
   imdbID: number;
   isLoading = true;
+  mybutton = document.getElementById("btn-back-to-top");
 
   moviesForm: FormGroup;
 

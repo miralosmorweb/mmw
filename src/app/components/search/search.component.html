@@ -1,27 +1,26 @@
-<h1><small>Buscando: {{ word }}</small></h1>
-<hr>
+<ngx-spinner
+    bdColor="rgba(78,78,80,0.8)"
+    template="<img src='./assets/img/popcorn.gif' alt='popcorn.gif'>">
+</ngx-spinner>
 
 <div *ngIf="isFaretta && !isLoading && searchedLists.length === 0 && !unaccepted">
     <div class="img-container mt-3 text-center">
-        <img src="./assets/img/escalera.gif" alt="popcorn.gif">
         <br>
         <img src="./assets/img/black.png" alt="black.png">
     </div>
 </div>
 
 <div *ngIf="!isLoading && unaccepted">
+    <br><br>
     <div class="img-container mt-3 text-center">
         <video width="854 " height="480 " autoplay>
             <source src="./assets/video/homealone.mp4 " type="video/mp4 ">
         </video>
     </div>
 </div>
-
-<div *ngIf="isLoading">
-    <img src="./assets/img/popcorn.gif" alt="popcorn.gif">
-</div>
-
+<br><br>
 <div *ngIf="!isLoading && searchedLists.length > 0">
+    <h3>Resultados</h3>
     <div class="card-columns animated fadeIn faster">
 
         <app-list-card [list]="list" [index]="i" *ngFor="let list of searchedLists; let i = index"></app-list-card>
@@ -30,7 +29,5 @@
 </div>
 <div class="alert alert-warning text-center mt-3 animated fadeIn faster" *ngIf="!isFaretta && !isLoading && searchedLists.length === 0 && !unaccepted">
     <h4 class="alert-heading">No existen resultados con el término: {{word}}</h4>
-    <p>
-        <i class="fa fa-exclamation fa-2x"></i>
-    </p>
+
 </div>

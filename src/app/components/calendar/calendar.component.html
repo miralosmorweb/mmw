@@ -1,3 +1,11 @@
+<ngx-spinner
+  bdColor="rgba(78,78,80,0.8)"
+  size="large"
+  color="#C3073F"
+  type="ball-clip-rotate-pulse"
+>
+</ngx-spinner>
+
 <div class="row text-center mt-5">
     <div class="col-md-4">
         <div class="btn-group">
@@ -13,7 +21,7 @@
         </div>
     </div>
     <div class="col-md-4">
-        <h3>{{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</h3>
+        <h3>{{ viewDate | calendarDate:(view + 'ViewTitle'):locale }}</h3>
     </div>
     <div class="col-md-4">
         <button class="btn btn-primary float-right" (click)="addEvent()">
@@ -26,7 +34,14 @@
 <br />
 
 <div class="animated fadeIn">
-    <mwl-calendar-month-view [viewDate]="viewDate" [events]="events" [refresh]="refresh" [cellTemplate]="customCellTemplate" [activeDayIsOpen]="activeDayIsOpen" (dayClicked)="dayClicked($event.day)" (eventClicked)="handleEvent('Clicked', $event.event)">
+    <mwl-calendar-month-view [viewDate]="viewDate" 
+                             [events]="events" 
+                             [refresh]="refresh" 
+                             [cellTemplate]="customCellTemplate" 
+                             [activeDayIsOpen]="activeDayIsOpen"
+                             [locale]="locale"
+                             (dayClicked)="dayClicked($event.day)" 
+                             (eventClicked)="handleEvent('Clicked', $event.event)">
     </mwl-calendar-month-view>
 </div>
 
@@ -68,7 +83,16 @@
                 <div class="row">
                     <div class="form-group col">
                         <label>Inicio del Evento:</label>
-                        <input type="text" name="start" mwlFlatpickr class="form-control" [altInput]="true" [convertModelValue]="true" [enableTime]="true" dateFormat="Y-m-dTH:i" time24hs="true" altFormat="F j, Y H:i" formControlName="start" [class.is-invalid]="dateNotValidAddForm">
+                        <input type="text"
+                               name="start"
+                               mwlFlatpickr
+                               class="form-control"
+                               altInput="true"
+                               convertModelValue="true"
+                               enableTime="true"
+                               time24hr="true"
+                               formControlName="start"
+                               [class.is-invalid]="dateNotValidAddForm">
                         <small *ngIf="dateNotValidAddForm" class="text-danger">
                         Ingrese fecha y hora del evento 
                     </small>
@@ -95,7 +119,7 @@
         </div>
         <div class="modal-footer">
             <div class="form-group">
-                <button type="submit" class="btn btn-success" [disabled]="!addForm.valid" (ngModelChange)="refresh.next()">
+                <button type="submit" class="btn btn-primary" [disabled]="!addForm.valid" (ngModelChange)="refresh.next()">
                     Guardar
                 </button>
             </div>
@@ -158,7 +182,7 @@
         </div>
         <div class="modal-footer">
             <div class="form-group">
-                <button type="submit" class="btn btn-success" [disabled]="!editForm.valid" (ngModelChange)="refresh.next()">
+                <button type="submit" class="btn btn-primary" [disabled]="!editForm.valid" (ngModelChange)="refresh.next()">
                     Guardar
                 </button>
             </div>

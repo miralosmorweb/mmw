@@ -18,7 +18,7 @@ const ROUTES: Routes = [
     { path: 'lists', component: ListsComponent },
     { path: 'list/:listName', component: ListComponent },
     { path: 'movie/:id', component: MovieComponent },
-    { path: 'search/:word', component: SearchComponent },
+    { path: 'search', component: SearchComponent },
     { path: 'calendar', component: CalendarComponent },
     { path: 'oscalo', component: OscaloComponent },
     { path: 'padlet', component: PadletComponent },

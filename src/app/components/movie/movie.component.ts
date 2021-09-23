@@ -3,11 +3,13 @@ import { ActivatedRoute } from '@angular/router';
 import { ListsService } from '../../services/lists.service';
 import { Location } from '@angular/common' ;
 import { Cast, MovieDetail } from 'src/app/shared/interfaces';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 
 @Component({
   selector: 'app-movie',
-  templateUrl: './movie.component.html'
+  templateUrl: './movie.component.html',
+  styleUrls: ['./movie.component.scss']
 })
 export class MovieComponent implements OnInit {
 
@@ -15,15 +17,19 @@ export class MovieComponent implements OnInit {
   cast: Cast[] = [];
   constructor( private activatedRoute: ActivatedRoute,
                private _listsService: ListsService,
-               private location: Location) { }
+               private location: Location,
+               private spinner: NgxSpinnerService) { }
 
-  ngOnInit(): void {
+  async ngOnInit() {
+    this.spinner.show();
     const id = this.activatedRoute.snapshot.params.id;
-    this._listsService.getMovieDetail( id ).subscribe( movie => {
+    await this._listsService.getMovieDetail( id ).subscribe( movie => {
       this.movie = movie;
     });
-    this._listsService.getCast( id ).subscribe( cast =>
-      this.cast = cast);
+    await this._listsService.getCast( id ).subscribe( cast => {
+      this.cast = cast;
+      this.spinner.hide();
+    });
   }
 
   goBack(){

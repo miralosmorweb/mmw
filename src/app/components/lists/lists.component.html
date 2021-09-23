@@ -5,10 +5,20 @@
   type="ball-clip-rotate-pulse"
 >
 </ngx-spinner>
-<h1 class="text-center mt-3">Listas de Telegram Manija</h1>
+<h1 *ngIf="mode === 'telegram'" class="text-center mt-3">Listas de Telegram Manija</h1>
+<h1 *ngIf="mode === 'mm'" class="text-center mt-3">Listas del careta de Calo</h1>
 <hr>
 
+
 <div class="row">
+    <div class="col">
+        <button *ngIf="mode === 'telegram'" class="btn btn-primary float-left" (click)="setMode('mm')">
+            Listas de Míralos Morir
+        </button>
+        <button *ngIf="mode === 'mm'" class="btn btn-primary float-left" (click)="setMode('telegram')">
+            Listas de Telegram
+        </button>
+    </div>
     <div class="col text-right">
         <button class="btn btn-primary float-right" (click)="newList()">
         Agregar Nueva Lista

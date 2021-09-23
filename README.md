@@ -1,8 +1,9 @@
 "# mmw" 
 
+Publicar en Github pages (https://efficientuser.com/2021/03/04/how-to-deploy-angular-app-on-github-pages-for-free/):
+    1- Instalar angular-cli-ghpages (ng add angular-cli-ghpages y npm i angular-cli-ghpages)
+    2- ng deploy --base-href=mmw
+
 Pendientes:
-    - Tipar los FormGroups y agregar las funciones de creación de listas y agregado de películas
-    - Chequear idioma de títulos de películas
-    - Chequear idioma del calendario
-    - Cambiar spinner en todo el sitio a ngx-spinner
-    - Pasar Api Keys a archivo aparte
+    - Agregar la función de agregado de películas
+    - Agregar onScroll a la lista de peliculas

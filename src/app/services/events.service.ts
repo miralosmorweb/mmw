@@ -37,6 +37,9 @@ export class EventsService {
         }
 
     postEvent( event: CalendarEvent) {
+        console.log('event');
+        console.log(event);
+        
         return this.http.post<any>(`${ this.url }newcite`, event);
     }
 
