@@ -9,19 +9,371 @@
     </style>
 </head>
 <br>
-<div *ngIf="notClicked">
-    <div class="text-center">
-        <img src="./assets/img/oscalo.jpg" style="width: 50%;" alt="oscalo" loading="lazy">
-    </div>
-    <br>
+<div>
+
     <div class="jumbotron jumbotron-fluid animated fadeIn fast">
         <div class="container">
-            <h1 class="display-4 text-center">OSCALOS MÍRALOS MORIR 2021</h1>
 
-            <form class="form-inline my-2 my-lg-0 float-right">
+            <div class="row container">
+                <div class="text-center col-md-3 col-sm-3 col-xs-12"  *ngIf="wantToJoin">
+                    <img src="./assets/img/oscalo.jpg" style="width: 100%;" alt="oscalo" loading="lazy">
+                </div>
+    
+                <div class="text-center align-self-center col-12" [ngClass]="{'col-md-9 col-sm-9 col-xs-12 title': wantToJoin}">
+                    <h1>OSCALOS MÍRALOS MORIR 2022</h1>
+                </div>
+                <div class="text-center align-self-center col-12" *ngIf="!wantToJoin">
+                    <h5>Importante: Leer los <a [routerLink]="" (click)="openTermsModal()">Términos y Condiciones</a>, si clickeas en Participar es porque los leiste y aceptaste.</h5>
+                </div>
+            </div>
+            
+            <div *ngIf="!wantToJoin">
+                <div class="text-center">
+                    <button (click)="join()" class="btn btn-outline-primary my-2 my-sm-0" type="button">
+                        Participar
+                    </button>
+                    <p *ngIf="joinClickCounter === 1">
+                        Estás seguro que leiste los T&C? Si sos Patricio avisanos y te mandamos un audio explicando todo.
+                    </p>
+                </div>
+                <br>
+                <div class="text-center">
+                    <img src="./assets/img/oscalo.jpg" style="width: 50%;" alt="oscalo" loading="lazy">
+                </div>
+            </div>
+
+            <div *ngIf="wantToJoin" class="oscars-form">
+                <p>Insertá tu email para validarlo y luego hace lo que se te cante mamita...</p>
+                <form (ngSubmit)="submitSelection()" [formGroup]="oscarsForm" (keydown.enter)="$event.preventDefault()">
+                    <div class="row">
+                        <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                            <input type="text" name="email" placeholder="Email" class="form-control" formControlName="email" [class.is-invalid]="emailNotValid" [class.is-valid]="emailValid">
+                            <small *ngIf="invalidField(oscarsForm.get('email'))" class="text-danger">
+                                {{ emailErrorMessage }}
+                            </small>
+                        </div>
+
+                        <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                            <input type="text" name="name" placeholder="Nombre o user de Telegram" class="form-control" formControlName="name" [class.is-invalid]="nameNotValid" [class.is-valid]="nameValid">
+                        </div>
+                    </div>
+                    
+                    <div class="row justify-content-center">
+                        <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                            <div class="options-group" [ngClass]="{'invalid-group': invalidField(oscarsForm.get('movie'))}">
+                                <label class="category-label">{{nominees.movie.label}}</label>
+                                <div class="form-check" *ngFor="let movie of nominees.movie.options">
+                                    <input type="radio" name="movie" class="form-check-input" [value]="movie.id" id="{{movie.id}}" formControlName="movie">
+                                    <label class="form-check-label" for="{{movie.id}}">
+                                        {{ movie.name }}
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+
+                    <div class="row">
+                        
+                        <div class="form-group col-md-4 col-sm-6 col-xs-12">
+                            <div class="options-group" [ngClass]="{'invalid-group': invalidField(oscarsForm.get('directing'))}">
+                                <label class="category-label">{{nominees.directing.label}}</label>
+                                <div class="form-check" *ngFor="let director of nominees.directing.options">
+                                    <input type="radio" name="directing" class="form-check-input" [value]="director.id" id="{{director.id}}" formControlName="directing">
+                                    <label class="form-check-label" for="{{director.id}}">
+                                        {{ director.name }} <small class="small-label">{{ director.movie}}</small>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group col-md-4 col-sm-6 col-xs-12">
+                            <div class="options-group" [ngClass]="{'invalid-group': invalidField(oscarsForm.get('adaptedScreenplay'))}">
+                                <label class="category-label">{{nominees.adaptedScreenplay.label}}</label>
+                                <div class="form-check" *ngFor="let nominee of nominees.adaptedScreenplay.options">
+                                    <input type="radio" name="adaptedScreenplay" class="form-check-input" [value]="nominee.id" id="{{nominee.id}}" formControlName="adaptedScreenplay">
+                                    <label class="form-check-label" for="{{nominee.id}}">
+                                        {{ nominee.name }}
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group col-md-4 col-sm-6 col-xs-12">
+                            <div class="options-group" [ngClass]="{'invalid-group': invalidField(oscarsForm.get('originalScreenplay'))}">
+                                <label class="category-label">{{nominees.originalScreenplay.label}}</label>
+                                <div class="form-check" *ngFor="let nominee of nominees.originalScreenplay.options">
+                                    <input type="radio" name="originalScreenplay" class="form-check-input" [value]="nominee.id" id="{{nominee.id}}" formControlName="originalScreenplay">
+                                    <label class="form-check-label" for="{{nominee.id}}">
+                                        {{ nominee.name }}
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        
+                        <div class="form-group col-md-4 col-sm-6 col-xs-12">
+                            <div class="options-group" [ngClass]="{'invalid-group': invalidField(oscarsForm.get('actor'))}">
+                                <label class="category-label">{{nominees.actor.label}}</label>
+                                <div class="form-check" *ngFor="let actor of nominees.actor.options">
+                                    <input type="radio" name="actor" class="form-check-input" [value]="actor.id" id="{{actor.id}}" formControlName="actor">
+                                    <label class="form-check-label" for="{{actor.id}}">
+                                        {{ actor.name }} <small class="small-label">{{ actor.movie}}</small>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group col-md-4 col-sm-6 col-xs-12">
+                            <div class="options-group" [ngClass]="{'invalid-group': invalidField(oscarsForm.get('supportingActor'))}">
+                                <label class="category-label">{{nominees.supportingActor.label}}</label>
+                                <div class="form-check" *ngFor="let actor of nominees.supportingActor.options">
+                                    <input type="radio" name="supportingActor" class="form-check-input" [value]="actor.id" id="{{actor.id}}" formControlName="supportingActor">
+                                    <label class="form-check-label" for="{{actor.id}}">
+                                        {{ actor.name }} <small class="small-label">{{ actor.movie}}</small>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group col-md-4 col-sm-6 col-xs-12">
+                            <div class="options-group" [ngClass]="{'invalid-group': invalidField(oscarsForm.get('actress'))}">
+                                <label class="category-label">{{nominees.actress.label}}</label>
+                                <div class="form-check" *ngFor="let actress of nominees.actress.options">
+                                    <input type="radio" name="actress" class="form-check-input" [value]="actress.id" id="{{actress.id}}" formControlName="actress">
+                                    <label class="form-check-label" for="{{actress.id}}">
+                                        {{ actress.name }} <small class="small-label">{{ actress.movie}}</small>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-md-4 col-sm-6 col-xs-12">
+                            <div class="options-group" [ngClass]="{'invalid-group': invalidField(oscarsForm.get('supportingActress'))}">
+                                <label class="category-label">{{nominees.supportingActress.label}}</label>
+                                <div class="form-check" *ngFor="let supportingActress of nominees.supportingActress.options">
+                                    <input type="radio" name="supportingActress" class="form-check-input" [value]="supportingActress.id" id="{{supportingActress.id}}" formControlName="supportingActress">
+                                    <label class="form-check-label" for="{{supportingActress.id}}">
+                                        {{ supportingActress.name }} <small class="small-label">{{ supportingActress.movie}}</small>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group col-md-4 col-sm-6 col-xs-12">
+                            <div class="options-group" [ngClass]="{'invalid-group': invalidField(oscarsForm.get('cinematography'))}">
+                                <label class="category-label">{{nominees.cinematography.label}}</label>
+                                <div class="form-check" *ngFor="let nominee of nominees.cinematography.options">
+                                    <input type="radio" name="cinematography" class="form-check-input" [value]="nominee.id" id="{{nominee.id}}" formControlName="cinematography">
+                                    <label class="form-check-label" for="{{nominee.id}}">
+                                        {{ nominee.name }}
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group col-md-4 col-sm-6 col-xs-12">
+                            <div class="options-group" [ngClass]="{'invalid-group': invalidField(oscarsForm.get('costumeDesign'))}">
+                                <label class="category-label">{{nominees.costumeDesign.label}}</label>
+                                <div class="form-check" *ngFor="let nominee of nominees.costumeDesign.options">
+                                    <input type="radio" name="costumeDesign" class="form-check-input" [value]="nominee.id" id="{{nominee.id}}" formControlName="costumeDesign">
+                                    <label class="form-check-label" for="{{nominee.id}}">
+                                        {{ nominee.name }}
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-md-4 col-sm-6 col-xs-12">
+                            <div class="options-group" [ngClass]="{'invalid-group': invalidField(oscarsForm.get('documentary'))}">
+                                <label class="category-label">{{nominees.documentary.label}}</label>
+                                <div class="form-check" *ngFor="let nominee of nominees.documentary.options">
+                                    <input type="radio" name="documentary" class="form-check-input" [value]="nominee.id" id="{{nominee.id}}" formControlName="documentary">
+                                    <label class="form-check-label" for="{{nominee.id}}">
+                                        {{ nominee.name }}
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group col-md-4 col-sm-6 col-xs-12">
+                            <div class="options-group" [ngClass]="{'invalid-group': invalidField(oscarsForm.get('shortDocumentary'))}">
+                                <label class="category-label">{{nominees.shortDocumentary.label}}</label>
+                                <div class="form-check" *ngFor="let nominee of nominees.shortDocumentary.options">
+                                    <input type="radio" name="shortDocumentary" class="form-check-input" [value]="nominee.id" id="{{nominee.id}}" formControlName="shortDocumentary">
+                                    <label class="form-check-label" for="{{nominee.id}}">
+                                        {{ nominee.name }}
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group col-md-4 col-sm-6 col-xs-12">
+                            <div class="options-group" [ngClass]="{'invalid-group': invalidField(oscarsForm.get('filmEditing'))}">
+                                <label class="category-label">{{nominees.filmEditing.label}}</label>
+                                <div class="form-check" *ngFor="let nominee of nominees.filmEditing.options">
+                                    <input type="radio" name="filmEditing" class="form-check-input" [value]="nominee.id" id="{{nominee.id}}" formControlName="filmEditing">
+                                    <label class="form-check-label" for="{{nominee.id}}">
+                                        {{ nominee.name }}
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-md-4 col-sm-6 col-xs-12">
+                            <div class="options-group" [ngClass]="{'invalid-group': invalidField(oscarsForm.get('internationalFilm'))}">
+                                <label class="category-label">{{nominees.internationalFilm.label}}</label>
+                                <div class="form-check" *ngFor="let nominee of nominees.internationalFilm.options">
+                                    <input type="radio" name="internationalFilm" class="form-check-input" [value]="nominee.id" id="{{nominee.id}}" formControlName="internationalFilm">
+                                    <label class="form-check-label" for="{{nominee.id}}">
+                                        {{ nominee.name }}
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group col-md-4 col-sm-6 col-xs-12">
+                            <div class="options-group" [ngClass]="{'invalid-group': invalidField(oscarsForm.get('makeupAndHair'))}">
+                                <label class="category-label">{{nominees.makeupAndHair.label}}</label>
+                                <div class="form-check" *ngFor="let nominee of nominees.makeupAndHair.options">
+                                    <input type="radio" name="makeupAndHair" class="form-check-input" [value]="nominee.id" id="{{nominee.id}}" formControlName="makeupAndHair">
+                                    <label class="form-check-label" for="{{nominee.id}}">
+                                        {{ nominee.name }}
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group col-md-4 col-sm-6 col-xs-12">
+                            <div class="options-group" [ngClass]="{'invalid-group': invalidField(oscarsForm.get('productionDesign'))}">
+                                <label class="category-label">{{nominees.productionDesign.label}}</label>
+                                <div class="form-check" *ngFor="let nominee of nominees.productionDesign.options">
+                                    <input type="radio" name="productionDesign" class="form-check-input" [value]="nominee.id" id="{{nominee.id}}" formControlName="productionDesign">
+                                    <label class="form-check-label" for="{{nominee.id}}">
+                                        {{ nominee.name }}
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+
+                    <div class="row">
+
+                        <div class="form-group col-md-4 col-sm-6 col-xs-12">
+                            <div class="options-group" [ngClass]="{'invalid-group': invalidField(oscarsForm.get('originalScore'))}">
+                                <label class="category-label">{{nominees.originalScore.label}}</label>
+                                <div class="form-check" *ngFor="let nominee of nominees.originalScore.options">
+                                    <input type="radio" name="originalScore" class="form-check-input" [value]="nominee.id" id="{{nominee.id}}" formControlName="originalScore">
+                                    <label class="form-check-label" for="{{nominee.id}}">
+                                        {{ nominee.name }}
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-4 col-sm-6 col-xs-12">
+                            <div class="options-group" [ngClass]="{'invalid-group': invalidField(oscarsForm.get('originalSong'))}">
+                                <label class="category-label">{{nominees.originalSong.label}}</label>
+                                <div class="form-check" *ngFor="let nominee of nominees.originalSong.options">
+                                    <input type="radio" name="originalSong" class="form-check-input" [value]="nominee.id" id="{{nominee.id}}" formControlName="originalSong">
+                                    <label class="form-check-label" for="{{nominee.id}}">
+                                        {{ nominee.name }}
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group col-md-4 col-sm-6 col-xs-12">
+                            <div class="options-group" [ngClass]="{'invalid-group': invalidField(oscarsForm.get('sound'))}">
+                                <label class="category-label">{{nominees.sound.label}}</label>
+                                <div class="form-check" *ngFor="let nominee of nominees.sound.options">
+                                    <input type="radio" name="sound" class="form-check-input" [value]="nominee.id" id="{{nominee.id}}" formControlName="sound">
+                                    <label class="form-check-label" for="{{nominee.id}}">
+                                        {{ nominee.name }}
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+
+                    <div class="row">
+
+                        <div class="form-group col-md-4 col-sm-6 col-xs-12">
+                            <div class="options-group" [ngClass]="{'invalid-group': invalidField(oscarsForm.get('shortAnimated'))}">
+                                <label class="category-label">{{nominees.shortAnimated.label}}</label>
+                                <div class="form-check" *ngFor="let nominee of nominees.shortAnimated.options">
+                                    <input type="radio" name="shortAnimated" class="form-check-input" [value]="nominee.id" id="{{nominee.id}}" formControlName="shortAnimated">
+                                    <label class="form-check-label" for="{{nominee.id}}">
+                                        {{ nominee.name }}
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-4 col-sm-6 col-xs-12">
+                            <div class="options-group" [ngClass]="{'invalid-group': invalidField(oscarsForm.get('animatedFilm'))}">
+                                <label class="category-label">{{nominees.animatedFilm.label}}</label>
+                                <div class="form-check" *ngFor="let nominee of nominees.animatedFilm.options">
+                                    <input type="radio" name="animatedFilm" class="form-check-input" [value]="nominee.id" id="{{nominee.id}}" formControlName="animatedFilm">
+                                    <label class="form-check-label" for="{{nominee.id}}">
+                                        {{ nominee.name }}
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-4 col-sm-6 col-xs-12">
+                            <div class="options-group" [ngClass]="{'invalid-group': invalidField(oscarsForm.get('shortFilm'))}">
+                                <label class="category-label">{{nominees.shortFilm.label}}</label>
+                                <div class="form-check" *ngFor="let nominee of nominees.shortFilm.options">
+                                    <input type="radio" name="shortFilm" class="form-check-input" [value]="nominee.id" id="{{nominee.id}}" formControlName="shortFilm">
+                                    <label class="form-check-label" for="{{nominee.id}}">
+                                        {{ nominee.name }}
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    
+                    <div class="row justify-content-center">
+                        <div class="form-group col-md-4 col-sm-6 col-xs-12">
+                            <div class="options-group" [ngClass]="{'invalid-group': invalidField(oscarsForm.get('visualEffects'))}">
+                                <label class="category-label">{{nominees.visualEffects.label}}</label>
+                                <div class="form-check" *ngFor="let nominee of nominees.visualEffects.options">
+                                    <input type="radio" name="visualEffects" class="form-check-input" [value]="nominee.id" id="{{nominee.id}}" formControlName="visualEffects">
+                                    <label class="form-check-label" for="{{nominee.id}}">
+                                        {{ nominee.name }}
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <button type="button" [disabled]="this.oscarsForm.invalid" (click)="submitSelection()" class="btn btn-success">
+                            Enviar
+                        </button>
+                    </div>
+
+                    
+                </form>
+
+            </div>
+            <!-- <form class="form-inline my-2 my-lg-0 float-right">
                 <input class="form-control mr-sm-2" type="text" placeholder="Ingresa tu nombre" (keyup.enter)="searchName(searchText.value)" #searchText>
                 <button (click)="searchName(searchText.value)" class="btn btn-outline-primary my-2 my-sm-0" type="submit">Buscar</button>
-            </form>
+            </form> -->
 
             <!-- <h2 class="text-center">BASES Y CONDICIONES</h2>
             <p>Se vienen los Oscars y este antro del amor y la manija no va a dejar pasar de largo la oportunidad de hacer una timba con eso. 
@@ -53,35 +405,23 @@
         </div>
     </div>
 </div>
-
-<div class="text-center" *ngIf="!notClicked && loading">
-    <div class="spinner-border text-primary ">
+<ng-template #termsModal let-close="close" class="animated fadeIn">
+    <div class="modal-header">
+        <h5 class="modal-title">Términos y Condiciones para participar del mejor prode de la historia de los premios, los Oscalos.</h5>
+        <button type="button" class="close" (click)="close()">
+        <span aria-hidden="true">&times;</span>
+        </button>
     </div>
-    <h3>Estamos procesando la información, aguarde un momento por favor.</h3>
-    <p class="text-right"><small style="color: lightgray;">Si, tenemos unos enanos con ábacos trabajando non-stop</small></p>
-</div>
- 
-<div class="text-center" *ngIf="!notClicked && !loading && result === 'notFound'">
-    <h3>Sabés escribir? Así no se puede viejo...</h3> 
-    <h3>O no participaste o no pusiste tu nombre tal como en la planilla.</h3> 
-    <button (click)="refresh()" class="btn btn-primary float-right">REINTENTAR</button>
-</div>
-
-<div class="text-center" *ngIf="!notClicked && !loading && result === 'loser'">
-    <iframe src="https://giphy.com/embed/dkuZHIQsslFfy" width="480" height="384" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
-
-</div>
-
-<div class="text-center" *ngIf="!showGif && showMessageToGif"> 
-    <h3>Te pensaste que no lo iba a poner??</h3>
-</div>
-
-<div class="text-center" *ngIf="showGif && !showMessageToGif"> 
-    <img src="./assets/img/gifDeAnton.gif" alt="gifDeAnton.gif">
-</div>
-
-<div class="text-center" *ngIf="!notClicked && !loading && result === 'winner'">
-    <img src="./assets/img/senorasBailando.gif" alt="senorasBailando.gif">
-    <h3>Felicitaciones Fran!!</h3>
-    <h3>Sale clande MM con picadita para degustar ese quesito...</h3>
-</div>
+    <div class="modal-body">
+        <div class="container">
+            <ol>
+                <li>Se puede participar solo una vez, NO SE PUEDE EDITAR la votación una vez que se envía el formulario, así que a fijarse bien lo que votan.</li>
+                <li>Se pide el mail a los participantes como un medio de identificación único más simple que un nombre y para luego corroborar lo del punto siguiente.</li>
+                <li>Debido a que lxs que ofrecen premios para el/la ganador/a lo hacen solo desde la bondad de sus corazones, el comité ha decidido permitir la participación solo a aquellxs que hayan donado mínimo un cafecito para los amables proveedores de cositas ricas: <a href="https://cafecito.app/theoscalos" target="_blank" >Cafecito</a></li>
+                <li>Usar el mismo email para el cafecito y para la votación, nos facilitará bastante la recopilación de datos y los cálculos matemáticos cuasi-imposibles que debemos realizar.</li>
+                <li>El anuncio de el/la ganador/a será llevado a cabo cuando los de Haití nos dejemos de rascar la raba.</li>
+            </ol>
+        </div>
+    </div>
+    
+</ng-template>

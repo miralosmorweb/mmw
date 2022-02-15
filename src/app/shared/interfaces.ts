@@ -1,3 +1,4 @@
+import { AbstractControl, ValidationErrors } from '@angular/forms';
 import { EventColor } from 'calendar-utils';
 import { Department } from './enums';
 
@@ -156,3 +157,17 @@ export class ListModel {
     name:         string;
     profile_path: null | string;
   }
+
+  export interface EmailCheckResponse {
+    message: string;
+    exists: boolean;
+    error: string;
+  }
+
+  export interface Vote {
+    email: string;
+    name: string;
+    selectedOptions: string;
+  }
+
+export type ValidationResult = (c: AbstractControl) => ValidationErrors | null;

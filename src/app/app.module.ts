@@ -21,6 +21,7 @@ import { APP_ROUTING, FeatureRoutingModule } from './app.routes';
 import { ListsService } from './services/lists.service';
 import { EventsService } from './services/events.service';
 import { SearchService } from './services/search.service';
+import { OscaloService } from './services/oscalo.service';
 
 //Componentes
 import { AppComponent } from './app.component';

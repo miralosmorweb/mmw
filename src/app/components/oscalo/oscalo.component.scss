@@ -1,0 +1,32 @@
+.options-group {
+   background-color: rgba(78, 78, 80, 0.8);
+   padding: 15px 15px;
+   border-radius: 5px;
+   margin-left: 5px;
+   &.invalid-group {
+      border: 1px solid red;
+   }
+   line-height: 20px;
+}
+
+label {
+   color: white;
+}
+
+.oscars-form {
+   padding: 10px 10px;
+}
+
+.title {
+   font-size: small;
+}
+
+.category-label {
+   font-weight: 600;
+   text-transform: uppercase;
+}
+
+.small-label {
+   font-size: 10px;
+   color: lightgray;
+}

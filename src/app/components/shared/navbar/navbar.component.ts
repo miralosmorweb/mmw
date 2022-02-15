@@ -36,6 +36,9 @@ export class NavbarComponent implements OnInit {
       ,debounceTime(1000)
       ,distinctUntilChanged()
     ).subscribe((text: string) => {
+      console.log('text');
+      console.log(text);
+      
       if (!this.router.url.includes('search')) this.router.navigate(['/search']);
       
       this.searchService.changeText(text);

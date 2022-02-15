@@ -7,3 +7,10 @@ Publicar en Github pages (https://efficientuser.com/2021/03/04/how-to-deploy-ang
 Pendientes:
     - Agregar la función de agregado de películas
     - Agregar onScroll a la lista de peliculas
+
+Paleta de colores: 
+NEGRO #1A1A1D
+GRIS  #4E4E50
+Rojo  #6F2232
+Rosa1 #950740
+Rosa2 #C3073F
