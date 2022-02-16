@@ -345,13 +345,15 @@ export class OscaloComponent implements OnInit {
 
   async submitSelection() {
     Swal.fire({
-      text: 'Estás segurx de que lo querés enviar? Mirá que no se puede editar eh! Bueno, yo avisé.\nTenés miedo de olvidarte lo que votaste y te caguemos? Tranquilx, se te va a descargar un PDF bonito con lo que votaste.',
+      icon: 'warning',
+      html: 'Estás segurx de que lo querés enviar? Mirá que no se puede editar eh! Bueno, yo avisé.' + 
+            '<br><br><small style="color: black">Tenés miedo de olvidarte lo que votaste y te caguemos? Tranquilx, se te va a descargar un PDF bonito con lo que votaste.</small>',
       showConfirmButton: true,
-      showCancelButton: true
+      showCancelButton: true,
+      confirmButtonText: 'Enviar',
+      cancelButtonText: 'No, tengo miedo'
     }).then(resp => {
       if (resp.value) {
-        console.log('this.oscarsForm.value');
-        console.log(this.oscarsForm.value);
         this.oscarsForm.markAllAsTouched();
         if (!this.oscarsForm.valid) return;
     
@@ -396,9 +398,6 @@ export class OscaloComponent implements OnInit {
     pdf.add(`${this.oscarsForm.get('name').value} - ${this.oscarsForm.get('email').value}`);
     pdf.add('\n');
     for (let key in this.nominees) {
-      console.log('----------------------------------------');
-      console.log(this.nominees[key].options.find(option => option.id === this.oscarsForm.get(key.toString()).value).name);
-      
       this.exportableSelection.push({
         label: this.nominees[key].label,
         selection: this.nominees[key].options.find(option => option.id === this.oscarsForm.get(key.toString()).value).name
@@ -406,7 +405,7 @@ export class OscaloComponent implements OnInit {
       pdf.add(`${this.nominees[key].label}: ${this.nominees[key].options.find(option => option.id === this.oscarsForm.get(key.toString()).value).name}`);
     }
 
-    pdf.create().download();
+    pdf.create().download(`Oscalo-${this.oscarsForm.get('email').value}.pdf`);
 
   }
 
