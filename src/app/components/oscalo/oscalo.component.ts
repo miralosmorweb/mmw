@@ -329,7 +329,7 @@ export class OscaloComponent implements OnInit {
       this.joinClickCounter = 1;
       return; 
     }
-    if (new Date() >= new Date(2022, 3, 28)) {
+    if (new Date() >= new Date(2022, 3, 27)) {
       Swal.fire({
         title: 'Dormiste',
         text: 'Como Karina Olga, llegaste tarde a votar',
@@ -393,7 +393,6 @@ export class OscaloComponent implements OnInit {
     pdf.add('\n');
     pdf.add(new Txt('Gracias por participar del Prode de los Oscalos!').bold().fontSize(16).end);
     pdf.add('Guardate este archivo para corroborar tus elecciones, si encontrás algún problema comunicate con la mesa de ayuda que no te va a atender nadie');
-
     pdf.add('\n\n');
     pdf.add(`${this.oscarsForm.get('name').value} - ${this.oscarsForm.get('email').value}`);
     pdf.add('\n');
