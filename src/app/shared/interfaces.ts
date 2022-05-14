@@ -170,4 +170,16 @@ export class ListModel {
     selectedOptions: string;
   }
 
+  export interface BeforeDeathList {
+    email: string;
+    name: string;
+    selectedOptions: string;
+  }
+
+  export interface BeforeDeathListWithMovies {
+    name: string,
+    email: string,
+    movies: string[]
+  }
+
 export type ValidationResult = (c: AbstractControl) => ValidationErrors | null;

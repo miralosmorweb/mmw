@@ -53,6 +53,11 @@ export class ListsService {
       return this.http.get<Movie>(`https://api.themoviedb.org/3/find/${imbdID}?api_key=${this.apiKey}&language=es-MX&external_source=imdb_id`);
     }
 
+    // Get a tmdb para traer cada película por el id de imdb título en inglés
+    getMovieEn(imbdID: string): Observable<Movie> {
+      return this.http.get<Movie>(`https://api.themoviedb.org/3/find/${imbdID}?api_key=${this.apiKey}&external_source=imdb_id`);
+    }
+
     getMovieDetail(id: string): Observable<MovieDetail>{
       return this.http.get<MovieDetail>(`https://api.themoviedb.org/3/movie/${id}?api_key=${this.apiKey}&language=es-MX&external_source=imdb_id`);
     }

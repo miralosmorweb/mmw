@@ -10,10 +10,6 @@ import { EmailCheckResponse, ValidationResult, Vote } from '../shared/interfaces
 })
 export class OscaloService {
 
-  private invalidEmails = [
-    'antonmartinezq@gmail.com',
-    'mail@a.com'
-  ]
   private url = 'https://cahbot.pythonanywhere.com/api/oscalo/';
 
   constructor(private http: HttpClient) { }

@@ -1,0 +1,106 @@
+<head>
+   <style>
+       .img-container {
+           text-align: center;
+       }        
+       .jumbotron {
+           background-color: rgba(0, 0, 0, 0.2);
+       }
+   </style>
+</head>
+<br>
+<div>
+
+   <div class="jumbotron jumbotron-fluid animated fadeIn fast">
+       <div class="container">
+
+           <div class="row container">
+  
+               <div class="text-center align-self-center col-12">
+                   <img src="./assets/img/mirenlas-logo.png" style="width: 100%;" alt="mirenlas" loading="lazy">
+                   <h5 style="padding-top: 20px; padding-bottom: 20px;" *ngIf="step === 0">La mejor lista de películas que todo el mundo debería ver.</h5>
+               </div>
+               <div class="col-12" *ngIf="step === 0">
+                   <div class="container rules">
+                     <p>Reglas (porque como saben, esto nunca fue una democracia):</p>
+                     <ol>
+                         <li>Cada persona elige hasta 20 películas (mínimo 1) según su propio criterio personal.</li>
+                         <li>Cada película nombrada recibe un punto (menos la primera - ver 3).</li>
+                         <li>La primera película nombrada por cada persona recibe 5 puntos, porque si. Cuando armes tu lista va a aparecer con un marco dorado antibobos.</li>
+                         <li>La sumatoria de puntos define luego el orden de la película en la lista.</li>
+                         <li>Cada persona puede participar UNA sola vez, por eso volvemos a pedir email para corroborar, pero esta vez sin cafecitos porque no hay premios.</li>
+                         <li>En el siguiente paso, vas a ver un solo campo para cargar las películas, podés hacerlo de dos formas:
+                             <ul>
+                                 <li>URL completa de IMDB, ejemplo: https://www.imdb.com/title/tt8835640</li>
+                                 <li>Solo el ID de IMDB, sería el código que está luego de 'title/', ejemplo: tt8835640</li>
+                             </ul>
+                         </li>
+                         <li>Hay tiempo hasta el 30 de Junio, no se duerman.</li>
+                         <li>Si no entendés alguna de las instrucciones, por favor, contate los cromosomas.</li>
+                         <li>Compren en Craquelen.</li>
+                     </ol>
+                 </div>
+               </div>
+               <div class="text-center col-12 join-button" *ngIf="step === 0">
+                  <button (click)="next()" class="btn btn-outline-primary my-2 my-sm-0" type="button">
+                      Participar
+                  </button>
+              </div>
+           </div>
+
+           <div *ngIf="step === 1" class="oscars-form">
+               <p>Insertá tu email para validarlo, tu nombre o user y arrancá a cargar tus películas</p>
+               <form (ngSubmit)="submit()" [formGroup]="moviesForm" (keydown.enter)="$event.preventDefault()">
+                  <div class="row">
+                     <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                        <input type="text" name="email" placeholder="Email" class="form-control" formControlName="email" [class.is-invalid]="emailNotValid" [class.is-valid]="emailValid">
+                        <small *ngIf="invalidField(moviesForm.get('email'))" class="text-danger">
+                            {{ emailErrorMessage }}
+                        </small>
+                     </div>
+
+                     <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                        <input type="text" name="name" placeholder="Nombre o user de Telegram" class="form-control" formControlName="name" [class.is-invalid]="nameNotValid" [class.is-valid]="nameValid">
+                     </div>
+                  </div>
+                   
+                  <div class="row" *ngIf="emailValid && nameValid && movies.length < 20">
+
+                     <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                        <input type="text" name="movie" placeholder="URL o código de película de IMDB" class="form-control" 
+                           (keydown.enter)="searchMovie($event)"
+                           formControlName="movie">
+                     </div>
+                     <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                        <button [disabled]="!this.moviesForm.get('movie').value.length" (click)="searchMovie()" class="btn btn-outline-primary my-2 my-sm-0" type="button">
+                           Agregar
+                        </button>
+                     </div>
+                 </div>
+
+                 <div *ngIf="emailValid && nameValid && movies.length === 20">
+                    <p>Listo! Ingresaste 20 películas, ahora envialas si tenés huevarios (?)</p>
+                     
+                 </div>
+                 <div class="container" *ngIf="!!movies.length">
+                    <div class="row">
+                        <div class="col-md-3 mb-5" *ngFor="let movie of movies, let i = index">
+                            <img [src]="movie.poster_path | poster" class="img-fluid poster" [ngClass]="{'first-movie': i === 0 }">
+                            <h3 class="ml-2"> {{ movie.title }}</h3>
+                        </div>
+                    </div>
+                   </div>
+
+                   <div class="form-group" *ngIf="!this.moviesForm.invalid && !!movies.length">
+                       <button type="button" [disabled]="this.moviesForm.invalid && !movies.length" (click)="submit()" class="btn btn-success">
+                           Enviar
+                       </button>
+                   </div>
+                   
+               </form>
+           </div>
+       </div>
+
+       
+   </div>
+</div>

@@ -225,14 +225,14 @@ interface Swiper extends SwiperOptions {
   /**
    * !INTERNAL: Event will fired after setting CSS classes on swiper slide element
    */
-  _slideClass?: (swiper: SwiperClass, el: HTMLElement, classNames: string) => void;
+  _slideClass?: (swiper: SwiperClass, slideEl: HTMLElement, classNames: string) => void;
 
   /**
    * !INTERNAL: Event will fired after setting CSS classes on all swiper slides
    */
   _slideClasses?: (
     swiper: SwiperClass,
-    slides: { el: HTMLElement; classNames: string; index: number }[],
+    slides: { slideEl: HTMLElement; classNames: string; index: number }[],
   ) => void;
 
   /**

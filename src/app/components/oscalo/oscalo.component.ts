@@ -279,8 +279,8 @@ export class OscaloComponent implements OnInit {
               ) {}
 
   ngOnInit(): void {
-    
   }
+
   ngOnDestroy() {
   }
 
@@ -328,8 +328,8 @@ export class OscaloComponent implements OnInit {
     if (this.joinClickCounter === 0) {
       this.joinClickCounter = 1;
       return; 
-    }
-    if (new Date() >= new Date(2022, 3, 27)) {
+    }    
+    if (new Date() >= new Date(2022, 2, 27)) {
       Swal.fire({
         title: 'Dormiste',
         text: 'Como Karina Olga, llegaste tarde a votar',
@@ -401,8 +401,13 @@ export class OscaloComponent implements OnInit {
         label: this.nominees[key].label,
         selection: this.nominees[key].options.find(option => option.id === this.oscarsForm.get(key.toString()).value).name
       })
+      
+      
       pdf.add(`${this.nominees[key].label}: ${this.nominees[key].options.find(option => option.id === this.oscarsForm.get(key.toString()).value).name}`);
     }
+    console.log('exportableselection');
+    console.log(this.exportableSelection);
+    
 
     pdf.create().download(`Oscalo-${this.oscarsForm.get('email').value}.pdf`);
 

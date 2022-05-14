@@ -103,6 +103,13 @@ hr {
     margin-top: 30px;
 	font-size: 13px;
 }
+
+.btn-outline-primary:disabled {
+	background-color: #4E4E50;
+    border-color: #4E4E50;
+	color: #ffeff1;
+}
+
 .btn-outline-primary:hover {
     background-color: #bd4c5f;
     border-color: #bd4c5f;
