@@ -50,7 +50,7 @@ export class ListsService {
 
     // Get a tmdb para traer cada película por el id de imdb
     getMovie(imbdID: string): Observable<Movie> {
-      return this.http.get<Movie>(`https://api.themoviedb.org/3/find/${imbdID}?api_key=${this.apiKey}&language=es-MX&external_source=imdb_id`);
+      return this.http.get<Movie>(`https://api.themoviedb.org/3/find/${imbdID}?api_key=${this.apiKey}&language=en-US&external_source=imdb_id`);
     }
 
     // Get a tmdb para traer cada película por el id de imdb título en inglés
@@ -59,13 +59,19 @@ export class ListsService {
     }
 
     getMovieDetail(id: string): Observable<MovieDetail>{
-      return this.http.get<MovieDetail>(`https://api.themoviedb.org/3/movie/${id}?api_key=${this.apiKey}&language=es-MX&external_source=imdb_id`);
+      return this.http.get<MovieDetail>(`https://api.themoviedb.org/3/movie/${id}?api_key=${this.apiKey}&language=en-US&external_source=imdb_id`);
     }
 
-    getCast(id:string) {
+    getCastAndCrew(id:string) {
       return this.http.get<MovieCast>(`https://api.themoviedb.org/3/movie/${id}/credits?api_key=${this.apiKey}&language=es-MX&external_source=imdb_id`)
         .pipe( 
-          map( resp => resp.cast ));
+          map( resp => resp ));
+    }
+
+    getCrew(id:string) {
+      return this.http.get<MovieCast>(`https://api.themoviedb.org/3/movie/${id}/credits?api_key=${this.apiKey}&language=es-MX&external_source=imdb_id`)
+        .pipe( 
+          map( resp => resp.crew ));
     }
 
     // GET a http://miralosmorserver.pythonanywhere.com/api/movieliststag/<tag>

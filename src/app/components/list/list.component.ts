@@ -1,16 +1,18 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DOCUMENT } from '@angular/common';
 import { ListsService } from '../../services/lists.service';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ListModel, Movies } from 'src/app/shared/interfaces';
+import { MoviesGridComponent } from '../movies-grid/movies-grid.component';
 
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html'
 })
 export class ListComponent implements OnInit{
+  @ViewChild(MoviesGridComponent) moviesGrid: MoviesGridComponent;
 
   public list: ListModel = new ListModel();
   listName: string;
@@ -60,6 +62,8 @@ export class ListComponent implements OnInit{
         });
    }
 
-
+   onScrollDown($event) {
+     this.moviesGrid.onScrollDown();
+   }
 
 }

@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { AbstractControl, AsyncValidatorFn } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { EmailCheckResponse, ValidationResult, BeforeDeathList, BeforeDeathListWithMovies } from '../shared/interfaces';
+import { EmailCheckResponse, ValidationResult, BeforeDeathList, BeforeDeathListWithMovies, BeforeDeathMovie, BeforeDeathMovieInfo } from '../shared/interfaces';
 import { ListsService } from './lists.service';
 
 @Injectable({
@@ -59,5 +59,9 @@ export class BeforeDeathService {
       });
     });
     return moviesLists;
+  }
+
+  public getGeneralList() {
+    return this.http.get<BeforeDeathMovieInfo[]>(`${ this.url }get_movies`);
   }
 }

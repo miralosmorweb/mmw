@@ -36,6 +36,7 @@ import { CalendarComponent } from './components/calendar/calendar.component';
 import { SlideshowComponent } from './components/slideshow/slideshow.component';
 import { MoviesGridComponent } from './components/movies-grid/movies-grid.component';
 import { PosterPipe } from './pipes/poster.pipe';
+import { PosterSmallPipe } from './pipes/posterSmall.pipe';
 import { MovieComponent } from './components/movie/movie.component';
 import { CastSlideshowComponent } from './components/cast-slideshow/cast-slideshow.component';
 import { OscaloComponent } from './components/oscalo/oscalo.component';
@@ -44,6 +45,8 @@ import { FooterComponent } from './components/shared/footer/footer.component';
 import { ScrollTopComponent } from './components/shared/scroll-top/scroll-top.component';
 import { BeforeDeathComponent } from './components/before-death/before-death.component';
 import { ListsHiddenComponent } from './components/before-death/lists-hidden/lists-hidden.component';
+import { MyListComponent } from './components/before-death/my-list/my-list.component';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 @NgModule({
   declarations: [
@@ -60,6 +63,7 @@ import { ListsHiddenComponent } from './components/before-death/lists-hidden/lis
     SlideshowComponent,
     MoviesGridComponent,
     PosterPipe,
+    PosterSmallPipe,
     MovieComponent,
     CastSlideshowComponent,
     PadletComponent,
@@ -67,6 +71,7 @@ import { ListsHiddenComponent } from './components/before-death/lists-hidden/lis
     ScrollTopComponent,
     BeforeDeathComponent,
     ListsHiddenComponent,
+    MyListComponent,
   ],
   imports: [
     BrowserModule,
@@ -81,7 +86,8 @@ import { ListsHiddenComponent } from './components/before-death/lists-hidden/lis
     NgbModule,
     ReactiveFormsModule,
     SwiperModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    InfiniteScrollModule
   ],
   exports: [
     CalendarComponent

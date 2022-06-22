@@ -1,8 +1,6 @@
 <div class="row">
     <div class="col-md-2 mb-5" *ngFor="let movie of imdbMovies">
-
         <img [src]="movie.poster_path | poster" class="img-fluid poster clickable" (click)="onMovieClick( movie )">
         <h3 class="ml-2"> {{ movie.title }}</h3>
-
     </div>
 </div>

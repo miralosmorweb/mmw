@@ -14,35 +14,62 @@
     <div class="col-md-5">
         <div class="row">
             <div class="col-md-10">
-                <h3> {{ movie.original_title}} ({{movie.release_date | date: 'yyyy' }}) </h3>
+                <h3> {{ movie.title.toLowerCase() === movie.original_title.toLowerCase() ? movie.title : movie.original_title }} ({{movie.release_date | date: 'yyyy' }}) </h3>
             </div>
             <div class="col-md-1">
                 <a href="https://www.imdb.com/title/{{ movie.imdb_id }}" target="_blank" class="fab fa-imdb imdbButton"> </a>
             </div>
 
         </div>
+        <div *ngIf="movie.title !== movie.original_title" class="row">
+            <div class="col-md-10">
+                <p>
+                    {{ movie.title }} 
+                </p>
+            </div>
+        </div>
+
         <div class="row">
             <div class="col-md-10">
-                <h4> {{ movie.title}} </h4>
+                <p class="genre">{{ genres }}</p>
             </div>
-
-
         </div>
-
-
-
-
-        <div class="row">
-            <ul>
-                <li class="genre" *ngFor="let genre of movie.genres">{{ genre.name }}</li>
-            </ul>
+        <div *ngIf="!reviews?.length" class="row">
+            <div class="col text-white">
+                <p>
+                    {{ movie.overview }}
+                </p>
+            </div>
         </div>
         <div class="row">
-            <div class="col text-white">{{ movie.overview }}</div>
+            <div class="col text-white"><b>Dirección: </b>{{ directedBy }}</div>
         </div>
-        <div class="row mt-5" *ngIf="cast.length > 0">
+        <div class="row">
+            <div class="col text-white"><b>Guión: </b>{{ writing }}</div>
+        </div>
+        <div class="row mt-5" *ngIf="cast.length > 0 && !reviews?.length">
             <div class="col">
                 <app-cast-slideshow [cast]="cast"></app-cast-slideshow>
+            </div>
+        </div>
+
+        <br>
+        <div *ngIf="!!reviews?.length">
+            <h5>
+                <u>
+                    MAM Reviews
+                </u>
+            </h5>
+            <div class="row" *ngFor="let review of reviews">
+                <div class="col text-white">
+                    <p>
+                        <b>
+                            - {{ review.user }}
+                        </b>
+                        <br>
+                        {{ review.review }}
+                    </p>
+                </div>
             </div>
         </div>
 

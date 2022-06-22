@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { BeforeDeathService } from 'src/app/services/before-death.service';
 import { ListsService } from 'src/app/services/lists.service';
 import { SharedService } from 'src/app/services/shared.service';
-import { BeforeDeathList, MovieResult } from 'src/app/shared/interfaces';
+import { BeforeDeathList, BeforeDeathMovie, BeforeDeathMovieInfo, MovieResult } from 'src/app/shared/interfaces';
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 
 
@@ -16,27 +17,45 @@ import Swal from 'sweetalert2/dist/sweetalert2.js';
 export class BeforeDeathComponent implements OnInit {
 
   public step = 0;
+  public view: 'start' | 'myList' | 'generalList' = 'generalList'; 
   public loading = false;
   public firstMovie: MovieResult;
   public movies: MovieResult [] = [];
-
+  public generalList: BeforeDeathMovie[] = []; 
   public moviesForm = this.fb.group({
     name: ['', [ Validators.required ] ],
     email: ['', { validators: [ Validators.required, Validators.email ],  asyncValidators: [this.beforeDeathService.emailAlreadyRegistered]} ],
     movie: [''],
   });
     
+  public myListForm = this.fb.group({
+    email: ['', { validators: [ Validators.required, Validators.email ]} ],
+    movies: [''],
+  });
+
   private moviesImdbIds: string[] = [];
+  private page = 1;
+  private generalListInfo: BeforeDeathMovieInfo[] = [];
 
   constructor(
     private fb: FormBuilder,
     private beforeDeathService: BeforeDeathService,
     private sharedService: SharedService,
     private listsService: ListsService,
-    private router: Router
+    private router: Router,
+    private spinner: NgxSpinnerService
     ) { }
 
   ngOnInit(): void {
+    this.loading = true;
+    this.spinner.show(); 
+
+    this.beforeDeathService.getGeneralList().subscribe(resp => {
+      this.generalListInfo = resp;
+      this.goToGeneralList();
+      this.loading = false;
+      this.spinner.hide();
+    });
   }
 
   get emailNotValid() {
@@ -110,10 +129,10 @@ export class BeforeDeathComponent implements OnInit {
 
   next() {    
     if (this.step === 0) {
-      if (new Date() >= new Date(2022, 5, 30)) {
+      if (new Date() > new Date(2022, 4, 31)) {
         Swal.fire({
           title: 'TARDE!',
-          text: 'Había tiempo hasta el 30/06, ahora jodete.',
+          text: 'Había tiempo hasta el 31/05, ahora jodete.',
           imageUrl: './assets/img/karina.jpg' ,
           imageAlt: 'karinaolga',
           showConfirmButton: false,
@@ -126,6 +145,68 @@ export class BeforeDeathComponent implements OnInit {
     } else if (this.step === 1) {
       this.router.navigate(['/home']);
     }    
+  }
+
+  goToMyList() {
+    this.view = 'myList';
+  }
+
+  submitMyList() {
+
+  }
+
+  async goToGeneralList() {
+    this.fillMoviesWithInfo(this.generalListInfo.slice(0, 20));
+  }
+
+  async fillMoviesWithInfo(movies: BeforeDeathMovieInfo[]) {
+    this.loading = true;
+    this.spinner.show(); 
+    movies.forEach( item => {
+
+      const movie: BeforeDeathMovie = {
+        imdb_id: item.imdb_id,
+        score: item.points,
+        ranking: item.rank,
+      }
+      this.listsService.getMovie(item.imdb_id).subscribe(resp => {
+        movie.details = resp.movie_results[0];
+      });
+
+      const firstChoices = [];
+      const otherChoices = [];
+      if (!!item.mentions_first.length) {
+        item.mentions_first.forEach(mention => {
+          firstChoices.push({
+            user: mention.name,
+            review: item.review.find(review => review.autor.mail === mention.mail) ? item.review.find(review => review.autor.mail === mention.mail).text : null
+          });
+        });
+      }
+      if (!!item.mentions_other.length) {
+        item.mentions_other.forEach(mention => {
+          otherChoices.push({
+            user: mention.name,
+            review: item.review.find(review => review.autor.mail === mention.mail) ? item.review.find(review => review.autor.mail === mention.mail).text : null
+          });
+        });
+      }
+
+      movie.usersFirstChoice = firstChoices;
+      movie.usersOtherChoice = otherChoices
+      
+      this.generalList.push(movie);
+    });
+
+    console.log('movies');
+    console.log(this.generalList);
+    this.loading = false;
+    this.spinner.hide();
+  }
+
+  onScrollDown() {
+    this.fillMoviesWithInfo(this.generalListInfo.slice(this.page * 20, (this.page * 20) + 20));
+    this.page++;
   }
 
   async submit() {
@@ -166,5 +247,8 @@ export class BeforeDeathComponent implements OnInit {
       }
     });
   }
-
+  
+  onMovieClick(movie: BeforeDeathMovie){
+    this.router.navigate(['/movie', movie.details.id], { state: {reviews: movie.usersFirstChoice.concat(movie.usersOtherChoice)}});
+  }
 }

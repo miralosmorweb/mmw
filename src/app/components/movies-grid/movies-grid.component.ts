@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 export class MoviesGridComponent implements OnInit {
 
   imdbMovies: MovieResult[] = [];
+  page: number = 1;
 
   @Input() movies: Movies[];
 
@@ -18,13 +19,21 @@ export class MoviesGridComponent implements OnInit {
                private router: Router) { }
 
   ngOnInit(): void {
-    this.movies.forEach( movie => {
+    this.getMoviesDetails(this.movies.slice(0, 18));
+  }
+
+  onScrollDown() {
+    this.getMoviesDetails(this.movies.slice(this.page * 18, (this.page * 18) + 18));
+    this.page++;
+  }
+
+  getMoviesDetails(movies: Movies[]) {
+    movies.forEach( movie => {
       this._listsService.getMovie(movie.imdb_id).subscribe( resp => {
         this.imdbMovies.push(resp.movie_results[0]);
         });
     });
   }
-
   onMovieClick( movie: MovieResult){
   this.router.navigate(['/movie', movie.id]);
   }

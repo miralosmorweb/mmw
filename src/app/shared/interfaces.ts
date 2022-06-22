@@ -182,4 +182,46 @@ export class ListModel {
     movies: string[]
   }
 
+  export interface BeforeDeathMovie {
+    ranking: number,
+    score: number,
+    imdb_id: string,
+    details?: MovieResult,
+    usersFirstChoice?: {
+      user: string,
+      review?: string
+    }[],
+    usersOtherChoice?: {
+      user: string,
+      review?: string
+    }[]
+  }
+
+  export interface BeforeDeathMovieInfo {
+    rank: number,
+    points: number,
+    imdb_id: string,
+    mentions_first: {
+      id: number,
+      name: string,
+      mail: string
+    }[],
+    mentions_other: {
+      id: number,
+      name: string,
+      mail: string
+    }[],
+    review: {
+      id: number,
+      movie_imdb: string,
+      text: string,
+      first_or_other: 'first' | 'other',
+      autor: {
+        id: number,
+        name: string,
+        mail: string
+      }
+    }[]
+  }
+
 export type ValidationResult = (c: AbstractControl) => ValidationErrors | null;

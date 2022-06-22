@@ -13,7 +13,7 @@ export class ListsHiddenComponent implements OnInit {
 
   public loading = true;
   public moviesLists: BeforeDeathListWithMovies[] = [];
-  public step = 0;
+  public step = 1;
 
   public password = new FormControl('');
 

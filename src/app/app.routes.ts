@@ -25,7 +25,7 @@ const ROUTES: Routes = [
     { path: 'oscalo', component: OscaloComponent },
     { path: 'padlet', component: PadletComponent },
     { path: 'beforeDeath', component: BeforeDeathComponent },
-    { path: 'beforeDeath/lists', component: ListsHiddenComponent },
+    // { path: 'beforeDeath/lists', component: ListsHiddenComponent },
     { path: '**', pathMatch: 'full', redirectTo: 'home' }
     // { path: '**', component: PageNotFoundComponent, redirectTo: 'home' },
 ];
