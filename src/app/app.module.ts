@@ -44,7 +44,6 @@ import { PadletComponent } from './components/padlet/padlet.component';
 import { FooterComponent } from './components/shared/footer/footer.component';
 import { ScrollTopComponent } from './components/shared/scroll-top/scroll-top.component';
 import { BeforeDeathComponent } from './components/before-death/before-death.component';
-import { ListsHiddenComponent } from './components/before-death/lists-hidden/lists-hidden.component';
 import { MyListComponent } from './components/before-death/my-list/my-list.component';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
@@ -70,7 +69,6 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
     FooterComponent,
     ScrollTopComponent,
     BeforeDeathComponent,
-    ListsHiddenComponent,
     MyListComponent,
   ],
   imports: [

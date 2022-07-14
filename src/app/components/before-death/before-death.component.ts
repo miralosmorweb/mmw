@@ -36,7 +36,16 @@ export class BeforeDeathComponent implements OnInit {
   private moviesImdbIds: string[] = [];
   private page = 1;
   private generalListInfo: BeforeDeathMovieInfo[] = [];
-
+  
+  /*
+  private actors: {
+    name: string,
+    counter: number 
+  }[] = [];
+  private directors: {
+    name: string,
+    counter: number 
+  }[] = []; */
   constructor(
     private fb: FormBuilder,
     private beforeDeathService: BeforeDeathService,
@@ -108,7 +117,6 @@ export class BeforeDeathComponent implements OnInit {
       }
       
       this.listsService.getMovie(imdbID).subscribe( resp => {
-        console.log(resp);
         if (!resp.movie_results.length) {
           Swal.fire({
             title: 'No pudimos encontrar la película',
@@ -162,8 +170,7 @@ export class BeforeDeathComponent implements OnInit {
   async fillMoviesWithInfo(movies: BeforeDeathMovieInfo[]) {
     this.loading = true;
     this.spinner.show(); 
-    movies.forEach( item => {
-
+    for (let item of movies) {
       const movie: BeforeDeathMovie = {
         imdb_id: item.imdb_id,
         score: item.points,
@@ -171,6 +178,29 @@ export class BeforeDeathComponent implements OnInit {
       }
       this.listsService.getMovie(item.imdb_id).subscribe(resp => {
         movie.details = resp.movie_results[0];
+
+        /*
+        this.listsService.getCastAndCrew( movie.details.id.toString() ).subscribe( credits => {
+          credits.cast.forEach( actor => {
+            const actorIndex = this.actors.findIndex( a => a.name === actor.name );
+            if (actorIndex !== -1 ) {
+              this.actors[actorIndex].counter += movie.score ;
+            } else {
+              this.actors.push({name: actor.name, counter: movie.score})
+            }
+          });
+          const directorsFromCrew = credits.crew.filter(crewMember => crewMember.job === 'Director').map(director => director.name);
+          directorsFromCrew.forEach( dirName => {
+            const directorIndex = this.directors.findIndex( a => a.name === dirName );
+            if (directorIndex !== -1 ) {
+              this.directors[directorIndex].counter+= movie.score;
+            } else {
+              this.directors.push({name: dirName, counter: movie.score})
+            }
+          });
+        });
+        */
+
       });
 
       const firstChoices = [];
@@ -196,10 +226,31 @@ export class BeforeDeathComponent implements OnInit {
       movie.usersOtherChoice = otherChoices
       
       this.generalList.push(movie);
-    });
+    };
 
-    console.log('movies');
-    console.log(this.generalList);
+    /*
+    console.log('actors');
+    console.log(JSON.stringify(this.actors.sort((a,b) => {
+      if(a.counter == b.counter) {
+        return 0; 
+      }
+      if(a.counter > b.counter) {
+        return -1;
+      }
+      return 1;
+    })));
+        
+    console.log('directors');
+    console.log(JSON.stringify(this.directors.sort((a,b) => {
+      if(a.counter == b.counter) {
+        return 0; 
+      }
+      if(a.counter > b.counter) {
+        return -1;
+      }
+      return 1;
+    })));
+    */
     this.loading = false;
     this.spinner.hide();
   }

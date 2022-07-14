@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { AbstractControl, FormBuilder, Validators } from '@angular/forms';
 import { SharedService } from 'src/app/services/shared.service';
 import { OscaloService } from 'src/app/services/oscalo.service';
-import { PdfMakeWrapper, Img, Txt } from 'pdfmake-wrapper';
+// import { PdfMakeWrapper, Img, Txt } from 'pdfmake-wrapper';
 import * as pdfFonts from "pdfmake/build/vfs_fonts"; 
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -377,13 +377,14 @@ export class OscaloComponent implements OnInit {
 
         this.oscaloService.newVote(req).subscribe(resp => {
           if (resp.id) {
-            this.generatePdf();
+            //this.generatePdf();
           }
         });
       }
     });
   }
 
+  /*
   async generatePdf() {
 
     PdfMakeWrapper.setFonts(pdfFonts);
@@ -412,7 +413,7 @@ export class OscaloComponent implements OnInit {
     pdf.create().download(`Oscalo-${this.oscarsForm.get('email').value}.pdf`);
 
   }
-
+*/
   clickedLink() {
 
 

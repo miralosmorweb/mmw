@@ -83,16 +83,7 @@
                 <div class="row">
                     <div class="form-group col">
                         <label>Inicio del Evento:</label>
-                        <input type="text"
-                               name="start"
-                               mwlFlatpickr
-                               class="form-control"
-                               altInput="true"
-                               convertModelValue="true"
-                               enableTime="true"
-                               time24hr="true"
-                               formControlName="start"
-                               [class.is-invalid]="dateNotValidAddForm">
+                        <input type="text" name="start" mwlFlatpickr class="form-control" [altInput]="true" [convertModelValue]="true" [enableTime]="true" dateFormat="Y-m-dTH:i" time24hr="true" altFormat="F j, Y H:i" formControlName="start" [class.is-invalid]="dateNotValidAddForm">
                         <small *ngIf="dateNotValidAddForm" class="text-danger">
                         Ingrese fecha y hora del evento 
                     </small>
@@ -148,7 +139,7 @@
                 <div class="row">
                     <div class="form-group col">
                         <label>Inicio del Evento:</label>
-                        <input type="text" name="start" mwlFlatpickr class="form-control" [altInput]="true" [convertModelValue]="true" [enableTime]="true" dateFormat="Y-m-dTH:i" time24hs="true" altFormat="F j, Y H:i" formControlName="start" [class.is-invalid]="dateNotValidEditForm">
+                        <input type="text" name="start" mwlFlatpickr class="form-control" [altInput]="true" [convertModelValue]="true" [enableTime]="true" dateFormat="Y-m-dTH:i" time24hr="true" altFormat="F j, Y H:i" formControlName="start" [class.is-invalid]="dateNotValidEditForm">
                         <small *ngIf="dateNotValidEditForm" class="text-danger">
                         Ingrese fecha y hora del evento 
                     </small>

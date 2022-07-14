@@ -11,8 +11,6 @@ import { CalendarComponent } from './components/calendar/calendar.component';
 import { MovieComponent } from './components/movie/movie.component';
 import { PadletComponent } from './components/padlet/padlet.component';
 import { BeforeDeathComponent } from './components/before-death/before-death.component';
-import { ListsHiddenComponent } from './components/before-death/lists-hidden/lists-hidden.component';
-
 
 const ROUTES: Routes = [
     { path: 'home', component: HomeComponent },
@@ -25,7 +23,6 @@ const ROUTES: Routes = [
     { path: 'oscalo', component: OscaloComponent },
     { path: 'padlet', component: PadletComponent },
     { path: 'beforeDeath', component: BeforeDeathComponent },
-    // { path: 'beforeDeath/lists', component: ListsHiddenComponent },
     { path: '**', pathMatch: 'full', redirectTo: 'home' }
     // { path: '**', component: PageNotFoundComponent, redirectTo: 'home' },
 ];
