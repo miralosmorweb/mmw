@@ -11,18 +11,21 @@ import { CalendarComponent } from './components/calendar/calendar.component';
 import { MovieComponent } from './components/movie/movie.component';
 import { PadletComponent } from './components/padlet/padlet.component';
 import { BeforeDeathComponent } from './components/before-death/before-death.component';
+import { LoginComponent } from './components/login/login.component';
 
+import { AuthGuardService } from './services/auth-guard.service';
 const ROUTES: Routes = [
-    { path: 'home', component: HomeComponent },
-    { path: 'about', component: AboutComponent },
-    { path: 'lists', component: ListsComponent },
-    { path: 'list/:listName', component: ListComponent },
-    { path: 'movie/:id', component: MovieComponent },
-    { path: 'search', component: SearchComponent },
-    { path: 'calendar', component: CalendarComponent },
-    { path: 'oscalo', component: OscaloComponent },
-    { path: 'padlet', component: PadletComponent },
-    { path: 'beforeDeath', component: BeforeDeathComponent },
+    { path: 'home', component: HomeComponent, canActivate: [AuthGuardService] },
+    { path: 'about', component: AboutComponent, canActivate: [AuthGuardService] },
+    { path: 'lists', component: ListsComponent, canActivate: [AuthGuardService] },
+    { path: 'list/:listName', component: ListComponent, canActivate: [AuthGuardService] },
+    { path: 'movie/:id', component: MovieComponent, canActivate: [AuthGuardService] },
+    { path: 'search', component: SearchComponent, canActivate: [AuthGuardService] },
+    { path: 'calendar', component: CalendarComponent, canActivate: [AuthGuardService] },
+    { path: 'oscalo', component: OscaloComponent, canActivate: [AuthGuardService] },
+    { path: 'padlet', component: PadletComponent, canActivate: [AuthGuardService] },
+    { path: 'beforeDeath', component: BeforeDeathComponent, canActivate: [AuthGuardService] },
+    { path: 'login', component: LoginComponent},
     { path: '**', pathMatch: 'full', redirectTo: 'home' }
     // { path: '**', component: PageNotFoundComponent, redirectTo: 'home' },
 ];

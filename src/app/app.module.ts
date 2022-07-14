@@ -46,6 +46,7 @@ import { ScrollTopComponent } from './components/shared/scroll-top/scroll-top.co
 import { BeforeDeathComponent } from './components/before-death/before-death.component';
 import { MyListComponent } from './components/before-death/my-list/my-list.component';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { LoginComponent } from './components/login/login.component';
 
 @NgModule({
   declarations: [
@@ -70,6 +71,7 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
     ScrollTopComponent,
     BeforeDeathComponent,
     MyListComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,

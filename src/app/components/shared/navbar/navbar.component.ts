@@ -3,6 +3,7 @@ import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { of, fromEvent, Subscription } from 'rxjs';
 import { debounceTime, map, distinctUntilChanged, filter } from 'rxjs/operators';
+import { AuthService } from 'src/app/services/auth.service';
 import { SearchService } from 'src/app/services/search.service';
 
 @Component({
@@ -20,7 +21,8 @@ export class NavbarComponent implements OnInit {
 
   constructor( 
     private router: Router,
-    private searchService: SearchService
+    private searchService: SearchService,
+    private authService: AuthService
     ) { 
     this.isSearching = false;
    }
@@ -55,4 +57,7 @@ export class NavbarComponent implements OnInit {
 
   }
 
+  isLoggedIn() {
+    return this.authService.loggedIn();
+  }
 }

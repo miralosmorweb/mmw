@@ -1,47 +1,46 @@
 <nav class="navbar navbar-expand-lg navbar-dark mmw_navbar bg-dark mmw-navbar-light" id="mmw-navbar">
     <div class="container">
-    <a class="navbar-brand" href="#">
-        <img class="brand-img" src="./assets/img/logo-MM.png" alt="" loading="lazy">
-    </a> 
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mmw-nav" aria-controls="mmw-nav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="fa fa-bars"></span> Menu
-    </button>
-    <form class="searchform order-lg-last">
-        <div class="form-group d-flex">
-            <input class="form-control pl-3" 
-                   placeholder="Buscar" 
-                   type="text" 
-                   placeholder="Buscar Lista" 
-                   #searchText>
-            <button placeholder="" (click)="submitText(searchText.value)" class="form-control search" type="submit"><span class="fa fa-search"></span></button>
+        <a class="navbar-brand" href="#">
+            <img class="brand-img" src="./assets/img/logo-MM.png" alt="" loading="lazy">
+        </a> 
+        <button *ngIf="isLoggedIn()" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mmw-nav" aria-controls="mmw-nav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="fa fa-bars"></span> Menu
+        </button>
+        <form *ngIf="isLoggedIn()" class="searchform order-lg-last">
+            <div class="form-group d-flex">
+                <input class="form-control pl-3" 
+                       placeholder="Buscar" 
+                       type="text" 
+                       placeholder="Buscar Lista" 
+                       #searchText>
+                <button placeholder="" (click)="submitText(searchText.value)" class="form-control search" type="submit"><span class="fa fa-search"></span></button>
+            </div>
+        </form>
+        <div *ngIf="isLoggedIn()" class="collapse navbar-collapse" id="mmw-nav">
+            <ul  class="navbar-nav mr-auto">
+                <li class="nav-item" routerLinkActive="active">
+                    <a class="nav-link active" [routerLink]="['home']">Home</a>
+                </li>
+                <li class="nav-item" routerLinkActive="active">
+                    <a class="nav-link" [routerLink]="['lists']">Listas</a>
+                </li>
+                <li class="nav-item" routerLinkActive="active">
+                    <a class="nav-link" [routerLink]="['calendar']">Calendario</a>
+                </li>
+                <!-- <li class="nav-item" routerLinkActive="active">
+                    <a class=" nav-link " [routerLink]="['oscalo'] ">The Oscalos</a>
+                </li> -->
+                <li class="nav-item" routerLinkActive="active">
+                    <a class=" nav-link " [routerLink]="['beforeDeath'] ">Antes de Morir</a>
+                </li>
+                <li class="nav-item" routerLinkActive="active">
+                    <a class="nav-link" [routerLink]="['padlet']">Padlet</a>
+                </li>
+                <li class="nav-item" routerLinkActive="active">
+                    <a class="nav-link" [routerLink]="['about']">About</a>
+                </li>
+            </ul>
         </div>
-    </form>
-    <div class="collapse navbar-collapse" id="mmw-nav">
-        <ul  class="navbar-nav mr-auto">
-            <li class="nav-item" routerLinkActive="active">
-                <a class="nav-link active" [routerLink]="['home']">Home</a>
-            </li>
-            <li class="nav-item" routerLinkActive="active">
-                <a class="nav-link" [routerLink]="['lists']">Listas</a>
-            </li>
-            <li class="nav-item" routerLinkActive="active">
-                <a class="nav-link" [routerLink]="['calendar']">Calendario</a>
-            </li>
-            <!-- <li class="nav-item" routerLinkActive="active">
-                <a class=" nav-link " [routerLink]="['oscalo'] ">The Oscalos</a>
-            </li> -->
-            <li class="nav-item" routerLinkActive="active">
-                <a class=" nav-link " [routerLink]="['beforeDeath'] ">Antes de Morir</a>
-            </li>
-            <li class="nav-item" routerLinkActive="active">
-                <a class="nav-link" [routerLink]="['padlet']">Padlet</a>
-            </li>
-            <li class="nav-item" routerLinkActive="active">
-                <a class="nav-link" [routerLink]="['about']">About</a>
-            </li>
-
-        </ul>
-    </div>
     
     </div>
 </nav>
