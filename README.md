@@ -6,9 +6,9 @@ Publicar en Github pages (https://efficientuser.com/2021/03/04/how-to-deploy-ang
     2- ng deploy --base-href=mmw
 
 Pendientes:
-    - Agregar la función de agregado de películas
-    - Actualizar a Angular 13
-    - 
+    - Agregar la función de agregado de películas a listas
+    - Actualizar a Angular 13 
+    - Listas con fotos rotas: Modernizar las monturas, manipular mentes
 
 Paleta de colores: 
 NEGRO #1A1A1D
