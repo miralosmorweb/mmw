@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { BeforeDeathService } from 'src/app/services/before-death.service';
@@ -33,11 +33,19 @@ export class BeforeDeathComponent implements OnInit {
     movies: [''],
   });
 
+  public userForm = this.fb.group({
+    userName: ['Todos']
+  });
+
+  public users: {
+    name: string
+    movies: BeforeDeathMovieInfo[]
+  }[];
+
   private moviesImdbIds: string[] = [];
   private page = 1;
   private generalListInfo: BeforeDeathMovieInfo[] = [];
   
-  /*
   private actors: {
     name: string,
     counter: number 
@@ -45,7 +53,7 @@ export class BeforeDeathComponent implements OnInit {
   private directors: {
     name: string,
     counter: number 
-  }[] = []; */
+  }[] = [];
   constructor(
     private fb: FormBuilder,
     private beforeDeathService: BeforeDeathService,
@@ -61,6 +69,7 @@ export class BeforeDeathComponent implements OnInit {
 
     this.beforeDeathService.getGeneralList().subscribe(resp => {
       this.generalListInfo = resp;
+      this.getUsers(this.generalListInfo);
       this.goToGeneralList();
       this.loading = false;
       this.spinner.hide();
@@ -96,6 +105,53 @@ export class BeforeDeathComponent implements OnInit {
 
   public invalidFieldColor(field:AbstractControl){
     return this.sharedService.invalidFieldColor(field);
+  }
+
+  getUsers(list) {
+    const users = [];
+    list.forEach(movie => {
+      if (!!movie.mentions_first.length) {
+        movie.mentions_first.forEach(mention => {
+          const userIndex = users.findIndex(user => user.name === mention.name );
+          if (userIndex === -1) {
+            users.push({name: mention.name, movies: [movie]});
+          } else {
+            users[userIndex].movies.push(movie);
+          }
+        });
+      }
+      if (!!movie.mentions_other.length) {
+        movie.mentions_other.forEach(mention => {
+          const userIndex = users.findIndex(user => user.name === mention.name );
+          if (userIndex === -1) {
+            users.push({name: mention.name, movies: [movie]});
+          } else {
+            users[userIndex].movies.push(movie);
+          }
+        });
+      }
+    });
+    users.sort((a,b) => {
+      if (a.name.toLowerCase() > b.name.toLowerCase()) {
+        return 1;
+      }
+      if (b.name.toLowerCase() > a.name.toLowerCase()) {
+        return -1;
+      }
+      return 0;
+    });
+    users.unshift({name: 'Todos', movies: null});
+
+    this.users = users;    
+  }
+
+  change(event) {
+    this.generalList = [];
+    if (this.userForm.get('userName').value === 'Todos') {
+      this.goToGeneralList();
+    } else {
+      this.fillMoviesWithInfo(this.users.find(user => user.name === this.userForm.get('userName').value).movies);
+    }
   }
 
   searchMovie() {
@@ -167,7 +223,7 @@ export class BeforeDeathComponent implements OnInit {
     this.fillMoviesWithInfo(this.generalListInfo.slice(0, 20));
   }
 
-  async fillMoviesWithInfo(movies: BeforeDeathMovieInfo[]) {
+  async fillMoviesWithInfo(movies: BeforeDeathMovieInfo[]) {    
     this.loading = true;
     this.spinner.show(); 
     for (let item of movies) {
@@ -179,7 +235,7 @@ export class BeforeDeathComponent implements OnInit {
       this.listsService.getMovie(item.imdb_id).subscribe(resp => {
         movie.details = resp.movie_results[0];
 
-        /*
+        
         this.listsService.getCastAndCrew( movie.details.id.toString() ).subscribe( credits => {
           credits.cast.forEach( actor => {
             const actorIndex = this.actors.findIndex( a => a.name === actor.name );
@@ -199,7 +255,7 @@ export class BeforeDeathComponent implements OnInit {
             }
           });
         });
-        */
+        
 
       });
 
@@ -227,37 +283,16 @@ export class BeforeDeathComponent implements OnInit {
       
       this.generalList.push(movie);
     };
-
-    /*
-    console.log('actors');
-    console.log(JSON.stringify(this.actors.sort((a,b) => {
-      if(a.counter == b.counter) {
-        return 0; 
-      }
-      if(a.counter > b.counter) {
-        return -1;
-      }
-      return 1;
-    })));
-        
-    console.log('directors');
-    console.log(JSON.stringify(this.directors.sort((a,b) => {
-      if(a.counter == b.counter) {
-        return 0; 
-      }
-      if(a.counter > b.counter) {
-        return -1;
-      }
-      return 1;
-    })));
-    */
+    
     this.loading = false;
     this.spinner.hide();
   }
 
   onScrollDown() {
-    this.fillMoviesWithInfo(this.generalListInfo.slice(this.page * 20, (this.page * 20) + 20));
-    this.page++;
+    if (this.userForm.get('userName').value === 'Todos') {
+      this.fillMoviesWithInfo(this.generalListInfo.slice(this.page * 20, (this.page * 20) + 20));
+      this.page++;
+    }
   }
 
   async submit() {
@@ -302,4 +337,11 @@ export class BeforeDeathComponent implements OnInit {
   onMovieClick(movie: BeforeDeathMovie){
     this.router.navigate(['/movie', movie.details.id], { state: {reviews: movie.usersFirstChoice.concat(movie.usersOtherChoice)}});
   }
+
+  randomFilm(){
+    const randomMovie = this.generalListInfo[Math.floor(Math.random() * this.generalListInfo.length)];
+    this.listsService.getMovie(randomMovie.imdb_id).subscribe( resp => {
+      this.router.navigate(['/movie', resp.movie_results[0].id]);
+      });
+   }
 }

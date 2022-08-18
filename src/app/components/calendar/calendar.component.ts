@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, ViewChild, TemplateRef, Inject, OnInit, LOCALE_ID, OnDestroy, ViewEncapsulation } from '@angular/core';
-import { add, addYears, isSameDay, isSameMonth } from 'date-fns';
+import { add, addYears, isSameDay, isSameMonth, parseISO } from 'date-fns';
 import { Subject } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CalendarView, CalendarEventTitleFormatter} from 'angular-calendar';
@@ -93,7 +93,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
     },
   ];
 
-  refresh: Subject<any> = new Subject();
+  refresh: Subject<void> = new Subject();
 
   activeDayIsOpen: boolean = true;
 
@@ -234,22 +234,23 @@ export class CalendarComponent implements OnInit, OnDestroy {
           this.editForm.value.end = this.editForm.value.start;
           const eventForEdit: CalendarEvent = this.editForm.value;
           this._eventsService.editEvent(this.editForm.value.id, this.editForm.value)
-            .subscribe();
-          this.modal.dismissAll();
-          eventForEdit.actions = this.actions;
-          switch (eventForEdit.citeClass){
-            case 'Discord':
-                eventForEdit.color = colors.blue;
-                break;
-            case 'Otros':
-                eventForEdit.color = colors.red;
-                break;
-            case 'Lo Cumpleañito':
-                eventForEdit.color = colors.yellow;
-                break;
-        }
-          this.events[eventIndex] = eventForEdit;
-          this.refresh.next();
+            .subscribe(resp => {
+              this.modal.dismissAll();
+              eventForEdit.actions = this.actions;
+              switch (eventForEdit.citeClass) {
+                case 'Discord':
+                    eventForEdit.color = colors.blue;
+                    break;
+                case 'Otros':
+                    eventForEdit.color = colors.red;
+                    break;
+                case 'Lo Cumpleañito':
+                    eventForEdit.color = colors.yellow;
+                    break;
+                }
+                this.events[eventIndex] = eventForEdit;
+                this.refresh.next();
+            });        
     } else {
       this.modal.dismissAll();
     }
@@ -282,7 +283,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
   saveNewEvent() {
     if (this.addForm.value.citeClass === 'Lo Cumpleañito') {
       const yearForCompare = new Date('2025');
-      for (let startDate = this.addForm.value.start; startDate < yearForCompare ; startDate = addYears(startDate, 1) ) {
+      for (let startDate = this.addForm.value.start; startDate < yearForCompare ; startDate = addYears(parseISO(startDate), 1) ) {
         const date: Date = new Date(startDate);
         date.setMilliseconds(0);
         this.addForm.value.start = date.toISOString();

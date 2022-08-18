@@ -21,7 +21,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   word: string;
   isLoading = false;
   unacceptedWords = ['marvel', 'capitan america', 'ironman', 'spiderman', 'superman', 'dc', 'green lantern', 'thanos', 'hulk',
-                      'superheroe', 'suar', 'carnevale'];
+                      'superheroe', 'suar', 'carnevale', 'lertora'];
   faretta = 'faretta';
   isFaretta = false;
   unaccepted = false;
@@ -46,6 +46,7 @@ export class SearchComponent implements OnInit, OnDestroy {
 
   searchLists(word) {
     this.isLoading = true;
+    this.unaccepted = false;
     this.spinner.show();
 
     this._listsService.searchList(word).subscribe((resp: ListModel[]) => {

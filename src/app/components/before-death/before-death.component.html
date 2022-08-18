@@ -18,7 +18,7 @@
    <div class="jumbotron jumbotron-fluid animated fadeIn fast">
        <div class="container">
 
-           <div class="row container">
+            <div class="row container">
   
                <div class="text-center align-self-center col-12">
                    <img src="./assets/img/mirenlas-logo.png" style="width: 100%;" alt="mirenlas" loading="lazy">
@@ -66,50 +66,67 @@
                         Ver mi lista
                     </button>
                 </div> -->
-
-                <div infinite-scroll (scrolled)="onScrollDown($event)" class="center" *ngIf="view === 'generalList' && !loading">
-                    <table class="table table-dark table-striped">
-                        <thead>
-                          <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Puntaje</th>
-                            <th scope="col">Película</th>
-                            <th scope="col">Elección en 1er puesto</th>
-                            <th scope="col">Elección en otros puestos</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr *ngFor="let movie of generalList">
-                            <th scope="row">{{ movie.ranking }}</th>
-                            <th>{{ movie.score }}</th>
-                            <td>
-                                <img [src]="movie.details?.poster_path | posterSmall" class="img-fluid clickable" (click)="onMovieClick(movie)">
-                                <h3 class="ml-2"> {{ movie.details?.title.toLowerCase() === movie.details?.original_title.toLowerCase() ? movie.details?.title : movie.details?.original_title + ' (' + movie.details?.title + ')' }}</h3>
-                            </td>
-                            <td>
-                                <div *ngFor="let user of movie.usersFirstChoice">
-                                    <div *ngIf="user.review" style="color: #950740; font-weight: 600;">
-                                        {{ user.user }}
-                                    </div>
-                                    <div *ngIf="!user.review">
-                                        {{ user.user }}
-                                    </div>
-                                </div>
-                            </td>
-                            <td>
-                                <div *ngFor="let user of movie.usersOtherChoice">
-                                    <div *ngIf="user.review" style="color: #C3073F; font-weight: 600">
-                                        {{ user.user }}
-                                    </div>
-                                    <div *ngIf="!user.review">
-                                        {{ user.user }}
-                                    </div>
-                                </div>
-                            </td>
-                          </tr>
-                        </tbody>
-                    </table>
+           </div>
+           <div class="row container">
+                <div class="col" style="padding-left: 50px;">
+                    <button (click)="randomFilm()" type="button" class="btn btn-outline-primary">Elegí por mi</button>
                 </div>
+                <form [formGroup]="userForm" class="col-5 float-right text-right" style="padding-right: 50px;">
+                    <div class="form-group">
+                        <label style="color: white">Usuario:</label>
+                        <select class="custom-select" (change)="change($event)" formControlName="userName">
+                            <option *ngFor="let user of users" [ngValue]="user.name">{{ user.name }}</option>
+                        </select>
+                    </div>
+                </form>
+           </div>
+
+           <div class="row container">
+               <div infinite-scroll (scrolled)="onScrollDown($event)" class="center" *ngIf="view === 'generalList' && !loading">
+                   <table class="table table-dark table-striped">
+                       <thead>
+                         <tr>
+                           <th scope="col">#</th>
+                           <th scope="col">Puntaje</th>
+                           <th scope="col">Película</th>
+                           <th scope="col">Elección en 1er puesto</th>
+                           <th scope="col">Elección en otros puestos</th>
+                         </tr>
+                       </thead>
+                       <tbody>
+                         <tr *ngFor="let movie of generalList">
+                           <th scope="row">{{ movie.ranking }}</th>
+                           <th>{{ movie.score }}</th>
+                           <td>
+                               <img [src]="movie.details?.poster_path | posterSmall" class="img-fluid clickable" (click)="onMovieClick(movie)">
+                               <h3 class="ml-2"> {{ movie.details?.title.toLowerCase() === movie.details?.original_title.toLowerCase() ? movie.details?.title : movie.details?.original_title + ' (' + movie.details?.title + ')' }}</h3>
+                           </td>
+                           <td>
+                               <div *ngFor="let user of movie.usersFirstChoice">
+                                   <div *ngIf="user.review" style="color: #950740; font-weight: 600;">
+                                       {{ user.user }}
+                                   </div>
+                                   <div *ngIf="!user.review">
+                                       {{ user.user }}
+                                   </div>
+                               </div>
+                           </td>
+                           <td>
+                               <div *ngFor="let user of movie.usersOtherChoice">
+                                   <div *ngIf="user.review" style="color: #C3073F; font-weight: 600">
+                                       {{ user.user }}
+                                   </div>
+                                   <div *ngIf="!user.review">
+                                       {{ user.user }}
+                                   </div>
+                               </div>
+                           </td>
+                         </tr>
+                       </tbody>
+                   </table>
+               </div>
+
+           </div>
 
                 <!-- <div *ngIf="view === 'myList'">
                     <form (ngSubmit)="submitMyList()" [formGroup]="myListForm" (keydown.enter)="$event.preventDefault()">
@@ -147,8 +164,6 @@
                          
                      </form>
                 </div> -->
-
-            </div>
 
            <div *ngIf="step === 1" class="oscars-form">
                <p>Insertá tu email para validarlo, tu nombre o user y arrancá a cargar tus películas</p>

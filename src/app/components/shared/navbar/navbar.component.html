@@ -6,16 +6,6 @@
         <button *ngIf="isLoggedIn()" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mmw-nav" aria-controls="mmw-nav" aria-expanded="false" aria-label="Toggle navigation">
           <span class="fa fa-bars"></span> Menu
         </button>
-        <form *ngIf="isLoggedIn()" class="searchform order-lg-last">
-            <div class="form-group d-flex">
-                <input class="form-control pl-3" 
-                       placeholder="Buscar" 
-                       type="text" 
-                       placeholder="Buscar Lista" 
-                       #searchText>
-                <button placeholder="" (click)="submitText(searchText.value)" class="form-control search" type="submit"><span class="fa fa-search"></span></button>
-            </div>
-        </form>
         <div *ngIf="isLoggedIn()" class="collapse navbar-collapse" id="mmw-nav">
             <ul  class="navbar-nav mr-auto">
                 <li class="nav-item" routerLinkActive="active">
@@ -41,6 +31,18 @@
                 </li>
             </ul>
         </div>
-    
+        
+        <div [hidden]="!isLoggedIn()">
+            <form class="searchform order-lg-last">
+                <div class="form-group d-flex">
+                    <input class="form-control pl-3" 
+                           placeholder="Buscar" 
+                           type="text" 
+                           placeholder="Buscar Lista" 
+                           #searchText>
+                    <button placeholder="" (click)="submitText(searchText.value)" class="form-control search" type="submit"><span class="fa fa-search"></span></button>
+                </div>
+            </form>
+        </div>
     </div>
 </nav>
